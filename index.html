@@ -18,6 +18,7 @@
     --e17: #a78bfa;
     --e18: #f59e0b;
     --e19: #38bdf8;
+    --eu5: #e879f9;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -71,6 +72,7 @@
   nav a.e17 { color: var(--e17); }
   nav a.e18 { color: var(--e18); }
   nav a.e19 { color: var(--e19); }
+  nav a.eu5 { color: var(--eu5); }
 
   /* HERO */
   .hero {
@@ -135,6 +137,7 @@
   .exp-pill.e17 { border-color: var(--e17); color: var(--e17); background: #a78bfa10; }
   .exp-pill.e18 { border-color: var(--e18); color: var(--e18); background: #f59e0b10; }
   .exp-pill.e19 { border-color: var(--e19); color: var(--e19); background: #38bdf810; }
+  .exp-pill.eu5 { border-color: var(--eu5); color: var(--eu5); background: #e879f910; }
 
   /* SECTIONS */
   .section {
@@ -333,6 +336,7 @@
   <a href="#exp17" class="e17">Exp 17 · Forensics</a>
   <a href="#exp18" class="e18">Exp 18 · Logs</a>
   <a href="#exp19" class="e19">Exp 19 · Wireshark</a>
+  <a href="#expu5" class="eu5">U5·E1 · Privacy Audit</a>
 </nav>
 
 <!-- HERO -->
@@ -346,6 +350,7 @@
     <a href="#exp17" class="exp-pill e17">💾 Exp 17 — Disk Forensics</a>
     <a href="#exp18" class="exp-pill e18">📋 Exp 18 — Log Analysis</a>
     <a href="#exp19" class="exp-pill e19">🦈 Exp 19 — Wireshark</a>
+    <a href="#expu5" class="exp-pill eu5">🔏 U5·E1 — Privacy Audit</a>
   </div>
 </div>
 
@@ -1153,6 +1158,305 @@ File → Export Objects → HTTP</pre>
   <div class="result-box" style="border-color:var(--e19);">
     <div class="label" style="color:var(--e19);">Result</div>
     <p>Network packets were successfully captured on the wlp3s0 (Wi-Fi) interface using Wireshark. Filters were applied to isolate TCP, UDP, and HTTP traffic. A specific IP address was filtered using ip.addr. The TCP stream was followed to read the full client-server HTTP conversation. Protocol hierarchy statistics confirmed the distribution of network protocols, demonstrating how Wireshark aids in network forensics and intrusion detection.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- EXP U5 — Privacy Audit -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="expu5">
+  <div class="section-header">
+    <div class="exp-number" style="border-color:var(--eu5);color:var(--eu5);">UNIT 5 · EXP 1</div>
+    <div>
+      <h2>Privacy Audit — WhatsApp & Facebook + Data Breach Analysis</h2>
+      <div class="tools-line">Kali Linux · Wireshark · Burp Suite · Nativefier · Firefox</div>
+    </div>
+  </div>
+
+  <div class="info-row">
+    <span class="tag">Aim</span>
+    <span style="font-size:12px;color:var(--muted);">Analyze privacy, network behavior, and security risks of WhatsApp and Facebook using Kali Linux tools. Perform data breach case study analysis.</span>
+  </div>
+
+  <!-- SETUP -->
+  <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--eu5);text-transform:uppercase;margin-bottom:12px;">⚙️ Setup — Install WhatsApp Desktop</div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">1</div>
+        <div class="step-title">Install Node.js and npm</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>sudo apt update
+sudo apt install nodejs npm -y</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">2</div>
+        <div class="step-title">Install Nativefier</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">Nativefier wraps any website into a desktop app.</div>
+        <pre>sudo npm install -g nativefier</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">3</div>
+        <div class="step-title">Create WhatsApp Desktop App</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">This creates a folder like: web-whatsapp-linux-x64</div>
+        <pre>nativefier https://web.whatsapp.com</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">4</div>
+        <div class="step-title">Run WhatsApp Desktop & Login</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>cd WhatsAppWeb-linux-x64
+./WhatsAppWeb
+<span class="comment"># QR code appears → scan with your mobile phone</span>
+<span class="comment"># Mobile → WhatsApp → Linked Devices → Link a Device</span></pre>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PART 1 -->
+  <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--eu5);text-transform:uppercase;margin:28px 0 12px;">📱 Part 1 — Privacy Audit of WhatsApp</div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">1</div>
+        <div class="step-title">Analyze Trackers using Exodus Privacy</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">Open Firefox in Kali → go to the site → search for WhatsApp</div>
+        <pre>https://reports.exodus-privacy.eu.org
+<span class="comment"># Search: WhatsApp</span>
+<span class="comment"># Trackers found: Google Analytics, Crashlytics, Facebook Analytics</span>
+<span class="comment"># Record: number of trackers + permissions used</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">2</div>
+        <div class="step-title">Start Wireshark and Capture WhatsApp Traffic</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>wireshark &
+<span class="comment"># Select interface: eth0 or wlp3s0 → click Start Capture</span>
+
+<span class="comment"># Now in WhatsApp Desktop:</span>
+<span class="comment"># → Send messages</span>
+<span class="comment"># → Send images</span>
+<span class="comment"># → Open chats</span>
+<span class="comment"># This generates network traffic to capture</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">3</div>
+        <div class="step-title">Apply Wireshark Filters</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">Type each filter in the Wireshark filter bar and press Enter.</div>
+        <pre><span class="comment"># Filter TLS (encrypted) traffic:</span>
+tls
+
+<span class="comment"># Filter DNS traffic (domain lookups):</span>
+dns</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">4</div>
+        <div class="step-title">Note WhatsApp Observations</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre><span class="comment"># What you will observe:</span>
+<span class="comment"># ✅ All traffic is TLS encrypted (no plain text)</span>
+<span class="comment"># ✅ Domains contacted: whatsapp.net, facebook.com</span>
+<span class="comment"># ✅ Message content NOT visible (end-to-end encrypted)</span>
+<span class="comment"># ⚠️  Metadata visible: IP address, time, server communication</span></pre>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PART 2 -->
+  <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--eu5);text-transform:uppercase;margin:28px 0 12px;">🌐 Part 2 — Privacy Audit of Facebook</div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">1</div>
+        <div class="step-title">Open Facebook & Start Burp Suite</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre><span class="comment"># Open Firefox → go to:</span>
+https://www.facebook.com
+<span class="comment"># Login using a test account</span>
+
+<span class="comment"># Open new terminal → start Burp Suite:</span>
+burpsuite</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">2</div>
+        <div class="step-title">Configure Browser Proxy</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">In Firefox browser settings:</div>
+        <pre>Settings → Network Settings → Manual Proxy Configuration
+HTTP Proxy: 127.0.0.1
+Port:       8080
+→ Click OK</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">3</div>
+        <div class="step-title">Intercept Facebook Traffic</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre><span class="comment"># In Burp Suite:</span>
+Proxy → Intercept → Intercept ON
+
+<span class="comment"># Reload Facebook in browser</span>
+<span class="comment"># Burp will capture each request</span>
+
+<span class="comment"># Look for in the request headers:</span>
+<span class="comment"># → Cookies: datr, fr  (tracking cookies)</span>
+<span class="comment"># → Session IDs</span>
+<span class="comment"># → Authorization headers</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">4</div>
+        <div class="step-title">Analyze Tracking Scripts (DevTools)</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre><span class="comment"># In Firefox on Facebook:</span>
+Press F12 → Network tab
+
+<span class="comment"># Look for:</span>
+<span class="comment"># → Third-party ad scripts</span>
+<span class="comment"># → analytics.facebook.com requests</span>
+<span class="comment"># → pixel tracking URLs</span>
+<span class="comment"># → connect.facebook.net (tracking SDK)</span></pre>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PART 3 -->
+  <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--eu5);text-transform:uppercase;margin:28px 0 12px;">🔓 Part 3 — Data Breach Case Study</div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">1</div>
+        <div class="step-title">Case Study 1 — Facebook Data Breach</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre><span class="comment"># Write this in your lab record:</span>
+
+Incident:     Facebook Data Breach (2021)
+Users:        533 million users affected
+Data Leaked:  Phone numbers, Email addresses, Names
+Cause:        API vulnerability — scraping via contact import feature
+Prevention:   Rate limiting, API security, input validation</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">2</div>
+        <div class="step-title">Case Study 2 — WhatsApp Pegasus Attack</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre><span class="comment"># Write this in your lab record:</span>
+
+Incident:     WhatsApp Pegasus Spyware Attack (2019)
+Method:       Zero-click exploit via missed call (no user interaction needed)
+Impact:       Full remote device access, camera, mic, messages
+Cause:        Buffer overflow vulnerability in VoIP stack
+Prevention:   Immediate patching, OS updates, zero-day monitoring</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">3</div>
+        <div class="step-title">Check Email Breach Status</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">Open Firefox in Kali → visit the site below.</div>
+        <pre>https://haveibeenpwned.com
+<span class="comment"># Enter any email address</span>
+<span class="comment"># Check if it appears in known data breaches</span>
+<span class="comment"># Note: breach name, date, data exposed</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#e879f920;color:var(--eu5);">4</div>
+        <div class="step-title">Analysis Points to Write in Record</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre><span class="comment"># For each case study, answer these 4 points:</span>
+
+1. Type of Attack:   (API abuse / Zero-click spyware)
+2. Vulnerability:    (API flaw / Buffer overflow in VoIP)
+3. Data Exposed:     (phone, email / messages, device access)
+4. Prevention:       (rate limiting / patching, monitoring)</pre>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="result-box" style="border-color:var(--eu5);">
+    <div class="label" style="color:var(--eu5);">Result</div>
+    <p>Privacy audit was successfully performed using Kali Linux tools. WhatsApp traffic was captured in Wireshark — all communication was TLS encrypted with metadata (IP, timing) visible but message content hidden. Facebook showed extensive tracking behavior via cookies (datr, fr), third-party scripts, and analytics SDKs intercepted in Burp Suite. Data breach analysis of Facebook (533M users, API flaw) and WhatsApp Pegasus (zero-click spyware) highlighted the risks of poor API security and unpatched vulnerabilities.</p>
   </div>
 </div>
 
