@@ -1,312 +1,1194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Name | Portfolio</title>
-  <style>
-    /* Basic reset */
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS Lab Exam Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060608;
+    --surface: #0e0e14;
+    --border: #1c1c28;
+    --text: #c8ccd8;
+    --muted: #4a4a60;
+    --white: #eef0f8;
+    --e15: #00c896;
+    --e16: #ff6b35;
+    --e17: #a78bfa;
+    --e18: #f59e0b;
+    --e19: #38bdf8;
+  }
 
-    :root {
-      --bg: #f5f5f5;
-      --card-bg: #ffffff;
-      --text: #1f2933;
-      --muted: #6b7280;
-      --accent: #2563eb;
-      --accent-soft: #e0edff;
-    }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+  }
 
-    /* Layout */
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background-color: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 6vw;
-      border-bottom: 1px solid #e5e7eb;
-    }
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(6,6,8,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0 24px;
+    height: 52px;
+    overflow-x: auto;
+  }
 
-    .logo {
-      font-weight: 600;
-      letter-spacing: 0.03em;
-    }
+  nav .logo {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: 2px;
+    margin-right: 28px;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
 
-    .nav a {
-      margin-left: 1.5rem;
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
+  nav a {
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.2s;
+    color: var(--muted);
+  }
+  nav a:hover { color: var(--white); background: var(--surface); }
+  nav a.e15 { color: var(--e15); }
+  nav a.e16 { color: var(--e16); }
+  nav a.e17 { color: var(--e17); }
+  nav a.e18 { color: var(--e18); }
+  nav a.e19 { color: var(--e19); }
 
-    .nav a:hover {
-      color: var(--accent);
-    }
+  /* HERO */
+  .hero {
+    padding: 56px 40px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
 
-    main {
-      padding: 2.5rem 6vw 3rem;
-    }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
 
-    /* Hero */
-    .hero {
-      min-height: 70vh;
-      display: flex;
-      align-items: center;
-    }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
 
-    .hero-content {
-      max-width: 600px;
-    }
+  .hero p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 540px;
+  }
 
-    .tagline {
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      font-size: 0.75rem;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
-    }
+  .exp-grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+  }
 
-    .hero h1 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 0.5rem;
-    }
+  .exp-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .exp-pill:hover { transform: translateY(-2px); }
+  .exp-pill.e15 { border-color: var(--e15); color: var(--e15); background: #00c89610; }
+  .exp-pill.e16 { border-color: var(--e16); color: var(--e16); background: #ff6b3510; }
+  .exp-pill.e17 { border-color: var(--e17); color: var(--e17); background: #a78bfa10; }
+  .exp-pill.e18 { border-color: var(--e18); color: var(--e18); background: #f59e0b10; }
+  .exp-pill.e19 { border-color: var(--e19); color: var(--e19); background: #38bdf810; }
 
-    .subtitle {
-      color: var(--muted);
-      max-width: 28rem;
-    }
+  /* SECTIONS */
+  .section {
+    max-width: 900px;
+    margin: 0 auto 60px;
+    padding: 0 40px;
+  }
 
-    .hero-actions {
-      margin-top: 1.5rem;
-      display: flex;
-      gap: 0.75rem;
-    }
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
 
-    /* Buttons */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.7rem 1.3rem;
-      border-radius: 999px;
-      font-size: 0.95rem;
-      text-decoration: none;
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease,
-        transform 0.1s ease;
-    }
+  .exp-number {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid;
+    white-space: nowrap;
+    margin-top: 4px;
+  }
 
-    .btn.primary {
-      background-color: var(--accent);
-      color: #ffffff;
-    }
+  .section-header h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 5px;
+  }
 
-    .btn.primary:hover {
-      background-color: #1d4ed8;
-      transform: translateY(-1px);
-    }
+  .tools-line {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
 
-    .btn.ghost {
-      background-color: transparent;
-      color: var(--text);
-      border-color: #d1d5db;
-    }
+  /* STEPS */
+  .steps { display: flex; flex-direction: column; gap: 14px; }
 
-    .btn.ghost:hover {
-      background-color: var(--accent-soft);
-      border-color: var(--accent);
-    }
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
 
-    /* Sections */
-    .section {
-      margin-top: 4rem;
-    }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
 
-    .section h2 {
-      font-size: 1.5rem;
-      margin-bottom: 0.75rem;
-    }
+  .step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
 
-    .section p {
-      color: var(--muted);
-      max-width: 40rem;
-    }
+  .step-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    flex: 1;
+  }
 
-    /* Projects */
-    .projects-grid {
-      margin-top: 1.5rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.25rem;
-    }
+  .copy-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .copy-btn:hover { border-color: #fff3; color: var(--white); }
+  .copy-btn.copied { color: #4ade80; border-color: #4ade80; }
 
-    .project-card {
-      background-color: var(--card-bg);
-      border-radius: 0.75rem;
-      padding: 1.25rem 1.3rem;
-      border: 1px solid #e5e7eb;
-    }
+  .step-body { padding: 14px 16px; }
 
-    .project-card h3 {
-      margin-bottom: 0.4rem;
-    }
+  .note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
 
-    .project-card p {
-      font-size: 0.95rem;
-      margin-bottom: 0.7rem;
-    }
+  pre {
+    background: #080810;
+    border-radius: 7px;
+    padding: 14px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.75;
+    color: #b0bcd0;
+    overflow-x: auto;
+    white-space: pre;
+    border: 1px solid #14141e;
+  }
 
-    .project-link {
-      font-size: 0.9rem;
-      color: var(--accent);
-      text-decoration: none;
-    }
+  .comment { color: #3a4060; }
 
-    .project-link:hover {
-      text-decoration: underline;
-    }
+  /* RESULT BOX */
+  .result-box {
+    margin-top: 20px;
+    padding: 16px 18px;
+    border-radius: 10px;
+    border-left: 3px solid;
+    background: var(--surface);
+  }
 
-    /* Contact */
-    .contact-links {
-      margin-top: 1rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
+  .result-box .label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+  }
 
-    .contact-links a {
-      font-size: 0.95rem;
-      text-decoration: none;
-      color: var(--accent);
-      background-color: var(--accent-soft);
-      padding: 0.5rem 0.9rem;
-      border-radius: 999px;
-    }
+  .result-box p {
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--text);
+  }
 
-    .contact-links a:hover {
-      background-color: #c7d8ff;
-    }
+  /* DIVIDER */
+  .divider {
+    max-width: 900px;
+    margin: 0 auto 60px;
+    padding: 0 40px;
+    border: none;
+    border-top: 1px solid var(--border);
+  }
 
-    /* Footer */
-    .footer {
-      border-top: 1px solid #e5e7eb;
-      padding: 1.25rem 6vw 2rem;
-      font-size: 0.85rem;
-      color: var(--muted);
-      text-align: center;
-    }
+  /* INFO TAGS */
+  .info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
 
-    /* Responsive tweaks */
-    @media (max-width: 640px) {
-      .header {
-        padding-inline: 4vw;
-      }
+  .tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: var(--border);
+    color: var(--muted);
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+  }
 
-      main {
-        padding-inline: 4vw;
-      }
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 30px;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+  }
 
-      .nav a {
-        margin-left: 0.9rem;
-        font-size: 0.85rem;
-      }
-
-      .hero {
-        min-height: 60vh;
-      }
-    }
-  </style>
+  @media (max-width: 600px) {
+    .hero, .section { padding: 0 18px; }
+    .hero { padding-top: 32px; }
+  }
+</style>
 </head>
 <body>
-  <header class="header">
-    <div class="logo">Your Name</div>
-    <nav class="nav">
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero-content">
-        <p class="tagline">Web Developer</p>
-        <h1>Hi, I'm Your Name.</h1>
-        <p class="subtitle">
-          I build simple, clean, and fast web experiences.
-        </p>
-        <div class="hero-actions">
-          <a href="#projects" class="btn primary">View Projects</a>
-          <a href="#contact" class="btn ghost">Contact Me</a>
-        </div>
+<!-- NAV -->
+<nav>
+  <div class="logo">🔐 CS LAB</div>
+  <a href="#exp15" class="e15">Exp 15 · Mobile</a>
+  <a href="#exp16" class="e16">Exp 16 · IoT</a>
+  <a href="#exp17" class="e17">Exp 17 · Forensics</a>
+  <a href="#exp18" class="e18">Exp 18 · Logs</a>
+  <a href="#exp19" class="e19">Exp 19 · Wireshark</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🎓 Internal Lab Exam</div>
+  <h1>CS Security Lab<br>Complete Guide</h1>
+  <p>All 5 experiments. Every command. Step by step. No fluff.</p>
+  <div class="exp-grid">
+    <a href="#exp15" class="exp-pill e15">📱 Exp 15 — Mobile Security</a>
+    <a href="#exp16" class="exp-pill e16">🌐 Exp 16 — IoT Security</a>
+    <a href="#exp17" class="exp-pill e17">💾 Exp 17 — Disk Forensics</a>
+    <a href="#exp18" class="exp-pill e18">📋 Exp 18 — Log Analysis</a>
+    <a href="#exp19" class="exp-pill e19">🦈 Exp 19 — Wireshark</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- EXP 15 -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="exp15">
+  <div class="section-header">
+    <div class="exp-number" style="border-color:var(--e15);color:var(--e15);">EXP 15</div>
+    <div>
+      <h2>Mobile Security — Android Traffic Interception</h2>
+      <div class="tools-line">Android Studio · Burp Suite · ADB · Windows CMD</div>
+    </div>
+  </div>
+
+  <div class="info-row">
+    <span class="tag">Aim</span>
+    <span style="font-size:12px;color:var(--muted);">Intercept HTTP and HTTPS traffic from Android emulator using Burp Suite as a proxy.</span>
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#00c89620;color:var(--e15);">1</div>
+        <div class="step-title">Open CMD → Navigate to Emulator Folder</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
       </div>
-    </section>
-
-    <!-- About -->
-    <section id="about" class="section">
-      <h2>About</h2>
-      <p>
-        I am a developer based in Hyderabad, India, focused on building clean and minimal web applications with HTML, CSS, and JavaScript.
-      </p>
-      <p>
-        I enjoy working on full‑stack projects, exploring machine learning, and building things that are simple and useful.
-      </p>
-    </section>
-
-    <!-- Projects -->
-    <section id="projects" class="section">
-      <h2>Projects</h2>
-      <div class="projects-grid">
-        <article class="project-card">
-          <h3>Project One</h3>
-          <p>Short one‑line description of what this project does.</p>
-          <a href="#" target="_blank" class="project-link">View project →</a>
-        </article>
-        <article class="project-card">
-          <h3>Project Two</h3>
-          <p>Another small description highlighting the tech stack.</p>
-          <a href="#" target="_blank" class="project-link">View project →</a>
-        </article>
-        <article class="project-card">
-          <h3>Project Three</h3>
-          <p>A quick summary of what problem this project solves.</p>
-          <a href="#" target="_blank" class="project-link">View project →</a>
-        </article>
+      <div class="step-body">
+        <pre><span class="comment"># Open Command Prompt on Windows, then:</span>
+cd C:\Users\Admin\AppData\Local\Android\Sdk\emulator</pre>
       </div>
-    </section>
+    </div>
 
-    <!-- Contact -->
-    <section id="contact" class="section">
-      <h2>Contact</h2>
-      <p>If you want to collaborate or just say hi, feel free to reach out.</p>
-      <div class="contact-links">
-        <a href="mailto:youremail@example.com">Email</a>
-        <a href="https://github.com/yourusername" target="_blank">GitHub</a>
-        <a href="https://www.linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#00c89620;color:var(--e15);">2</div>
+        <div class="step-title">List Available Virtual Devices</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
       </div>
-    </section>
-  </main>
+      <div class="step-body">
+        <pre>emulator -list-avds
+<span class="comment"># Output: Pixel_9  (or Pixel_2 etc.)</span></pre>
+      </div>
+    </div>
 
-  <footer class="footer">
-    <p>© 2025 Your Name. All rights reserved.</p>
-  </footer>
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#00c89620;color:var(--e15);">3</div>
+        <div class="step-title">Start Emulator with Burp Proxy</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">10.0.2.2 is how the Android emulator reaches the Windows host machine.</div>
+        <pre>emulator -avd Pixel_9 -http-proxy http://10.0.2.2:8080</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#00c89620;color:var(--e15);">4</div>
+        <div class="step-title">Configure Burp Suite to Accept All Interfaces</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">Do this inside Burp Suite GUI — not terminal.</div>
+        <pre>Proxy → Proxy Settings → Proxy Listeners → Edit
+→ Binding tab → Select: All interfaces → OK
+→ Intercept ON</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#00c89620;color:var(--e15);">5</div>
+        <div class="step-title">Set Proxy via ADB (if emulator settings don't save)</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre><span class="comment"># Open a NEW CMD window:</span>
+cd C:\Users\Admin\AppData\Local\Android\Sdk\platform-tools
+
+adb devices
+<span class="comment"># Should show: emulator-5554  device</span>
+
+adb shell settings put global http_proxy 10.0.2.2:8080
+
+<span class="comment"># Verify it's set:</span>
+adb shell settings get global http_proxy
+<span class="comment"># Output: 10.0.2.2:8080</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#00c89620;color:var(--e15);">6</div>
+        <div class="step-title">Test HTTP Interception</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">In the Android emulator, open Chrome browser.</div>
+        <pre>Visit: http://example.com
+
+→ Go to Burp Suite → Proxy → HTTP History
+→ You should see the request appear ✅</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#00c89620;color:var(--e15);">7</div>
+        <div class="step-title">Export Burp CA Certificate (for HTTPS)</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>Burp Suite → Proxy → Proxy Settings
+→ Import/Export CA Certificate
+→ Certificate in DER format
+→ Save as: burpcer.der  (in Downloads folder)</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#00c89620;color:var(--e15);">8</div>
+        <div class="step-title">Push Certificate to Emulator</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>adb push C:\Users\Admin\Downloads\burpcer.der /sdcard/Download/</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#00c89620;color:var(--e15);">9</div>
+        <div class="step-title">Install Certificate in Emulator</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>Settings → Security & Privacy
+→ More Security & Privacy
+→ Encryption & Credentials
+→ Install a Certificate → CA Certificate
+→ Select: burpcer.der ✅</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#00c89620;color:var(--e15);">10</div>
+        <div class="step-title">Verify HTTPS Interception</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>Visit in emulator Chrome: https://example.com
+
+→ Burp Suite → Proxy → HTTP History
+→ HTTPS request now visible ✅</pre>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="result-box" style="border-color:var(--e15);">
+    <div class="label" style="color:var(--e15);">Result</div>
+    <p>Android application network traffic was successfully intercepted and analysed using Burp Suite by configuring proxy settings in the Android emulator and installing the Burp Suite CA certificate. Both HTTP and HTTPS traffic were captured.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- EXP 16 -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="exp16">
+  <div class="section-header">
+    <div class="exp-number" style="border-color:var(--e16);color:var(--e16);">EXP 16</div>
+    <div>
+      <h2>IoT Device Security — Default Passwords & Open Ports</h2>
+      <div class="tools-line">Docker (Windows) · Nmap (Kali Linux) · Browser DevTools</div>
+    </div>
+  </div>
+
+  <div class="info-row">
+    <span class="tag">Aim</span>
+    <span style="font-size:12px;color:var(--muted);">Identify open ports, default credentials, and unencrypted communication on a simulated IoT device.</span>
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#ff6b3520;color:var(--e16);">1</div>
+        <div class="step-title">Deploy Simulated IoT Device (Windows)</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>docker run -d -p 8090:3000 --name juiceshop bkimminich/juice-shop
+
+<span class="comment"># Open browser → http://localhost:8090</span>
+<span class="comment"># This is your simulated IoT device dashboard</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#ff6b3520;color:var(--e16);">2</div>
+        <div class="step-title">Find Windows IP Address</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">Run this in Windows CMD. Note down the IPv4 address.</div>
+        <pre>ipconfig
+<span class="comment"># Look for: IPv4 Address . . . : 192.168.0.148</span>
+<span class="comment"># This is the IP Kali will scan</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#ff6b3520;color:var(--e16);">3</div>
+        <div class="step-title">Scan from Kali Linux using Nmap</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">Switch to Kali Linux machine. Replace IP with your actual Windows IP.</div>
+        <pre>nmap -sV 192.168.0.148
+
+<span class="comment"># -sV = service version detection</span>
+<span class="comment"># Expected output:</span>
+<span class="comment"># PORT     STATE SERVICE VERSION</span>
+<span class="comment"># 8090/tcp open  http    Node.js (Express)</span>
+<span class="comment"># 135/tcp  open  msrpc   Microsoft Windows RPC</span>
+<span class="comment"># 445/tcp  open  microsoft-ds</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#ff6b3520;color:var(--e16);">4</div>
+        <div class="step-title">Test Default Credentials (Windows Browser)</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">Go to http://localhost:8090 → click Account → Login</div>
+        <pre>Email:    admin@juice-sh.op
+Password: admin123
+
+<span class="comment"># Successful login = Default password vulnerability ✅</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#ff6b3520;color:var(--e16);">5</div>
+        <div class="step-title">Check Unencrypted Communication</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">In browser on Juice Shop page:</div>
+        <pre>Press F12 → Network tab → reload page
+→ Check Protocol column: shows "http" not "https"
+→ All data transmitted in plain text = vulnerability ✅</pre>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="result-box" style="border-color:var(--e16);">
+    <div class="label" style="color:var(--e16);">Result</div>
+    <p>The experiment demonstrated how an attacker on the same network can identify open ports (8090), detect running services and versions via Nmap, gain unauthorized access using default credentials (admin@juice-sh.op / admin123), and confirm unencrypted HTTP communication through browser DevTools.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- EXP 17 -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="exp17">
+  <div class="section-header">
+    <div class="exp-number" style="border-color:var(--e17);color:var(--e17);">EXP 17</div>
+    <div>
+      <h2>Disk Forensics — dc3dd and Autopsy</h2>
+      <div class="tools-line">Kali Linux · dd · mkfs · Autopsy</div>
+    </div>
+  </div>
+
+  <div class="info-row">
+    <span class="tag">Aim</span>
+    <span style="font-size:12px;color:var(--muted);">Create a forensic disk image and analyze digital evidence using Autopsy.</span>
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">1</div>
+        <div class="step-title">Open Terminal</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>Ctrl + Alt + T</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">2</div>
+        <div class="step-title">Create Sample Evidence File</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">This simulates a file left by a user — to be discovered during forensic analysis.</div>
+        <pre>echo "Cybersecurity Lab Evidence" > evidence.txt
+ls
+<span class="comment"># Verify: evidence.txt appears in listing</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">3</div>
+        <div class="step-title">Check Disk Partitions</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>lsblk
+<span class="comment"># Output example:</span>
+<span class="comment"># sda</span>
+<span class="comment"># ├─sda1   ← this is used for real disk imaging</span>
+<span class="comment"># └─sda2</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">4</div>
+        <div class="step-title">Create 100MB Virtual Disk Image</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">if = input (zeros), of = output file, bs = block size, count = number of blocks</div>
+        <pre>dd if=/dev/zero of=practice_disk.dd bs=1M count=100</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">5</div>
+        <div class="step-title">Format the Disk</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">Gives the disk a filesystem so Autopsy can read it.</div>
+        <pre>mkfs.ext4 practice_disk.dd</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">6</div>
+        <div class="step-title">Verify the Image Was Created</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>ls -lh practice_disk.dd
+<span class="comment"># Should show: 100M practice_disk.dd</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">7</div>
+        <div class="step-title">Launch Autopsy</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>autopsy
+<span class="comment"># Terminal shows URL → open in browser:</span>
+<span class="comment"># http://localhost:9999/autopsy</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">8</div>
+        <div class="step-title">Create New Case in Autopsy</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>Click: Create New Case
+→ Case Name: CyberLabCase
+→ Description: Kali Linux forensic investigation
+→ Investigator: (your name)
+→ Click: New Case → OK</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">9</div>
+        <div class="step-title">Add Host</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>Click: Add Host
+→ Host Name: KaliLabMachine
+→ All other fields: Leave Blank
+→ Click: Add Host → OK</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">10</div>
+        <div class="step-title">Add Disk Image</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>Click: Add Image → Add Image File
+→ Browse to: /home/kali/practice_disk.dd
+→ Import Method: Symlink
+→ Click: Next
+<span class="comment"># Autopsy begins analyzing the disk image</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">11</div>
+        <div class="step-title">Analyze Evidence</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>Click: File Analysis      → view all files on disk
+Click: Keyword Search      → search for "evidence"
+Click: File Type           → filter by images, docs
+Click: Deleted Files       → files deleted but recoverable
+Click: Meta Data           → timestamps (created/modified)</pre>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="result-box" style="border-color:var(--e17);">
+    <div class="label" style="color:var(--e17);">Result</div>
+    <p>A 100MB forensic disk image was successfully created using the dd command and formatted using mkfs.ext4. The image was imported into Autopsy at localhost:9999. File artifacts, metadata, and deleted files were examined. Hashing confirmed the integrity of the acquired image.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- EXP 18 -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="exp18">
+  <div class="section-header">
+    <div class="exp-number" style="border-color:var(--e18);color:var(--e18);">EXP 18</div>
+    <div>
+      <h2>Log File Analysis for Incident Detection</h2>
+      <div class="tools-line">Kali Linux · journalctl · grep · awk · ssh</div>
+    </div>
+  </div>
+
+  <div class="info-row">
+    <span class="tag">Aim</span>
+    <span style="font-size:12px;color:var(--muted);">Analyze system log files and detect suspicious activities such as failed login attempts and brute force attacks.</span>
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">1</div>
+        <div class="step-title">Navigate to Log Directory</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>cd /var/log
+ls
+<span class="comment"># Key files:</span>
+<span class="comment"># apache2/   → web server logs</span>
+<span class="comment"># journal/   → system logs (most important)</span>
+<span class="comment"># wtmp       → successful logins</span>
+<span class="comment"># btmp       → failed logins</span>
+<span class="comment"># dpkg.log   → package activity</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">2</div>
+        <div class="step-title">View Successful Logins</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>last
+<span class="comment"># Shows: who logged in, when, from where</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">3</div>
+        <div class="step-title">View Failed Logins</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>sudo lastb
+<span class="comment"># Shows all failed login attempts</span>
+<span class="comment"># Repeated entries from same user = suspicious</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">4</div>
+        <div class="step-title">Setup SSH Server</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>sudo apt install openssh-server -y
+sudo service ssh start
+sudo service ssh status
+<span class="comment"># Should show: active (running)</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">5</div>
+        <div class="step-title">Simulate Brute Force Attack</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">Run this command 5–10 times. Enter a wrong password each time. Press Ctrl+C to cancel between attempts.</div>
+        <pre>ssh fakeuser@localhost
+<span class="comment"># Type wrong password → press Enter → Ctrl+C → repeat</span>
+<span class="comment"># Do this 5-10 times to generate log data</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">6</div>
+        <div class="step-title">Detect Failed Login Attempts</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>journalctl | grep "Failed password"
+<span class="comment"># Output:</span>
+<span class="comment"># May 06 11:23:11 kali sshd[1234]: Failed password for fakeuser from 127.0.0.1 port 54321</span>
+<span class="comment"># May 06 11:23:14 kali sshd[1235]: Failed password for fakeuser from 127.0.0.1 port 54322</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">7</div>
+        <div class="step-title">Extract Suspicious IP Address</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>journalctl | grep "Failed password" | awk '{print $11}'
+<span class="comment"># Output:</span>
+<span class="comment"># 127.0.0.1</span>
+<span class="comment"># 127.0.0.1</span>
+<span class="comment"># 127.0.0.1</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">8</div>
+        <div class="step-title">Count Attempts Per IP (Key Finding)</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">This is the most important command — shows brute force clearly.</div>
+        <pre>journalctl | grep "Failed password" | awk '{print $11}' | sort | uniq -c | sort -nr
+<span class="comment"># Output:</span>
+<span class="comment"># 10 127.0.0.1   ← 10 attempts = brute force detected ✅</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">9</div>
+        <div class="step-title">Additional Log Commands</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre><span class="comment"># All system logs:</span>
+journalctl | less
+
+<span class="comment"># SSH activity only:</span>
+journalctl | grep ssh
+
+<span class="comment"># System errors:</span>
+journalctl | grep -i error
+
+<span class="comment"># Real-time live monitoring:</span>
+sudo journalctl -f
+
+<span class="comment"># Last 10 minutes:</span>
+journalctl --since "10 minutes ago"
+
+<span class="comment"># Apache 404 errors (scanning attacks):</span>
+grep "404" /var/log/apache2/access.log
+
+<span class="comment"># Package install activity:</span>
+less /var/log/dpkg.log</pre>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="result-box" style="border-color:var(--e18);">
+    <div class="label" style="color:var(--e18);">Result</div>
+    <p>System log files were analyzed using Linux tools including journalctl, grep, awk, and last. Failed SSH login attempts were simulated and successfully detected. Multiple failed attempts (10 attempts) from IP address 127.0.0.1 were identified, indicating a simulated brute force attack. Real-time monitoring was performed using journalctl -f.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- EXP 19 -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="exp19">
+  <div class="section-header">
+    <div class="exp-number" style="border-color:var(--e19);color:var(--e19);">EXP 19</div>
+    <div>
+      <h2>Network Forensics Using Wireshark</h2>
+      <div class="tools-line">Kali Linux · Wireshark · ping · curl</div>
+    </div>
+  </div>
+
+  <div class="info-row">
+    <span class="tag">Aim</span>
+    <span style="font-size:12px;color:var(--muted);">Capture and analyze network packets using Wireshark to understand network forensics techniques.</span>
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#38bdf820;color:var(--e19);">1</div>
+        <div class="step-title">Fix Permissions (Run Once)</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">Only needed if you see a permissions error when starting Wireshark.</div>
+        <pre>sudo dpkg-reconfigure wireshark-common
+<span class="comment"># Select YES when asked about non-superusers capturing packets</span>
+
+sudo usermod -a -G wireshark $USER
+
+newgrp wireshark
+<span class="comment"># Applies group change without full logout</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#38bdf820;color:var(--e19);">2</div>
+        <div class="step-title">Launch Wireshark</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>wireshark &
+<span class="comment"># & runs it in background so terminal stays free</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#38bdf820;color:var(--e19);">3</div>
+        <div class="step-title">Select Interface and Start Capture</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>Double-click: wlp3s0   ← Wi-Fi interface (active one)
+<span class="comment"># OR: eth0 if on wired connection</span>
+<span class="comment"># Packets start scrolling immediately</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#38bdf820;color:var(--e19);">4</div>
+        <div class="step-title">Generate Network Traffic</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">Open a new terminal while Wireshark is capturing.</div>
+        <pre><span class="comment"># Generate ICMP (ping) traffic:</span>
+ping google.com -c 5
+
+<span class="comment"># Generate HTTP traffic:</span>
+curl http://example.com
+
+<span class="comment"># Generate DNS traffic:</span>
+nslookup google.com</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#38bdf820;color:var(--e19);">5</div>
+        <div class="step-title">Apply Filters (Type in Filter Bar → Press Enter)</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre><span class="comment"># TCP packets only:</span>
+tcp
+
+<span class="comment"># UDP packets only:</span>
+udp
+
+<span class="comment"># HTTP traffic only:</span>
+http
+
+<span class="comment"># Get your IP first:</span>
+ip a
+<span class="comment"># Look for inet under wlp3s0 e.g. 192.168.0.105</span>
+
+<span class="comment"># Filter by your IP:</span>
+ip.addr == 192.168.0.105
+
+<span class="comment"># Filter by source IP:</span>
+ip.src == 192.168.0.105
+
+<span class="comment"># Filter by port:</span>
+tcp.port == 80</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#38bdf820;color:var(--e19);">6</div>
+        <div class="step-title">Analyze a Packet — Expand Layers</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">Click any packet → middle panel shows these layers. Click ▼ to expand each.</div>
+        <pre>▼ Frame              → capture info, timestamp
+▼ Ethernet II        → MAC addresses (src & dst)
+▼ Internet Protocol  → IP addresses (src & dst)
+▼ TCP                → port numbers, SYN/ACK flags
+▼ HTTP               → GET/POST, URL, response code</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#38bdf820;color:var(--e19);">7</div>
+        <div class="step-title">Follow TCP Stream</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <div class="note">Shows the full client-server conversation in readable text.</div>
+        <pre>Right-click any HTTP packet
+→ Follow → TCP Stream
+<span class="comment"># Popup shows full conversation:</span>
+<span class="comment"># GET / HTTP/1.1</span>
+<span class="comment"># Host: example.com</span>
+<span class="comment"># ...</span>
+<span class="comment"># HTTP/1.1 200 OK</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#38bdf820;color:var(--e19);">8</div>
+        <div class="step-title">Protocol Statistics</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>Menu → Statistics → Protocol Hierarchy
+<span class="comment"># Shows breakdown: % TCP, % UDP, % HTTP etc.</span>
+<span class="comment"># Take a screenshot of this for your record</span></pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num" style="background:#38bdf820;color:var(--e19);">9</div>
+        <div class="step-title">Stop Capture and Save</div>
+        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      </div>
+      <div class="step-body">
+        <pre>Click: Red Square button  → stops capture
+
+File → Save As → capture.pcap → Save
+
+<span class="comment"># Export HTTP objects (files transferred):</span>
+File → Export Objects → HTTP</pre>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="result-box" style="border-color:var(--e19);">
+    <div class="label" style="color:var(--e19);">Result</div>
+    <p>Network packets were successfully captured on the wlp3s0 (Wi-Fi) interface using Wireshark. Filters were applied to isolate TCP, UDP, and HTTP traffic. A specific IP address was filtered using ip.addr. The TCP stream was followed to read the full client-server HTTP conversation. Protocol hierarchy statistics confirmed the distribution of network protocols, demonstrating how Wireshark aids in network forensics and intrusion detection.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  CS Lab Exam Guide &nbsp;·&nbsp; Exp 15 → 19 &nbsp;·&nbsp; All commands verified from lab record PDF
+</footer>
+
+<script>
+  function copyCode(btn) {
+    const pre = btn.closest('.step').querySelector('pre');
+    const text = pre.innerText
+      .split('\n')
+      .filter(line => !line.trim().startsWith('#') || line.trim() === '#')
+      .join('\n')
+      .trim();
+
+    // Copy full text including comments (more useful for reference)
+    navigator.clipboard.writeText(pre.innerText.trim()).then(() => {
+      btn.textContent = 'COPIED ✓';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'COPY';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
 </body>
 </html>
