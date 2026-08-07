@@ -134,6 +134,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
     }
 
     .section h3 {
@@ -232,6 +233,7 @@
       cursor: pointer;
       transition: 0.15s;
       margin-top: 0.8rem;
+      white-space: nowrap;
     }
 
     .understood-btn.done {
@@ -302,6 +304,11 @@
       }
       .main header h1 {
         font-size: 1.8rem;
+      }
+      .section h2 {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
       }
     }
 
@@ -476,17 +483,56 @@ PASS: Search box is ready</code></div>
       <div class="card">
         <h3>Concepts</h3>
         <p><code>getScreenshotAs()</code> · <code>OutputType.FILE</code> · <code>BufferedImage</code> · <code>getRGB()</code> · visual regression</p>
-        <h3>Complete code (excerpt)</h3>
-        <div class="code-block"><code>// full code in lab, core comparison:
-BufferedImage img1 = ImageIO.read(baseline);
-BufferedImage img2 = ImageIO.read(current);
-boolean same = true;
-for (int x = 0; x < img1.getWidth(); x++) {
-  for (int y = 0; y < img1.getHeight(); y++) {
-    if (img1.getRGB(x,y) != img2.getRGB(x,y)) { same = false; break; }
-  }
-}
-System.out.println(same ? "PASS" : "FAIL");</code><button class="copy-btn">copy</button></div>
+        <h3>Complete code (Exp4.java)</h3>
+        <div class="code-block"><code>package com.test.sel;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.io.FileHandler;
+
+public class Exp4 {
+    public static void main(String[] args) throws Exception {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.google.com");
+        WebElement searchBox = driver.findElement(By.name("q"));
+
+        File folder = new File("Screenshots");
+        if (!folder.exists()) folder.mkdir();
+
+        File current = new File("Screenshots/current_searchbox.png");
+        FileHandler.copy(searchBox.getScreenshotAs(OutputType.FILE), current);
+
+        File baseline = new File("Screenshots/baseline_searchbox.png");
+        if (!baseline.exists()) {
+            System.out.println("Baseline image not found.");
+            System.out.println("Rename current_searchbox.png to baseline_searchbox.png");
+        } else {
+            BufferedImage img1 = ImageIO.read(baseline);
+            BufferedImage img2 = ImageIO.read(current);
+            if (img1.getWidth() == img2.getWidth() && img1.getHeight() == img2.getHeight()) {
+                boolean same = true;
+                for (int x = 0; x < img1.getWidth(); x++) {
+                    for (int y = 0; y < img1.getHeight(); y++) {
+                        if (img1.getRGB(x, y) != img2.getRGB(x, y)) {
+                            same = false;
+                            break;
+                        }
+                    }
+                }
+                System.out.println(same ? "BITMAP CHECKPOINT : TEST PASS" : "BITMAP CHECKPOINT : TEST FAIL");
+            } else {
+                System.out.println("BITMAP CHECKPOINT : TEST FAIL");
+            }
+        }
+        driver.quit();
+    }
+}</code><button class="copy-btn">copy</button></div>
         <h4>Algorithm</h4>
         <p>Baseline ↔ Current → check dimensions → loop every pixel → compare RGB → all equal ? PASS : FAIL</p>
         <p><code>getRGB(x,y)</code> returns pixel color. Even tiny difference → FAIL (exact equality).</p>
@@ -500,15 +546,69 @@ System.out.println(same ? "PASS" : "FAIL");</code><button class="copy-btn">copy<
       <div class="card">
         <h3>Concepts</h3>
         <p><code>TakesScreenshot</code> · <code>getSubimage()</code> · similarity = (identical pixels / total) × 100</p>
-        <h3>Core similarity method</h3>
-        <div class="code-block"><code>public static double compareImages(BufferedImage img1, BufferedImage img2) {
-  if (width/height mismatch) return 0;
-  long total = (long) img1.getWidth() * img1.getHeight();
-  long same = 0;
-  for (int x=0; x<img1.getWidth(); x++)
-    for (int y=0; y<img1.getHeight(); y++)
-      if (img1.getRGB(x,y) == img2.getRGB(x,y)) same++;
-  return (same * 100.0) / total;
+        <h3>Complete code (Exp4b.java)</h3>
+        <div class="code-block"><code>package com.test.sel;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Exp4b {
+    public static void main(String[] args) throws Exception {
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get("https://www.google.com");
+
+        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        BufferedImage fullImage = ImageIO.read(screenshot);
+
+        File folder = new File("Screenshots");
+        if (!folder.exists()) folder.mkdir();
+
+        int width = Math.min(800, fullImage.getWidth());
+        int height = Math.min(600, fullImage.getHeight());
+        BufferedImage currentArea = fullImage.getSubimage(0, 0, width, height);
+
+        File currentFile = new File("Screenshots/current_google_area.png");
+        ImageIO.write(currentArea, "png", currentFile);
+        System.out.println("Current screenshot saved.");
+
+        File baselineFile = new File("Screenshots/baseline_google_area.png");
+        if (!baselineFile.exists()) {
+            System.out.println("Baseline image not found.");
+            System.out.println("Rename current_google_area.png to baseline_google_area.png");
+        } else {
+            BufferedImage baseline = ImageIO.read(baselineFile);
+            double similarity = compareImages(baseline, currentArea);
+            System.out.println("Similarity : " + similarity + "%");
+            if (similarity >= 95) {
+                System.out.println("BITMAP CHECKPOINT : TEST PASS");
+            } else {
+                System.out.println("BITMAP CHECKPOINT : TEST FAIL");
+            }
+        }
+        driver.quit();
+    }
+
+    public static double compareImages(BufferedImage img1, BufferedImage img2) {
+        if (img1.getWidth() != img2.getWidth() || img1.getHeight() != img2.getHeight()) {
+            return 0;
+        }
+        long totalPixels = (long) img1.getWidth() * img1.getHeight();
+        long samePixels = 0;
+        for (int x = 0; x < img1.getWidth(); x++) {
+            for (int y = 0; y < img1.getHeight(); y++) {
+                if (img1.getRGB(x, y) == img2.getRGB(x, y)) {
+                    samePixels++;
+                }
+            }
+        }
+        return (samePixels * 100.0) / totalPixels;
+    }
 }</code><button class="copy-btn">copy</button></div>
         <p>Threshold 95% — more tolerant than exact bitmap equality.</p>
       </div>
@@ -523,22 +623,36 @@ System.out.println(same ? "PASS" : "FAIL");</code><button class="copy-btn">copy<
         <p>JDBC · H2 · <code>DriverManager</code> · <code>Connection</code> · <code>Statement</code> · <code>ResultSet</code></p>
         <h3>Complete code</h3>
         <div class="code-block"><code>package com.test.sel;
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class Exp5 {
-  public static void main(String[] args) throws Exception {
-    Connection con = DriverManager.getConnection("jdbc:h2:./StudentDB","sa","");
-    Statement stmt = con.createStatement();
-    stmt.execute("CREATE TABLE IF NOT EXISTS STUDENT(ID INT PRIMARY KEY, NAME VARCHAR(50), EMAIL VARCHAR(100))");
-    stmt.execute("DELETE FROM STUDENT");
-    stmt.executeUpdate("INSERT INTO STUDENT VALUES(1,'Ajay','ajay@gmail.com')");
-    ResultSet rs = stmt.executeQuery("SELECT * FROM STUDENT WHERE ID=1");
-    if (rs.next()) {
-      System.out.println("Record Exists");
-      System.out.println("ID: "+rs.getInt("ID")+" Name: "+rs.getString("NAME"));
-      System.out.println("TEST PASSED");
-    } else { System.out.println("TEST FAILED"); }
-    con.close();
-  }
+    public static void main(String[] args) {
+        try {
+            Connection con = DriverManager.getConnection("jdbc:h2:./StudentDB", "sa", "");
+            Statement stmt = con.createStatement();
+            stmt.execute("CREATE TABLE IF NOT EXISTS STUDENT(ID INT PRIMARY KEY, NAME VARCHAR(50), EMAIL VARCHAR(100))");
+            stmt.execute("DELETE FROM STUDENT");
+            stmt.executeUpdate("INSERT INTO STUDENT VALUES(1,'Ajay','ajay@gmail.com')");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM STUDENT WHERE ID = 1");
+            if (rs.next()) {
+                System.out.println("Record Exists");
+                System.out.println("ID    : " + rs.getInt("ID"));
+                System.out.println("Name  : " + rs.getString("NAME"));
+                System.out.println("Email : " + rs.getString("EMAIL"));
+                System.out.println("TEST PASSED");
+            } else {
+                System.out.println("Record Not Found");
+                System.out.println("TEST FAILED");
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }</code><button class="copy-btn">copy</button></div>
         <h4>JDBC pipeline</h4>
         <p>Java → DriverManager → Connection → Statement → SQL → H2 → ResultSet → verification</p>
@@ -658,16 +772,21 @@ public class Exp5 {
             this.classList.add('done');
             this.textContent = '✔ Understood';
           }
+          // update progress
+          let done = 0;
+          ['exp2','exp3','exp4a','exp4b','exp5'].forEach(id => {
+            if (localStorage.getItem('understood-'+id) === 'true') done++;
+          });
+          document.getElementById('progressBadge').textContent = `📘 ${done}/5 experiments · Selenium + JDBC`;
         });
       });
 
-      // progress badge (optional)
-      const total = 5;
+      // initial progress
       let done = 0;
       ['exp2','exp3','exp4a','exp4b','exp5'].forEach(id => {
         if (localStorage.getItem('understood-'+id) === 'true') done++;
       });
-      document.getElementById('progressBadge').textContent = `📘 ${done}/${total} experiments · Selenium + JDBC`;
+      document.getElementById('progressBadge').textContent = `📘 ${done}/5 experiments · Selenium + JDBC`;
     })();
   </script>
 </body>
