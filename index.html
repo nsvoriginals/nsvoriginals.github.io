@@ -1,1420 +1,674 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cloud Computing Lab Record</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #09090f;
-    --surface: #0f1117;
-    --surface2: #161820;
-    --border: #1c1e2a;
-    --border2: #252838;
-    --a1: #ff6b35;
-    --a2: #ffd166;
-    --a3: #06d6a0;
-    --a4: #74b9ff;
-    --a5: #e17cff;
-    --a6: #ff4d8d;
-    --text: #dde1f0;
-    --muted: #555870;
-    --dim: #8a8fa8;
-    --mono: 'JetBrains Mono', monospace;
-    --sans: 'Outfit', sans-serif;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Selenium & Database Testing Lab</title>
+  <style>
+    /* ----- reset & base ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0d0f14;
+      color: #e5e9ef;
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      line-height: 1.6;
+      display: flex;
+    }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+    /* ----- sidebar ----- */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 280px;
+      background: #151a21;
+      border-right: 1px solid #2a313c;
+      padding: 2rem 1rem 1rem 1.5rem;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
 
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 40% at 80% 10%, rgba(255,107,53,0.04) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 30% at 10% 80%, rgba(6,214,160,0.04) 0%, transparent 60%);
-    pointer-events: none;
-    z-index: 0;
-  }
+    .sidebar h2 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      color: #c0d0e0;
+      margin-bottom: 0.2rem;
+    }
 
-  /* ── NAV ── */
-  nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(9,9,15,0.95);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 0;
-    padding: 0 24px;
-    height: 46px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  nav::-webkit-scrollbar { display: none; }
+    .sidebar .sub {
+      font-size: 0.85rem;
+      color: #7b8a9e;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid #2a313c;
+      padding-bottom: 1.2rem;
+    }
 
-  .nav-brand {
-    font-family: var(--mono);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--a1);
-    white-space: nowrap;
-    margin-right: 20px;
-    flex-shrink: 0;
-  }
+    .sidebar nav a {
+      display: block;
+      padding: 0.4rem 0.6rem;
+      margin: 0.15rem 0;
+      color: #b0c0d0;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.92rem;
+      transition: background 0.15s, color 0.15s;
+    }
 
-  .nav-link {
-    text-decoration: none;
-    font-family: var(--mono);
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--muted);
-    white-space: nowrap;
-    padding: 0 10px;
-    height: 46px;
-    display: flex;
-    align-items: center;
-    border-right: 1px solid var(--border);
-    transition: color 0.15s, background 0.15s;
-    flex-shrink: 0;
-  }
-  .nav-link:first-of-type { border-left: 1px solid var(--border); }
-  .nav-link:hover { color: var(--text); background: var(--surface); }
+    .sidebar nav a:hover {
+      background: #222b36;
+      color: #dce6f0;
+    }
 
-  /* ── WRAPPER ── */
-  .wrapper {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 64px 28px 80px;
-    position: relative;
-    z-index: 1;
-  }
+    .sidebar nav a.active {
+      background: #1f6f8b;
+      color: white;
+      font-weight: 500;
+    }
 
-  /* ── HEADER ── */
-  header {
-    margin-bottom: 64px;
-    animation: fadeDown 0.7s ease both;
-  }
+    .sidebar nav .section-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #6a7b8e;
+      margin-top: 1.2rem;
+      margin-bottom: 0.2rem;
+      padding-left: 0.4rem;
+    }
 
-  .badge {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--a1);
-    border: 1px solid rgba(255,107,53,0.35);
-    padding: 5px 14px;
-    margin-bottom: 22px;
-  }
+    /* ----- main content ----- */
+    .main {
+      flex: 1;
+      padding: 2rem 2.5rem 4rem 2.5rem;
+      max-width: 1000px;
+    }
 
-  h1 {
-    font-size: clamp(30px, 5vw, 52px);
-    font-weight: 800;
-    line-height: 1.08;
-    letter-spacing: -1.5px;
-    background: linear-gradient(120deg, #fff 30%, var(--a1) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 10px;
-  }
+    .main header {
+      margin-bottom: 2.5rem;
+    }
 
-  .header-meta {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--muted);
-    letter-spacing: 1px;
-  }
+    .main header h1 {
+      font-size: 2.4rem;
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      color: #f0f5fc;
+    }
 
-  /* ── WEEK CARDS ── */
-  .week {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    margin-bottom: 32px;
-    position: relative;
-    overflow: hidden;
-    animation: fadeUp 0.5s ease both;
-  }
+    .main header .subtitle {
+      font-size: 1.1rem;
+      color: #8b9db0;
+      border-left: 3px solid #2f8db0;
+      padding-left: 1rem;
+      margin-top: 0.2rem;
+    }
 
-  .week::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-  }
+    .progress-badge {
+      display: inline-block;
+      background: #1f2a33;
+      padding: 0.3rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      color: #bcd0e0;
+      margin-top: 0.8rem;
+    }
 
-  .week:nth-child(1)::before  { background: var(--a1); }
-  .week:nth-child(2)::before  { background: var(--a2); }
-  .week:nth-child(3)::before  { background: var(--a3); }
-  .week:nth-child(4)::before  { background: var(--a4); }
-  .week:nth-child(5)::before  { background: var(--a5); }
-  .week:nth-child(6)::before  { background: var(--a6); }
-  .week:nth-child(7)::before  { background: var(--a1); }
-  .week:nth-child(8)::before  { background: var(--a2); }
-  .week:nth-child(9)::before  { background: var(--a3); }
-  .week:nth-child(10)::before { background: var(--a4); }
-  .week:nth-child(11)::before { background: var(--a5); }
-  .week:nth-child(12)::before { background: var(--a6); }
-  .week:nth-child(13)::before { background: var(--a1); }
+    /* ----- cards & sections ----- */
+    .section {
+      display: block;
+      margin-bottom: 3.5rem;
+      scroll-margin-top: 1.5rem;
+    }
 
-  .week-header {
-    padding: 24px 28px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: flex-start;
-    gap: 18px;
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.15s;
-  }
-  .week-header:hover { background: var(--surface2); }
+    .section h2 {
+      font-size: 1.8rem;
+      font-weight: 450;
+      margin-bottom: 0.5rem;
+      color: #e8eef6;
+      border-bottom: 1px solid #2a313c;
+      padding-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-  .week-num {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--muted);
-    padding-top: 5px;
-    flex-shrink: 0;
-    min-width: 28px;
-  }
+    .section h3 {
+      font-size: 1.2rem;
+      font-weight: 450;
+      margin: 1.8rem 0 0.6rem 0;
+      color: #c8d8e8;
+    }
 
-  .week-title-wrap { flex: 1; }
+    .section h4 {
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 1.4rem 0 0.3rem 0;
+      color: #b8c8db;
+    }
 
-  .week-title {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.2px;
-    margin-bottom: 5px;
-    line-height: 1.25;
-  }
+    .section p, .section li {
+      color: #cfdceb;
+      font-size: 0.98rem;
+    }
 
-  .week-sub {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-  }
+    .card {
+      background: #131a22;
+      border: 1px solid #28313e;
+      border-radius: 14px;
+      padding: 1.5rem 1.8rem;
+      margin: 1.2rem 0;
+    }
 
-  .week-arrow {
-    color: var(--muted);
-    font-size: 18px;
-    flex-shrink: 0;
-    padding-top: 4px;
-    transition: transform 0.25s;
-  }
-  .week.open .week-arrow { transform: rotate(180deg); }
+    .card.soft {
+      background: #0f161e;
+    }
 
-  .week-body {
-    display: none;
-    padding: 28px;
-  }
-  .week.open .week-body { display: block; }
+    .code-block {
+      background: #0b1017;
+      border-radius: 12px;
+      border: 1px solid #28313e;
+      padding: 1rem 1.2rem;
+      overflow-x: auto;
+      position: relative;
+      margin: 1rem 0;
+    }
 
-  /* ── SECTION LABEL ── */
-  .label {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-  .label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+    .code-block code {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: #d4e0f0;
+      white-space: pre;
+      display: block;
+    }
 
-  .section { margin-bottom: 26px; }
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      background: #25303c;
+      border: none;
+      color: #b0c8e0;
+      padding: 0.2rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
 
-  p {
-    font-size: 14.5px;
-    line-height: 1.75;
-    color: var(--dim);
-    margin-bottom: 10px;
-  }
+    .copy-btn:hover {
+      background: #364a5a;
+      color: white;
+    }
 
-  /* ── STEPS ── */
-  .steps { list-style: none; }
+    .badge-pass {
+      display: inline-block;
+      background: #1f6f4a;
+      color: #c6f0d8;
+      padding: 0.1rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
 
-  .step {
-    display: flex;
-    gap: 14px;
-    padding: 11px 0;
-    border-bottom: 1px solid var(--border);
-    align-items: flex-start;
-  }
-  .step:last-child { border-bottom: none; }
+    .badge-fail {
+      background: #7a3e3e;
+      color: #f5d0d0;
+      padding: 0.1rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+    }
 
-  .step-n {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    flex-shrink: 0;
-    min-width: 30px;
-    padding-top: 2px;
-  }
+    .understood-btn {
+      background: #1f2a33;
+      border: 1px solid #3d4d5e;
+      color: #c0d0e0;
+      padding: 0.3rem 1.4rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: 0.15s;
+      margin-top: 0.8rem;
+    }
 
-  .step-text {
-    font-size: 14px;
-    color: var(--dim);
-    line-height: 1.65;
-  }
+    .understood-btn.done {
+      background: #1f6f4a;
+      border-color: #2d8f5a;
+      color: white;
+    }
 
-  /* ── CODE ── */
-  code {
-    font-family: var(--mono);
-    font-size: 12px;
-    background: rgba(255,107,53,0.08);
-    color: #ff9a6c;
-    padding: 2px 7px;
-    border: 1px solid rgba(255,107,53,0.18);
-  }
+    .viva-q {
+      background: #10171f;
+      border: 1px solid #28313e;
+      border-radius: 12px;
+      padding: 0.8rem 1.2rem;
+      margin: 0.6rem 0;
+      cursor: pointer;
+    }
 
-  .code-block {
-    background: #06060b;
-    border: 1px solid var(--border2);
-    padding: 18px 22px;
-    margin: 6px 0;
-    overflow-x: auto;
-    position: relative;
-  }
+    .viva-q .q {
+      font-weight: 500;
+      color: #d0def0;
+    }
 
-  .code-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
+    .viva-q .a {
+      display: none;
+      margin-top: 0.6rem;
+      color: #b0c8dd;
+      padding-left: 0.5rem;
+      border-left: 2px solid #2f8db0;
+    }
 
-  .code-label {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
+    .viva-q.open .a {
+      display: block;
+    }
 
-  .copy-btn {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 1px;
-    color: var(--muted);
-    background: transparent;
-    border: 1px solid var(--border2);
-    padding: 3px 10px;
-    cursor: pointer;
-    transition: all 0.15s;
-    text-transform: uppercase;
-  }
-  .copy-btn:hover { color: var(--text); border-color: var(--dim); }
-  .copy-btn.done { color: var(--a3); border-color: var(--a3); }
+    .table-compact {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
 
-  .code-block pre {
-    font-family: var(--mono);
-    font-size: 12.5px;
-    line-height: 1.85;
-    color: #9ba8c5;
-    white-space: pre;
-  }
+    .table-compact td, .table-compact th {
+      padding: 0.4rem 0.6rem;
+      border-bottom: 1px solid #28313e;
+    }
 
-  .kw { color: #74b9ff; }
-  .cm { color: #404460; font-style: italic; }
-  .val { color: #fdcb6e; }
-  .str { color: #a8e6cf; }
-  .cmd { color: var(--a3); }
+    .table-compact th {
+      text-align: left;
+      color: #9ab0c8;
+      font-weight: 400;
+    }
 
-  /* ── OUTPUT ── */
-  .output {
-    background: #06060b;
-    border: 1px solid var(--border2);
-    border-left: 3px solid var(--a3);
-    padding: 14px 18px;
-    margin: 6px 0;
-  }
+    /* responsive */
+    @media (max-width: 800px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        position: relative;
+        height: auto;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #2a313c;
+        padding: 1rem;
+        overflow-y: visible;
+      }
+      .main {
+        padding: 1.5rem 1rem 3rem 1rem;
+      }
+      .main header h1 {
+        font-size: 1.8rem;
+      }
+    }
 
-  .output-line {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--a3);
-    line-height: 1.9;
-  }
-
-  .output-line.note {
-    color: var(--muted);
-    font-size: 11px;
-    margin-top: 4px;
-  }
-
-  /* ── TOOLS ── */
-  .tools {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 4px;
-  }
-
-  .tool {
-    font-family: var(--mono);
-    font-size: 11px;
-    padding: 4px 12px;
-    border: 1px solid var(--border2);
-    background: var(--surface2);
-    color: var(--dim);
-    white-space: nowrap;
-  }
-
-  /* ── CONCLUSION ── */
-  .conclusion {
-    background: var(--surface2);
-    border: 1px solid var(--border2);
-    padding: 16px 20px;
-    margin-top: 4px;
-  }
-
-  .conclusion p {
-    margin: 0;
-    font-size: 13.5px;
-    color: var(--dim);
-    line-height: 1.7;
-  }
-
-  /* ── SUB-HEADING ── */
-  .sub-heading {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--a4);
-    padding-bottom: 6px;
-    border-bottom: 1px dashed var(--border2);
-    margin: 18px 0 10px;
-  }
-
-  /* ── WEEK ACCENT COLORS ── */
-  .week:nth-child(1) .step-n, .week:nth-child(7) .step-n  { color: rgba(255,107,53,0.6); }
-  .week:nth-child(2) .step-n, .week:nth-child(8) .step-n  { color: rgba(255,209,102,0.6); }
-  .week:nth-child(3) .step-n, .week:nth-child(9) .step-n  { color: rgba(6,214,160,0.6); }
-  .week:nth-child(4) .step-n, .week:nth-child(10) .step-n { color: rgba(116,185,255,0.6); }
-  .week:nth-child(5) .step-n, .week:nth-child(11) .step-n { color: rgba(225,124,255,0.6); }
-  .week:nth-child(6) .step-n, .week:nth-child(12) .step-n { color: rgba(255,77,141,0.6); }
-  .week:nth-child(13) .step-n { color: rgba(255,107,53,0.6); }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @media (max-width: 600px) {
-    .wrapper { padding: 40px 14px 60px; }
-    .week-header { padding: 18px 16px; }
-    .week-body { padding: 18px 14px; }
-    .code-block { padding: 14px 14px; }
-  }
-</style>
+    /* scroll */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #141a22;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2f3f50;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 <body>
-
-<nav>
-  <span class="nav-brand">AWS CC Lab</span>
-  <a href="#w1"  class="nav-link">W01</a>
-  <a href="#w2"  class="nav-link">W02</a>
-  <a href="#w3"  class="nav-link">W03</a>
-  <a href="#w4"  class="nav-link">W04</a>
-  <a href="#w5"  class="nav-link">W05</a>
-  <a href="#w6"  class="nav-link">W06</a>
-  <a href="#w7"  class="nav-link">W07</a>
-  <a href="#w8"  class="nav-link">W08</a>
-  <a href="#w9"  class="nav-link">W09</a>
-  <a href="#w10" class="nav-link">W10</a>
-  <a href="#w11" class="nav-link">W11</a>
-  <a href="#w12" class="nav-link">W12</a>
-  <a href="#w13" class="nav-link">W13</a>
-</nav>
-
-<div class="wrapper">
-
-  <header>
-    <div class="badge">Lab Record &middot; Cloud Computing</div>
-    <h1>AWS Cloud<br>Experiments</h1>
-    <p class="header-meta">13 Weeks &mdash; Amazon Web Services Practicals</p>
-  </header>
-
-  <!-- WEEK 1 -->
-  <div class="week open" id="w1" onclick="toggle(this)">
-    <div class="week-header">
-      <div class="week-num">W01</div>
-      <div class="week-title-wrap">
-        <div class="week-title">EC2 Instance Creation and Connection</div>
-        <div class="week-sub">AWS EC2 &middot; Browser Connect &middot; PuTTY &middot; SSH</div>
-      </div>
-      <div class="week-arrow">&#9662;</div>
-    </div>
-    <div class="week-body">
-
-      <div class="section">
-        <div class="label">Objective</div>
-        <p>Launch an EC2 instance on AWS and connect to it using two methods: the browser-based EC2 Connect method and the PuTTY SSH client using a PPK key file.</p>
-      </div>
-
-      <div class="section">
-        <div class="label">Part A &mdash; Launch EC2 Instance</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Open the <strong>Amazon EC2 Dashboard</strong> from the AWS Management Console.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Click <strong>Launch Instance</strong>. Provide an instance name, e.g., <code>Linux-ec2</code>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Select an <strong>AMI</strong> (Ubuntu). Note: AMI is region-specific and the AMI ID changes with the region.</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">Select the <strong>Instance Type</strong>. By default, <code>t3.micro</code> is selected as a free-tier eligible instance.</span></li>
-          <li class="step"><span class="step-n">05</span><span class="step-text">Under <strong>Key Pair</strong>, create a new RSA key pair. The <code>.pem</code> file downloads automatically.</span></li>
-          <li class="step"><span class="step-n">06</span><span class="step-text">Configure <strong>Network Settings</strong>: select VPC, subnet. For Linux, allow <strong>SSH (port 22)</strong> in the security group.</span></li>
-          <li class="step"><span class="step-n">07</span><span class="step-text">Click <strong>Launch Instance</strong>. AWS creates the EC2 with the specified configuration and region.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Part B &mdash; Browser-Based Connection (EC2 Connect)</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Select the running instance in the EC2 Console.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Click <strong>Connect</strong> at the top &rarr; choose <strong>EC2 Instance Connect</strong> tab &rarr; click <strong>Connect</strong>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">A browser-based terminal opens. Connection is established without any client software.</span></li>
-        </ul>
-        <div class="output">
-          <div class="output-line">Successfully connected to EC2 instance via browser-based method</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Part C &mdash; PuTTY Connection (PPK File)</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Download and install <strong>PuTTY</strong> from the official site (<code>putty.org</code>).</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Create the EC2 instance with key pair format set to <strong>PPK</strong> during creation.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">If you have a <code>.pem</code> file, open <strong>PuTTYgen</strong> &rarr; <strong>Load</strong> the <code>.pem</code> file &rarr; click <strong>Save Private Key</strong> to generate the <code>.ppk</code> file.</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">Open <strong>PuTTY</strong>. Copy the instance's <strong>Public IP address</strong> and paste it in the <strong>Host Name</strong> field.</span></li>
-          <li class="step"><span class="step-n">05</span><span class="step-text">In the sidebar: <strong>Connection &rarr; SSH &rarr; Auth &rarr; Credentials</strong>. Browse and select the <code>.ppk</code> file.</span></li>
-          <li class="step"><span class="step-n">06</span><span class="step-text">Click <strong>Open</strong>. At the <em>login as:</em> prompt, type <code>ubuntu</code> (for Ubuntu AMI) and press Enter.</span></li>
-        </ul>
-        <div class="output">
-          <div class="output-line">Successfully connected to EC2 instance via PuTTY</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Conclusion</div>
-        <div class="conclusion">
-          <p>An EC2 instance was successfully launched on AWS. Two connection methods were demonstrated: the browser-based EC2 Connect method (no client needed) and PuTTY with a PPK key file for SSH access. Security groups control access by allowing only the required port (SSH 22).</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- WEEK 2 -->
-  <div class="week" id="w2" onclick="toggle(this)">
-    <div class="week-header">
-      <div class="week-num">W02</div>
-      <div class="week-title-wrap">
-        <div class="week-title">EBS Volume &mdash; Attach, Scale, Snapshot, and Cross-Region</div>
-        <div class="week-sub">EBS &middot; lsblk &middot; fdisk &middot; mount &middot; Snapshot &middot; Cross-Region</div>
-      </div>
-      <div class="week-arrow">&#9662;</div>
-    </div>
-    <div class="week-body">
-
-      <div class="section">
-        <div class="label">Objective</div>
-        <p>Scale an EC2 instance by changing its type, create and attach an EBS volume, perform cross-instance data transfer, and replicate data across AWS regions using snapshots.</p>
-      </div>
-
-      <div class="section">
-        <div class="label">Part A &mdash; Scale Instance Type</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Create an EC2 instance with instance type <code>t2.nano</code>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text"><strong>Stop</strong> the instance (cannot change type while running).</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Select the instance &rarr; <strong>Actions &rarr; Instance Settings &rarr; Change Instance Type</strong>. Select the desired type &rarr; click <strong>Apply</strong>.</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">Start the instance. It now runs with the updated CPU and RAM specification.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Part B &mdash; Create and Attach EBS Volume</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Go to EC2 Dashboard &rarr; <strong>Elastic Block Store &rarr; Volumes &rarr; Create Volume</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Set volume type (<code>gp3</code>/<code>gp2</code>), size, and <strong>Availability Zone</strong> (must match the target EC2 instance). Click <strong>Create Volume</strong>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Select the new volume &rarr; <strong>Actions &rarr; Attach Volume</strong> &rarr; select the target instance &rarr; specify device name &rarr; click <strong>Attach</strong>.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Part B &mdash; Use the Attached Volume (Instance A)</div>
-        <div class="code-header"><span class="code-label">PowerShell / SSH &mdash; Instance A</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
-        <div class="code-block"><pre><span class="cm"># Check all available disks</span>
-<span class="cmd">lsblk</span>
-
-<span class="cm"># Check filesystem of each device</span>
-<span class="cmd">lsblk -fs</span>
-
-<span class="cm"># Create a partition on the new volume</span>
-<span class="cmd">sudo fdisk /dev/nvme1n1</span>
-<span class="cm"># Press 'm' for help menu, then follow prompts to create partition</span></pre></div>
-      </div>
-
-      <div class="section">
-        <div class="label">Part B &mdash; Mount Volume on Instance B</div>
-        <div class="code-header"><span class="code-label">PowerShell / SSH &mdash; Instance B</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
-        <div class="code-block"><pre><span class="cm"># Create mount directory</span>
-<span class="cmd">sudo mkdir /mnt/ebstry</span>
-
-<span class="cm"># Mount the volume partition</span>
-<span class="cmd">sudo mount /dev/nvme1n1p1 /mnt/ebstry</span>
-
-<span class="cm"># Verify mount - all previous data will be available</span>
-<span class="cmd">lsblk</span></pre></div>
-      </div>
-
-      <div class="section">
-        <div class="label">Part C &mdash; Snapshot and Cross-Region Replication</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Detach the volume from the instance in <strong>N. Virginia</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Select the volume &rarr; <strong>Actions &rarr; Create Snapshot</strong>. Wait for the snapshot to complete.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Select the snapshot &rarr; <strong>Actions &rarr; Copy Snapshot</strong>. Choose destination region: <strong>Oregon</strong>.</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">Switch to Oregon region. Go to <strong>Snapshots &rarr; Actions &rarr; Create Volume from Snapshot</strong>.</span></li>
-          <li class="step"><span class="step-n">05</span><span class="step-text">Create a new EC2 instance in Oregon. Attach the volume to that instance. Connect via SSH.</span></li>
-        </ul>
-        <div class="code-header"><span class="code-label">PowerShell &mdash; Oregon Instance</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
-        <div class="code-block"><pre><span class="cmd">lsblk</span>
-<span class="cmd">sudo mkdir /mnt/ebstry</span>
-<span class="cmd">sudo mount /dev/nvme1n1p1 /mnt/ebstry</span>
-<span class="cmd">df -h</span></pre></div>
-        <div class="output">
-          <div class="output-line">Data from N. Virginia is accessible in Oregon via snapshot copy</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Conclusion</div>
-        <div class="conclusion">
-          <p>EBS volumes were created, attached, mounted, and verified. Scaling was achieved by changing the instance type. Cross-region data replication was demonstrated by copying a snapshot from N. Virginia to Oregon and mounting it on a new instance.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- WEEK 3 -->
-  <div class="week" id="w3" onclick="toggle(this)">
-    <div class="week-header">
-      <div class="week-num">W03</div>
-      <div class="week-title-wrap">
-        <div class="week-title">Elastic File System (EFS) &mdash; Shared Storage</div>
-        <div class="week-sub">EFS &middot; NFS &middot; Amazon Linux &middot; Multi-Instance Sharing</div>
-      </div>
-      <div class="week-arrow">&#9662;</div>
-    </div>
-    <div class="week-body">
-
-      <div class="section">
-        <div class="label">Objective</div>
-        <p>Create an EFS file system and mount it on two EC2 instances in different Availability Zones, demonstrating shared file access across instances.</p>
-      </div>
-
-      <div class="section">
-        <div class="label">Setup &mdash; Create Instances and Security Group</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Create instance <strong>efslab-1</strong>: Select Amazon Linux as AMI. Set Availability Zone to <code>us-east-1a</code>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Create a new Security Group named <code>efslab</code>. Add an inbound rule: <strong>Type: NFS</strong>, Source: <strong>Anywhere</strong>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Create instance <strong>efslab-2</strong>: Select Amazon Linux as AMI. Set Availability Zone to <code>us-east-1b</code>. Select the existing <code>efslab</code> security group.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Create EFS File System</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">04</span><span class="step-text">Search for <strong>EFS</strong> in the AWS Console &rarr; click <strong>Create File System</strong>. Provide a name &rarr; click <strong>Create</strong>.</span></li>
-          <li class="step"><span class="step-n">05</span><span class="step-text">Select the file system &rarr; <strong>View Details &rarr; Network</strong> tab &rarr; click <strong>Manage</strong>. Update the security group to <code>efslab</code>.</span></li>
-          <li class="step"><span class="step-n">06</span><span class="step-text">Click <strong>Attach</strong> on the EFS page &rarr; copy the <strong>NFS client mount command</strong>.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Mount on Instance 1 and Create File</div>
-        <div class="code-header"><span class="code-label">SSH &mdash; Instance 1 (efslab-1)</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
-        <div class="code-block"><pre><span class="cm"># Paste the NFS client command (change directory name at the end)</span>
-<span class="cm"># Example:</span>
-sudo mount -t nfs4 -o nfsvers=4.1 fs-xxxxxxxx.efs.us-east-1.amazonaws.com:/ efslab
-
-<span class="cm"># Navigate to the mounted directory</span>
-<span class="cmd">cd efslab</span>
-
-<span class="cm"># Create a file</span>
-<span class="cmd">touch file.txt</span>
-
-<span class="cm"># Add content to the file</span>
-<span class="cmd">echo "Shared via EFS" > file.txt</span></pre></div>
-      </div>
-
-      <div class="section">
-        <div class="label">Verify from Instance 2</div>
-        <div class="code-header"><span class="code-label">SSH &mdash; Instance 2 (efslab-2)</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
-        <div class="code-block"><pre><span class="cm"># Paste the same NFS client mount command (change directory name)</span>
-sudo mount -t nfs4 -o nfsvers=4.1 fs-xxxxxxxx.efs.us-east-1.amazonaws.com:/ efslab
-
-<span class="cm"># Navigate to directory</span>
-<span class="cmd">cd efslab</span>
-
-<span class="cm"># List files (file.txt from Instance 1 appears)</span>
-<span class="cmd">ls</span>
-
-<span class="cm"># Display file content</span>
-<span class="cmd">cat file.txt</span></pre></div>
-        <div class="output">
-          <div class="output-line">file.txt</div>
-          <div class="output-line">Shared via EFS</div>
-          <div class="output-line note">File created on Instance 1 is accessible from Instance 2 via EFS</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Conclusion</div>
-        <div class="conclusion">
-          <p>EFS was configured and mounted on two EC2 instances in different Availability Zones. A file created on Instance 1 was immediately accessible from Instance 2, demonstrating EFS as a shared, elastic NFS file system across multiple instances.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- WEEK 4 -->
-  <div class="week" id="w4" onclick="toggle(this)">
-    <div class="week-header">
-      <div class="week-num">W04</div>
-      <div class="week-title-wrap">
-        <div class="week-title">Simple Storage Service (S3) &mdash; Buckets, ACLs, Versioning, Replication</div>
-        <div class="week-sub">S3 &middot; ACL &middot; Bucket Versioning &middot; Cross-Region Replication</div>
-      </div>
-      <div class="week-arrow">&#9662;</div>
-    </div>
-    <div class="week-body">
-
-      <div class="section">
-        <div class="label">Objective</div>
-        <p>Create an S3 bucket, configure public access via ACLs, enable versioning, and set up cross-region object replication.</p>
-      </div>
-
-      <div class="section">
-        <div class="label">Part A &mdash; Create Bucket and Upload Object</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Search for <strong>S3</strong> in the AWS Console &rarr; click <strong>Create bucket</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Provide a unique bucket name. Keep bucket type as <strong>General Purpose</strong>. Leave ACLs disabled and public access blocked by default. Click <strong>Create bucket</strong>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Click on the bucket name &rarr; <strong>Upload &rarr; Add files</strong>. Select a file from your PC &rarr; click <strong>Upload</strong>.</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">Click on the uploaded object &rarr; copy the <strong>Object URL</strong>. Open it in a browser &mdash; access is denied (public access is still blocked).</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Part A &mdash; Enable Public Access via ACL</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">05</span><span class="step-text">Go to bucket &rarr; <strong>Permissions &rarr; Block Public Access &rarr; Edit</strong>. Uncheck all &rarr; <strong>Save changes</strong>.</span></li>
-          <li class="step"><span class="step-n">06</span><span class="step-text">Go to <strong>Object Ownership &rarr; Edit</strong>. Select <strong>ACLs Enabled</strong> &rarr; <strong>Save changes</strong>.</span></li>
-          <li class="step"><span class="step-n">07</span><span class="step-text">Go to <strong>Access Control List &rarr; Edit</strong>. Under <strong>Everyone (public access)</strong>, enable <strong>List objects</strong> and <strong>Read objects</strong>. Save.</span></li>
-          <li class="step"><span class="step-n">08</span><span class="step-text">Click on the uploaded image &rarr; <strong>Object Permissions &rarr; ACL &rarr; Edit</strong>. Enable <strong>Read</strong> for public access &rarr; Save.</span></li>
-          <li class="step"><span class="step-n">09</span><span class="step-text">Copy the <strong>Object URL</strong> &rarr; paste in browser. The image is now publicly accessible.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Part B &mdash; Enable Versioning</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Go to bucket &rarr; <strong>Properties &rarr; Bucket Versioning &rarr; Edit</strong>. Enable versioning &rarr; <strong>Save changes</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Upload the same file again. Toggle <strong>Show versions</strong> to see both versions listed.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Deleting an object adds a <strong>delete marker</strong> &mdash; the object is still present when versions are visible. To permanently delete, select all versions including the delete marker and delete them.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Part C &mdash; Cross-Region Replication</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Create a source bucket in <strong>N. Virginia</strong>. Enable versioning on it.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Create a destination bucket in <strong>Oregon</strong>. Enable ACLs and versioning.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">On the source bucket &rarr; <strong>Management &rarr; Create Replication Rule</strong>. Set scope to <strong>All objects</strong>. Select the Oregon bucket as destination. Choose <strong>LabRole</strong> as IAM role &rarr; <strong>Save</strong>.</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">Upload any document to the source bucket. The same document automatically appears in the Oregon destination bucket.</span></li>
-        </ul>
-        <div class="output">
-          <div class="output-line">Object uploaded to N. Virginia appears automatically in Oregon bucket</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Conclusion</div>
-        <div class="conclusion">
-          <p>S3 was explored in depth: bucket creation, public access via ACLs, object-level permissions, versioning with delete markers, and cross-region replication. These features cover the core S3 capabilities needed for scalable, redundant object storage.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- WEEK 5 -->
-  <div class="week" id="w5" onclick="toggle(this)">
-    <div class="week-header">
-      <div class="week-num">W05</div>
-      <div class="week-title-wrap">
-        <div class="week-title">VPC Creation and EC2 Instance Connectivity</div>
-        <div class="week-sub">VPC &middot; Subnets &middot; Route Tables &middot; Internet Gateway &middot; Security Groups</div>
-      </div>
-      <div class="week-arrow">&#9662;</div>
-    </div>
-    <div class="week-body">
-
-      <div class="section">
-        <div class="label">Objective</div>
-        <p>Create a custom VPC with public and private subnets, configure route tables and an Internet Gateway, then launch EC2 instances with proper network connectivity.</p>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 1 &mdash; Create VPC and Subnets</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Go to <strong>AWS Console &rarr; VPC &rarr; Create VPC</strong>. Provide a CIDR block (e.g., <code>10.0.0.0/16</code>).</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Create a <strong>Public Subnet</strong> (e.g., <code>10.0.1.0/24</code>) and a <strong>Private Subnet</strong> (e.g., <code>10.0.2.0/24</code>) within the VPC.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 2 &mdash; Create and Configure Route Tables</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Go to <strong>Route Tables &rarr; Create route table</strong>. Select the VPC. Name it <code>public-route</code>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Create another route table named <code>private-route</code> in the same VPC.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Select <code>public-route</code> &rarr; <strong>Actions &rarr; Edit routes &rarr; Add route</strong>. Destination: <code>0.0.0.0/0</code>, Target: <strong>Internet Gateway</strong>. Select the gateway &rarr; <strong>Save changes</strong>.</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">Go to <strong>Subnets &rarr; Public Subnet &rarr; Edit subnet settings</strong>. Enable <strong>Auto-assign public IPv4 address</strong>.</span></li>
-          <li class="step"><span class="step-n">05</span><span class="step-text">Select <code>public-route</code> &rarr; <strong>Edit subnet associations</strong>. Select the public subnet &rarr; <strong>Save associations</strong>. Repeat for private route and private subnet.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 3 &mdash; Create Security Group and Launch Instances</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Create a <strong>Security Group</strong> with inbound rules: <strong>SSH (22)</strong>, <strong>HTTP (80)</strong>, and <strong>HTTPS (443)</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Launch an EC2 instance (Ubuntu). In network settings: select the VPC, select the <strong>public subnet</strong>, and enable public IP. Use the created security group.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Launch a second EC2 instance (Ubuntu) in the <strong>private subnet</strong> with no public IP (for internal use only).</span></li>
-        </ul>
-        <div class="output">
-          <div class="output-line">Public instance: reachable from the internet via public IP</div>
-          <div class="output-line">Private instance: not reachable directly from internet</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Conclusion</div>
-        <div class="conclusion">
-          <p>A custom VPC was created with both public and private subnets. Route tables were configured to connect the public subnet to the Internet Gateway. EC2 instances were launched in appropriate subnets with security group rules enforcing access control.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- WEEK 6 -->
-  <div class="week" id="w6" onclick="toggle(this)">
-    <div class="week-header">
-      <div class="week-num">W06</div>
-      <div class="week-title-wrap">
-        <div class="week-title">VPC with NAT Gateway &mdash; Private Instance Internet Access</div>
-        <div class="week-sub">NAT Gateway &middot; Jump Server &middot; Private Subnet &middot; Internet Routing</div>
-      </div>
-      <div class="week-arrow">&#9662;</div>
-    </div>
-    <div class="week-body">
-
-      <div class="section">
-        <div class="label">Objective</div>
-        <p>Configure a NAT Gateway to allow a private subnet EC2 instance to access the internet without being publicly reachable. Use a Jump Server to access the private instance.</p>
-      </div>
-
-      <div class="section">
-        <div class="label">Architecture Setup</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Create VPC <code>my-vpc</code> with a public and private subnet. Create two route tables and an Internet Gateway. Connect the public route table to the Internet Gateway.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Launch instance <strong>web-app</strong> (Ubuntu) in the <strong>public subnet</strong>. Allow SSH, HTTP, and HTTPS in its security group.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Launch instance <strong>db-server</strong> (Ubuntu) in the <strong>private subnet</strong>. Disable public IP. Allow SSH only. This instance has no direct internet access.</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">Launch instance <strong>jump-server</strong> (Ubuntu) in the <strong>public subnet</strong>. This acts as the relay to access the private instance.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Verify No Internet on Private Instance</div>
-        <div class="code-header"><span class="code-label">SSH via Jump Server &mdash; db-server</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
-        <div class="code-block"><pre><span class="cm"># SSH into jump-server first, then into db-server</span>
-<span class="cm"># Test internet from db-server (will fail without NAT)</span>
-<span class="cmd">ping google.com</span>
-<span class="cm"># Result: Network unreachable</span></pre></div>
-      </div>
-
-      <div class="section">
-        <div class="label">Create NAT Gateway and Update Route</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">05</span><span class="step-text">Go to <strong>VPC &rarr; NAT Gateways &rarr; Create NAT Gateway</strong>. Provide a name. Select the <strong>public subnet</strong> and allocate an Elastic IP. Click <strong>Create</strong>.</span></li>
-          <li class="step"><span class="step-n">06</span><span class="step-text">Go to the <strong>private route table &rarr; Edit routes &rarr; Add route</strong>. Destination: <code>0.0.0.0/0</code>, Target: select the NAT Gateway. Save changes.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Verify Internet Access on Private Instance</div>
-        <div class="code-header"><span class="code-label">SSH via Jump Server &mdash; db-server</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
-        <div class="code-block"><pre><span class="cmd">ping google.com</span>
-<span class="cm"># Result: replies received (internet now reachable via NAT Gateway)</span></pre></div>
-        <div class="output">
-          <div class="output-line">Private instance has outbound internet access via NAT Gateway</div>
-          <div class="output-line note">Inbound connections from the internet are still blocked (private IP only)</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Conclusion</div>
-        <div class="conclusion">
-          <p>A NAT Gateway was deployed in the public subnet and the private route table was updated to route internet-bound traffic through it. The private db-server now has outbound internet access while remaining inaccessible from the internet directly.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- WEEK 7 -->
-  <div class="week" id="w7" onclick="toggle(this)">
-    <div class="week-header">
-      <div class="week-num">W07</div>
-      <div class="week-title-wrap">
-        <div class="week-title">Lambda Triggered by S3 Upload &rarr; DynamoDB Logging</div>
-        <div class="week-sub">AWS Lambda &middot; S3 Trigger &middot; DynamoDB &middot; CloudWatch Logs</div>
-      </div>
-      <div class="week-arrow">&#9662;</div>
-    </div>
-    <div class="week-body">
-
-      <div class="section">
-        <div class="label">Objective</div>
-        <p>Create a Lambda function that is automatically triggered when an object is uploaded to an S3 bucket, and stores the object metadata into a DynamoDB table.</p>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 1 &mdash; Create Lambda Function</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Search for <strong>Lambda</strong> in the AWS Console &rarr; click <strong>Create function</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Choose <strong>Author from scratch</strong>. Enter function name: <code>lambda-function</code>. Select runtime: <strong>Python 3.10</strong>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Under <strong>Permissions</strong>, choose <strong>Use an existing role</strong>. Select <code>LabRole</code> (which has permissions for S3 and DynamoDB). Click <strong>Create function</strong>.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 2 &mdash; Test the Function</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">In the Lambda console, go to the <strong>Test</strong> tab &rarr; <strong>Create new event</strong>. Select template: <strong>S3 Put</strong>. Update the bucket name in the event JSON to match your S3 bucket.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Click <strong>Save</strong> &rarr; click <strong>Test</strong>. The function should execute successfully.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 3 &mdash; Add S3 Trigger</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">In the Lambda console, click <strong>Add trigger</strong>. Select source: <strong>S3</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Select your bucket (must be in the same region as Lambda). Check the acknowledgement checkbox. Click <strong>Save</strong>.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 4 &mdash; Trigger and Verify</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Go to your S3 bucket &rarr; <strong>Upload</strong> any document &rarr; click <strong>Upload</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Go to <strong>DynamoDB &rarr; Explore items</strong>. Select the table. Under <strong>Items returned</strong>, the uploaded object metadata is now visible.</span></li>
-        </ul>
-        <div class="output">
-          <div class="output-line">Object metadata stored in DynamoDB after S3 upload event</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 5 &mdash; View CloudWatch Logs</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">In the Lambda console &rarr; <strong>Monitor</strong> tab &rarr; click <strong>View CloudWatch logs</strong>. Select a log stream to see execution details and print outputs.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Conclusion</div>
-        <div class="conclusion">
-          <p>A serverless workflow was implemented: S3 upload triggers Lambda, which stores object metadata to DynamoDB. CloudWatch Logs verified execution. This is the standard event-driven architecture pattern in AWS serverless applications.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- WEEK 8 -->
-  <div class="week" id="w8" onclick="toggle(this)">
-    <div class="week-header">
-      <div class="week-num">W08</div>
-      <div class="week-title-wrap">
-        <div class="week-title">SNS, SQS and S3 &rarr; SNS &rarr; SQS &rarr; Lambda Pipeline</div>
-        <div class="week-sub">SNS &middot; SQS &middot; Lambda &middot; S3 Event Notification &middot; Email</div>
-      </div>
-      <div class="week-arrow">&#9662;</div>
-    </div>
-    <div class="week-body">
-
-      <div class="section">
-        <div class="label">Objective</div>
-        <p>Set up SNS for email notifications and SQS for message queuing, then build an end-to-end pipeline: S3 upload event triggers SNS, which fans out to SQS, which can trigger Lambda for processing.</p>
-      </div>
-
-      <div class="section">
-        <div class="label">Part A &mdash; SNS Topic and Email Subscription</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Search for <strong>SNS</strong> in the AWS Console &rarr; <strong>Topics &rarr; Create topic</strong>. Type: <strong>Standard</strong>. Name: <code>MyEmailTopic</code>. Click <strong>Create topic</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Open the topic &rarr; <strong>Subscriptions &rarr; Create subscription</strong>. Protocol: <strong>Email</strong>. Endpoint: your email address. Click <strong>Create subscription</strong>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Check your email inbox for a confirmation email from Amazon SNS. Click <strong>Confirm subscription</strong>.</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">Go to the S3 bucket &rarr; <strong>Properties &rarr; Event notifications &rarr; Create event notification</strong>. Set destination to <strong>SNS topic</strong>, choose your topic. Click <strong>Save</strong>. Upload a file to trigger the notification email.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Part B &mdash; SQS Queue and Message Test</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Search for <strong>SQS</strong> &rarr; <strong>Create queue</strong>. Type: <strong>Standard</strong>. Name: <code>MyQueue</code>. Leave defaults &rarr; <strong>Create queue</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Open <code>MyQueue</code> &rarr; <strong>Send and receive messages</strong>. In <strong>Message body</strong>, enter a test message &rarr; click <strong>Send message</strong>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">On the same page, click <strong>Poll for messages</strong>. The sent message appears in the list.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Part C &mdash; S3 &rarr; SNS &rarr; SQS &rarr; Lambda Pipeline</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Create an S3 bucket named <code>s3-sns-sqs-lambda</code>. Create an SNS Standard topic named <code>MyS3SNSTopic</code>. Copy the <strong>SNS Topic ARN</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Create an SQS Standard queue named <code>MyS3Queue</code>. Copy the <strong>Queue ARN</strong>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Open <code>MyS3SNSTopic</code> &rarr; <strong>Create subscription</strong>. Protocol: <strong>Amazon SQS</strong>. Endpoint: select <code>MyS3Queue</code>. Click <strong>Create subscription</strong>.</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">Open <code>MyS3Queue &rarr; Access Policy &rarr; Edit</strong>. Update the policy JSON with the SQS ARN and SNS ARN to allow SNS to send messages to the queue.</span></li>
-          <li class="step"><span class="step-n">05</span><span class="step-text">Open the SNS Topic &rarr; <strong>Edit access policy</strong>. Replace the SNS topic ARN, S3 bucket ARN, and Account ID in the policy to allow S3 to publish to SNS.</span></li>
-          <li class="step"><span class="step-n">06</span><span class="step-text">Configure the S3 bucket event notification to publish to the SNS topic on object uploads. Upload a file to verify the full pipeline triggers correctly.</span></li>
-        </ul>
-        <div class="output">
-          <div class="output-line">S3 upload &rarr; SNS notification &rarr; SQS message delivered &rarr; Lambda processes</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Conclusion</div>
-        <div class="conclusion">
-          <p>SNS and SQS were configured independently and then connected into a full event pipeline. An S3 upload triggers SNS, which delivers to SQS, enabling decoupled, asynchronous event-driven processing with Lambda.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- WEEK 9 -->
-  <div class="week" id="w9" onclick="toggle(this)">
-    <div class="week-header">
-      <div class="week-num">W09</div>
-      <div class="week-title-wrap">
-        <div class="week-title">Elastic Load Balancer with Auto Scaling</div>
-        <div class="week-sub">ALB &middot; Target Groups &middot; Apache HTTPD &middot; Auto Scaling Groups &middot; AMI</div>
-      </div>
-      <div class="week-arrow">&#9662;</div>
-    </div>
-    <div class="week-body">
-
-      <div class="section">
-        <div class="label">Objective</div>
-        <p>Deploy two EC2 web servers behind an Application Load Balancer, then configure an Auto Scaling Group to automatically maintain instance count and recover from failures.</p>
-      </div>
-
-      <div class="section">
-        <div class="label">Part A &mdash; Launch Web Servers</div>
-        <div class="code-header"><span class="code-label">SSH &mdash; webserver-1</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
-        <div class="code-block"><pre><span class="cmd">sudo yum update -y</span>
-<span class="cmd">sudo yum install httpd -y</span>
-<span class="cmd">systemctl start httpd</span>
-<span class="cmd">systemctl enable httpd</span>
-<span class="cmd">echo "This is Server 1" > /var/www/html/index.html</span></pre></div>
-
-        <div class="code-header"><span class="code-label">SSH &mdash; webserver-2</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
-        <div class="code-block"><pre><span class="cmd">sudo yum update -y</span>
-<span class="cmd">sudo yum install httpd -y</span>
-<span class="cmd">systemctl start httpd</span>
-<span class="cmd">systemctl enable httpd</span>
-<span class="cmd">echo "This is Server 2" > /var/www/html/index.html</span></pre></div>
-        <p>Verify: paste each server's public IP in a browser to confirm the correct page loads.</p>
-      </div>
-
-      <div class="section">
-        <div class="label">Part B &mdash; Create Security Group and Load Balancer</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Create Security Group <code>loadbalancer-sg</code>. Inbound rule: <strong>HTTP (80)</strong> from anywhere. Leave outbound as default.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Go to <strong>EC2 &rarr; Load Balancers &rarr; Create Load Balancer &rarr; Application Load Balancer</strong>. Name: <code>my-loadbalancer</code>. Scheme: <strong>Internet-facing</strong>. Select all subnets. Choose <code>loadbalancer-sg</code>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Create a target group named <code>my-targetgroup</code>. Target type: <strong>Instance</strong>. Protocol: <strong>HTTP</strong>, Port: <strong>80</strong>. Select both web server instances &rarr; <strong>Include as pending</strong> &rarr; <strong>Create target group</strong>.</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">Attach the target group as the listener for the load balancer &rarr; <strong>Create load balancer</strong>.</span></li>
-        </ul>
-        <div class="output">
-          <div class="output-line">Copy DNS name of load balancer &rarr; paste in browser</div>
-          <div class="output-line">Refreshing alternates between "This is Server 1" and "This is Server 2"</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Part C &mdash; Auto Scaling Group</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Select <strong>webserver-1</strong> &rarr; <strong>Actions &rarr; Image and Templates &rarr; Create Image</strong>. Name: <code>my-webserver-AMI</code>. Click <strong>Create Image</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Go to <strong>EC2 &rarr; Launch Templates &rarr; Create Launch Template</strong>. Name: <code>my-template</code>. Select the AMI created above. Instance type: <code>t2.micro</code>. Select your key pair.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Create an <strong>Auto Scaling Group</strong> using the launch template. Desired: <strong>2</strong>, Minimum: <strong>1</strong>, Maximum: <strong>4</strong>. Attach to the existing load balancer and target group. Click <strong>Create Auto Scaling Group</strong>.</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">To test auto recovery: select and <strong>terminate an instance</strong>. The Auto Scaling Group automatically launches a replacement within the desired capacity range.</span></li>
-        </ul>
-        <div class="output">
-          <div class="output-line">Terminated instance is replaced automatically by Auto Scaling</div>
-          <div class="output-line">Load balancer continues routing traffic to healthy instances</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Conclusion</div>
-        <div class="conclusion">
-          <p>An Application Load Balancer distributed traffic across two Apache web servers. An Auto Scaling Group with a custom AMI was configured to maintain instance count between 1 and 4. Terminating an instance confirmed automatic recovery, demonstrating high availability and fault tolerance.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- WEEK 10 -->
-  <div class="week" id="w10" onclick="toggle(this)">
-    <div class="week-header">
-      <div class="week-num">W10</div>
-      <div class="week-title-wrap">
-        <div class="week-title">Elastic Beanstalk &mdash; Deploy a Java Web Application</div>
-        <div class="week-sub">Eclipse &middot; Apache Tomcat &middot; WAR File &middot; Elastic Beanstalk</div>
-      </div>
-      <div class="week-arrow">&#9662;</div>
-    </div>
-    <div class="week-body">
-
-      <div class="section">
-        <div class="label">Objective</div>
-        <p>Build and test a Java web application locally in Eclipse, export it as a WAR file, and deploy it to AWS Elastic Beanstalk without manually provisioning any infrastructure.</p>
-      </div>
-
-      <div class="section">
-        <div class="label">Part A &mdash; Create and Run App Locally in Eclipse</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Open <strong>Eclipse</strong> &rarr; <strong>File &rarr; New &rarr; Dynamic Web Project</strong>. Project Name: <code>NotesApp</code>. Target Runtime: <strong>Apache Tomcat</strong>. Click <strong>Finish</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Right-click the project &rarr; <strong>Run As &rarr; Run on Server</strong>. Choose <strong>Apache Tomcat</strong>. Confirm the Notes App runs locally in the browser.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Part B &mdash; Export as WAR File</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Right-click the project &rarr; <strong>Export &rarr; WAR file</strong>. Choose destination folder on your local machine. Click <strong>Finish</strong>.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Part C &mdash; Deploy to Elastic Beanstalk</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Open AWS Console &rarr; search for <strong>Elastic Beanstalk</strong> &rarr; click <strong>Create application</strong>. Name: <code>NotesApp</code>. Add an optional description. Click <strong>Create</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Click on the application &rarr; <strong>Create new environment</strong>. Select platform: <strong>Tomcat</strong>. Upload your <code>.war</code> file. Leave remaining settings as default &rarr; click through <strong>Next</strong> and <strong>Create</strong>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Wait for the environment to reach <strong>Ready</strong> state. Click the <strong>Domain link</strong> to open your deployed application.</span></li>
-        </ul>
-        <div class="output">
-          <div class="output-line">Application live at: http://notesapp-env.eba-xxxxxxxx.us-east-1.elasticbeanstalk.com</div>
-          <div class="output-line note">EC2 instances are automatically created and managed by Elastic Beanstalk</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Conclusion</div>
-        <div class="conclusion">
-          <p>A Java web application was developed and tested locally on Apache Tomcat, exported as a WAR file, and deployed to AWS Elastic Beanstalk. Beanstalk automatically provisioned the underlying EC2, load balancer, and scaling infrastructure without manual configuration.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- WEEK 11 -->
-  <div class="week" id="w11" onclick="toggle(this)">
-    <div class="week-header">
-      <div class="week-num">W11</div>
-      <div class="week-title-wrap">
-        <div class="week-title">Amazon Lex &mdash; Hotel Booking Chatbot</div>
-        <div class="week-sub">Amazon Lex &middot; Intents &middot; Slots &middot; Slot Types &middot; Utterances</div>
-      </div>
-      <div class="week-arrow">&#9662;</div>
-    </div>
-    <div class="week-body">
-
-      <div class="section">
-        <div class="label">Objective</div>
-        <p>Build a conversational chatbot using Amazon Lex that can handle hotel booking requests, collect user information via slots, and provide confirmation responses.</p>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 1 &mdash; Create the Bot</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Search for <strong>Amazon Lex</strong> &rarr; choose <strong>Create a blank bot</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Bot name: <code>HotelBookingBot</code>. IAM role: <strong>Create new role</strong>. Leave remaining settings as default. Click <strong>Next</strong>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Language: <strong>English</strong>. Voice: optional. Click <strong>Done</strong>.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 2 &mdash; Create Intent and Utterances</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Go to <strong>Intents &rarr; Add intent</strong>. Name: <code>BookHotel</code>. Click <strong>Create</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Add sample utterances (phrases the user might say to trigger this intent):</span></li>
-        </ul>
-        <div class="output">
-          <div class="output-line">I want to book a hotel</div>
-          <div class="output-line">Book a room</div>
-          <div class="output-line">Reserve hotel</div>
-          <div class="output-line">I need a room</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 3 &mdash; Add Slots (Data Collection)</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Click <strong>Add slot</strong>. Slot name: <code>location</code>. Slot type: <code>AMAZON.City</code>. Prompt: <em>Which city do you want?</em>. Mark as <strong>Required</strong>. Click <strong>Add</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Click <strong>Slot Types &rarr; Add slot type &rarr; Add blank slot type</strong>. Name it <code>RoomType</code>. Add values: <code>single</code>, <code>double</code>, <code>suite</code>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Return to the <code>BookHotel</code> intent &rarr; <strong>Add slot</strong>. Slot name: <code>RoomType</code>. Slot type: <code>RoomType</code> (the custom type just created).</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">Click <strong>Advanced options</strong> on the RoomType slot &rarr; <strong>Slot prompts &rarr; More prompt options &rarr; Add &rarr; Add card groups</strong>. Add card title and buttons with values <code>single</code>, <code>double</code>, <code>suite</code>. Click <strong>Update prompts</strong>.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 4 &mdash; Configure Responses</div>
-        <div class="code-block"><pre><span class="cm">Initial Response:</span>
-<span class="str">Welcome to Hotel Booking! What is your name?</span>
-
-<span class="cm">Confirmation prompt:</span>
-<span class="str">Do you want to confirm booking in {location} for {nights} nights?</span></pre></div>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 5 &mdash; Build and Test</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Click <strong>Save intent</strong> &rarr; click <strong>Build</strong>. Wait for the build to complete.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Click <strong>Test</strong>. The chat panel opens. Type a booking utterance and follow the conversation flow to verify slots are collected correctly.</span></li>
-        </ul>
-        <div class="output">
-          <div class="output-line">Bot: Welcome to Hotel Booking! What is your name?</div>
-          <div class="output-line">User: I want to book a hotel</div>
-          <div class="output-line">Bot: Which city do you want?</div>
-          <div class="output-line note">Slots are filled sequentially with each user response</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Conclusion</div>
-        <div class="conclusion">
-          <p>A hotel booking chatbot was built with Amazon Lex using intents, utterances, and custom slot types. The bot collected city, room type, and other booking details through a guided conversation, demonstrating AWS Lex for building conversational AI interfaces without any ML expertise.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- WEEK 12 -->
-  <div class="week" id="w12" onclick="toggle(this)">
-    <div class="week-header">
-      <div class="week-num">W12</div>
-      <div class="week-title-wrap">
-        <div class="week-title">IAM User with Permissions &mdash; GUI and CLI Access</div>
-        <div class="week-sub">IAM &middot; IAM User &middot; Access Keys &middot; AWS CLI &middot; Policy Enforcement</div>
-      </div>
-      <div class="week-arrow">&#9662;</div>
-    </div>
-    <div class="week-body">
-
-      <div class="section">
-        <div class="label">Objective</div>
-        <p>Create an IAM user with limited S3 permissions, verify access control through the AWS Console GUI, then configure AWS CLI with the user's credentials and confirm the same policy restrictions apply programmatically.</p>
-      </div>
-
-      <div class="section">
-        <div class="label">Part A &mdash; Create IAM User</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Log in as <strong>Root User</strong> &rarr; search for <strong>IAM</strong> &rarr; go to <strong>Users &rarr; Create user</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Enter a username. Check <strong>Provide user access to the AWS Management Console</strong>. Set a custom password. Click <strong>Next</strong>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Permissions: select <strong>Attach policies directly</strong>. Search for and select <code>AmazonS3FullAccess</code>. Click <strong>Next &rarr; Create user</strong>.</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">On the final page, click <strong>Download .csv file</strong>. This file contains the Console URL, username, and password.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Part B &mdash; Test GUI Access (Console Login)</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Sign out from root. Use the sign-in URL from the CSV (or go to <code>console.aws.amazon.com</code> &rarr; select <strong>IAM User</strong>). Enter the Account ID, username, and password from the CSV.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text"><strong>Test 1 (Failure):</strong> Navigate to <strong>EC2</strong>. Attempt to view instances. Result: <strong>Access Denied</strong> &mdash; EC2 permission is not granted.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text"><strong>Test 2 (Success):</strong> Navigate to <strong>S3</strong>. Create a bucket. Result: <strong>Success</strong> &mdash; S3 full access is granted by the attached policy.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Part C &mdash; Create Access Keys and Configure AWS CLI</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Log back in as root &rarr; IAM &rarr; select the user &rarr; <strong>Security credentials &rarr; Access keys &rarr; Create access key</strong>. Select use case: <strong>Command Line Interface</strong>. Acknowledge warning &rarr; click <strong>Next &rarr; Create access key</strong>. Download the CSV.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Install the <strong>AWS CLI</strong> tool from <code>aws.amazon.com/cli</code>.</span></li>
-        </ul>
-        <div class="code-header"><span class="code-label">CMD / PowerShell</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
-        <div class="code-block"><pre><span class="cm"># Configure CLI with access key credentials</span>
-<span class="cmd">aws configure</span>
-<span class="cm"># Enter: Access Key ID, Secret Access Key, Default region (ap-south-1), Output format (json)</span>
-
-<span class="cm"># Test S3 access (should succeed)</span>
-<span class="cmd">aws s3 ls</span>
-
-<span class="cm"># Create an S3 bucket (should succeed)</span>
-<span class="cmd">aws s3 mb s3://your-unique-bucket-name</span>
-
-<span class="cm"># Test IAM access (should fail - Access Denied)</span>
-<span class="cmd">aws iam list-users</span></pre></div>
-        <div class="output">
-          <div class="output-line">aws s3 ls            -- Success: lists buckets</div>
-          <div class="output-line">aws s3 mb s3://...   -- Success: bucket created</div>
-          <div class="output-line">aws iam list-users   -- Error: AccessDenied</div>
-          <div class="output-line note">CLI enforces the same IAM policy as the Console GUI</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Conclusion</div>
-        <div class="conclusion">
-          <p>An IAM user was created with S3-only permissions. Access control was verified through both the Console GUI (EC2 denied, S3 allowed) and the AWS CLI (IAM listing denied, S3 operations allowed). This confirms that IAM policies apply consistently across all access methods.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- WEEK 13 -->
-  <div class="week" id="w13" onclick="toggle(this)">
-    <div class="week-header">
-      <div class="week-num">W13</div>
-      <div class="week-title-wrap">
-        <div class="week-title">Attach IAM Role to EC2 for S3 Access Without Keys</div>
-        <div class="week-sub">IAM Role &middot; EC2 Instance Profile &middot; S3 &middot; Keyless Access</div>
-      </div>
-      <div class="week-arrow">&#9662;</div>
-    </div>
-    <div class="week-body">
-
-      <div class="section">
-        <div class="label">Objective</div>
-        <p>Create an IAM Role with S3 permissions and attach it to an EC2 instance so the instance can access S3 without storing any access keys on the machine.</p>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 1 &mdash; Create IAM Role</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Search for <strong>IAM</strong> &rarr; <strong>Roles &rarr; Create role</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Trusted entity: <strong>AWS Service</strong>. Use case: <strong>EC2</strong>. Click <strong>Next</strong>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Search for and select <code>AmazonS3FullAccess</code> policy. Click <strong>Next</strong>.</span></li>
-          <li class="step"><span class="step-n">04</span><span class="step-text">Role name: <code>EC2-S3-Role</code>. Click <strong>Create role</strong>.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 2 &mdash; Launch EC2 and Attach Role</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">01</span><span class="step-text">Go to <strong>EC2 Dashboard &rarr; Launch Instance</strong>. Name the instance and use default settings. Click <strong>Launch instance</strong>.</span></li>
-          <li class="step"><span class="step-n">02</span><span class="step-text">Select the running instance &rarr; <strong>Actions &rarr; Security &rarr; Modify IAM role</strong>.</span></li>
-          <li class="step"><span class="step-n">03</span><span class="step-text">Select <code>EC2-S3-Role</code> from the dropdown &rarr; click <strong>Update IAM role</strong>.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Step 3 &mdash; Verify S3 Access from EC2 (No Keys Required)</div>
-        <div class="code-header"><span class="code-label">SSH &mdash; EC2 Instance</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button></div>
-        <div class="code-block"><pre><span class="cm"># List all S3 buckets - works without aws configure</span>
-<span class="cmd">aws s3 ls</span>
-
-<span class="cm"># Access is granted via the attached IAM role, no access keys needed</span></pre></div>
-        <div class="output">
-          <div class="output-line">2024-01-15 10:32:45 my-bucket-name</div>
-          <div class="output-line">2024-02-20 08:14:22 another-bucket</div>
-          <div class="output-line note">S3 access works without storing any credentials on the instance</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="label">Why IAM Roles Are Better Than Access Keys</div>
-        <ul class="steps">
-          <li class="step"><span class="step-n">Key</span><span class="step-text"><strong>No credentials stored on disk</strong> &mdash; access keys in files can be leaked via repository commits, logs, or server compromise.</span></li>
-          <li class="step"><span class="step-n">Key</span><span class="step-text"><strong>Automatic credential rotation</strong> &mdash; IAM role credentials are temporary and rotated automatically by AWS STS.</span></li>
-          <li class="step"><span class="step-n">Key</span><span class="step-text"><strong>Scoped access</strong> &mdash; the role only grants exactly the permissions defined in the attached policy, following least-privilege principle.</span></li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="label">Conclusion</div>
-        <div class="conclusion">
-          <p>An IAM Role with S3 full access was created and attached to an EC2 instance as an instance profile. The instance successfully accessed S3 using <code>aws s3 ls</code> without requiring any access keys to be configured, demonstrating the secure and recommended approach to granting AWS service permissions to EC2 instances.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-<script>
-  function toggle(el) {
-    if (el.classList.contains('week')) {
-      el.classList.toggle('open');
+  <aside class="sidebar" id="sidebar">
+    <h2>🧪 Selenium & DB</h2>
+    <div class="sub">Java testing lab · H2</div>
+    <nav id="nav-links">
+      <div class="section-label">Lab</div>
+      <a href="#setup" class="active">Setup</a>
+      <a href="#exp2">Exp 2 – Title</a>
+      <a href="#exp3">Exp 3 – Web Element</a>
+      <a href="#exp4a">Exp 4A – Bitmap</a>
+      <a href="#exp4b">Exp 4B – Similarity</a>
+      <a href="#exp5">Exp 5 – Database</a>
+      <div class="section-label">Revision</div>
+      <a href="#quick-revision">Quick Revision</a>
+      <a href="#viva">Viva Questions</a>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header>
+      <h1>Java Selenium & Database Testing Lab</h1>
+      <div class="subtitle">Complete Practical Experiments — Selenium WebDriver, Visual Testing &amp; JDBC</div>
+      <div class="progress-badge" id="progressBadge">📘 5 experiments · Selenium + JDBC</div>
+    </header>
+
+    <!-- ===== SETUP ===== -->
+    <section class="section" id="setup">
+      <h2>⚙️ Setup <span style="font-size:0.7rem; font-weight:300; color:#7b8a9e;">project structure &amp; dependencies</span></h2>
+      <div class="card">
+        <h3>Project structure</h3>
+        <div class="code-block"><code>selenium-lab/
+├── pom.xml
+├── Screenshots/
+└── src/
+    └── main/
+        └── java/
+            └── com/
+                └── test/
+                    └── sel/
+                        ├── Exp2.java
+                        ├── Exp3.java
+                        ├── Exp4.java
+                        ├── Exp4b.java
+                        └── Exp5.java</code></div>
+        <h3>Maven dependencies</h3>
+        <div class="code-block"><code>&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.seleniumhq.selenium&lt;/groupId&gt;
+    &lt;artifactId&gt;selenium-java&lt;/artifactId&gt;
+    &lt;version&gt;4.34.0&lt;/version&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;com.h2database&lt;/groupId&gt;
+    &lt;artifactId&gt;h2&lt;/artifactId&gt;
+    &lt;version&gt;2.4.240&lt;/version&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></div>
+        <p><strong>Selenium Manager</strong> (in Selenium 4) automatically downloads the correct ChromeDriver — no manual setup.</p>
+        <h4>Commands</h4>
+        <div class="code-block"><code>mvn compile
+mvn exec:java -Dexec.mainClass="com.test.sel.Exp2"</code></div>
+        <p>Class name must match package + class: <code>com.test.sel.Exp2</code></p>
+      </div>
+    </section>
+
+    <!-- ===== EXP 2 ===== -->
+    <section class="section" id="exp2">
+      <h2>🧪 Experiment 2 — Page Title Verification <button class="understood-btn" data-exp="exp2">✔ Mark as understood</button></h2>
+      <p><strong>Objective:</strong> Verify that Google's title matches "Google".</p>
+      <div class="card">
+        <h3>Concepts</h3>
+        <p><code>WebDriver</code> · <code>ChromeDriver</code> · <code>driver.get()</code> · <code>driver.getTitle()</code> · expected vs actual · PASS/FAIL</p>
+        <h3>Complete code</h3>
+        <div class="code-block"><code>package com.test.sel;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Exp2 {
+    public static void main(String[] args) throws InterruptedException {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.google.com");
+        String expectedTitle = "Google";
+        String actualTitle = driver.getTitle();
+        System.out.println("Actual Title   : " + actualTitle);
+        System.out.println("Expected Title : " + expectedTitle);
+        if (actualTitle.equals(expectedTitle)) {
+            System.out.println("PASS: Title is correct");
+        } else {
+            System.out.println("FAIL: Title is incorrect");
+        }
+        Thread.sleep(2000);
+        driver.quit();
     }
+}</code><button class="copy-btn">copy</button></div>
+        <h4>Explanation</h4>
+        <p><code>WebDriver driver = new ChromeDriver();</code> — browser-control object.<br>
+        <code>driver.get("...")</code> — navigates to URL.<br>
+        <code>driver.getTitle()</code> — returns page title.<br>
+        <code>actualTitle.equals(expectedTitle)</code> — assertion logic.</p>
+        <h4>Expected output</h4>
+        <div class="code-block"><code>Actual Title   : Google
+Expected Title : Google
+PASS: Title is correct</code></div>
+        <h4>Execution</h4>
+        <div class="code-block"><code>mvn compile
+mvn exec:java -Dexec.mainClass="com.test.sel.Exp2"</code></div>
+      </div>
+    </section>
+
+    <!-- ===== EXP 3 ===== -->
+    <section class="section" id="exp3">
+      <h2>🧪 Experiment 3 — Web Element Validation <button class="understood-btn" data-exp="exp3">✔ Mark as understood</button></h2>
+      <p><strong>Objective:</strong> Verify Google search box is displayed and enabled.</p>
+      <div class="card">
+        <h3>Concepts</h3>
+        <p><code>WebElement</code> · <code>By</code> · <code>findElement()</code> · <code>By.name()</code> · <code>isDisplayed()</code> · <code>isEnabled()</code></p>
+        <h3>Complete code</h3>
+        <div class="code-block"><code>package com.test.sel;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Exp3 {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.google.com");
+        WebElement searchBox = driver.findElement(By.name("q"));
+        System.out.println("Displayed : " + searchBox.isDisplayed());
+        System.out.println("Enabled   : " + searchBox.isEnabled());
+        if (searchBox.isDisplayed() && searchBox.isEnabled()) {
+            System.out.println("PASS: Search box is ready");
+        } else {
+            System.out.println("FAIL: Search box is not ready");
+        }
+        driver.quit();
+    }
+}</code><button class="copy-btn">copy</button></div>
+        <h4>Explanation</h4>
+        <p><code>driver.findElement(By.name("q"))</code> — finds element with name="q".<br>
+        <code>isDisplayed()</code> — visibility. <code>isEnabled()</code> — interactable.<br>
+        If locator not found → <code>NoSuchElementException</code>.</p>
+        <h4>Expected output</h4>
+        <div class="code-block"><code>Displayed : true
+Enabled   : true
+PASS: Search box is ready</code></div>
+      </div>
+    </section>
+
+    <!-- ===== EXP 4A ===== -->
+    <section class="section" id="exp4a">
+      <h2>🧪 Experiment 4A — Element Screenshot &amp; Bitmap Checkpoint <button class="understood-btn" data-exp="exp4a">✔ Mark as understood</button></h2>
+      <p><strong>Objective:</strong> Capture search box screenshot and compare pixel-by-pixel with baseline.</p>
+      <div class="card">
+        <h3>Concepts</h3>
+        <p><code>getScreenshotAs()</code> · <code>OutputType.FILE</code> · <code>BufferedImage</code> · <code>getRGB()</code> · visual regression</p>
+        <h3>Complete code (excerpt)</h3>
+        <div class="code-block"><code>// full code in lab, core comparison:
+BufferedImage img1 = ImageIO.read(baseline);
+BufferedImage img2 = ImageIO.read(current);
+boolean same = true;
+for (int x = 0; x < img1.getWidth(); x++) {
+  for (int y = 0; y < img1.getHeight(); y++) {
+    if (img1.getRGB(x,y) != img2.getRGB(x,y)) { same = false; break; }
   }
+}
+System.out.println(same ? "PASS" : "FAIL");</code><button class="copy-btn">copy</button></div>
+        <h4>Algorithm</h4>
+        <p>Baseline ↔ Current → check dimensions → loop every pixel → compare RGB → all equal ? PASS : FAIL</p>
+        <p><code>getRGB(x,y)</code> returns pixel color. Even tiny difference → FAIL (exact equality).</p>
+      </div>
+    </section>
 
-  document.querySelectorAll('.week-body').forEach(b => {
-    b.addEventListener('click', e => e.stopPropagation());
-  });
+    <!-- ===== EXP 4B ===== -->
+    <section class="section" id="exp4b">
+      <h2>🧪 Experiment 4B — Screenshot Similarity <button class="understood-btn" data-exp="exp4b">✔ Mark as understood</button></h2>
+      <p><strong>Objective:</strong> Capture browser area, calculate percentage of identical pixels vs baseline.</p>
+      <div class="card">
+        <h3>Concepts</h3>
+        <p><code>TakesScreenshot</code> · <code>getSubimage()</code> · similarity = (identical pixels / total) × 100</p>
+        <h3>Core similarity method</h3>
+        <div class="code-block"><code>public static double compareImages(BufferedImage img1, BufferedImage img2) {
+  if (width/height mismatch) return 0;
+  long total = (long) img1.getWidth() * img1.getHeight();
+  long same = 0;
+  for (int x=0; x<img1.getWidth(); x++)
+    for (int y=0; y<img1.getHeight(); y++)
+      if (img1.getRGB(x,y) == img2.getRGB(x,y)) same++;
+  return (same * 100.0) / total;
+}</code><button class="copy-btn">copy</button></div>
+        <p>Threshold 95% — more tolerant than exact bitmap equality.</p>
+      </div>
+    </section>
 
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const t = document.querySelector(a.getAttribute('href'));
-      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  function copyBlock(btn) {
-    const section = btn.closest('.section');
-    const pre = section ? section.querySelector('pre') : null;
-    if (!pre) return;
-    navigator.clipboard.writeText(pre.innerText.trim()).then(() => {
-      btn.textContent = 'Copied';
-      btn.classList.add('done');
-      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('done'); }, 2000);
-    });
+    <!-- ===== EXP 5 ===== -->
+    <section class="section" id="exp5">
+      <h2>🧪 Experiment 5 — Database Testing (H2) <button class="understood-btn" data-exp="exp5">✔ Mark as understood</button></h2>
+      <p><strong>Objective:</strong> Create table, insert student, retrieve and verify.</p>
+      <div class="card">
+        <h3>Concepts</h3>
+        <p>JDBC · H2 · <code>DriverManager</code> · <code>Connection</code> · <code>Statement</code> · <code>ResultSet</code></p>
+        <h3>Complete code</h3>
+        <div class="code-block"><code>package com.test.sel;
+import java.sql.*;
+public class Exp5 {
+  public static void main(String[] args) throws Exception {
+    Connection con = DriverManager.getConnection("jdbc:h2:./StudentDB","sa","");
+    Statement stmt = con.createStatement();
+    stmt.execute("CREATE TABLE IF NOT EXISTS STUDENT(ID INT PRIMARY KEY, NAME VARCHAR(50), EMAIL VARCHAR(100))");
+    stmt.execute("DELETE FROM STUDENT");
+    stmt.executeUpdate("INSERT INTO STUDENT VALUES(1,'Ajay','ajay@gmail.com')");
+    ResultSet rs = stmt.executeQuery("SELECT * FROM STUDENT WHERE ID=1");
+    if (rs.next()) {
+      System.out.println("Record Exists");
+      System.out.println("ID: "+rs.getInt("ID")+" Name: "+rs.getString("NAME"));
+      System.out.println("TEST PASSED");
+    } else { System.out.println("TEST FAILED"); }
+    con.close();
   }
-</script>
+}</code><button class="copy-btn">copy</button></div>
+        <h4>JDBC pipeline</h4>
+        <p>Java → DriverManager → Connection → Statement → SQL → H2 → ResultSet → verification</p>
+        <p><code>execute()</code> (DDL) · <code>executeUpdate()</code> (INSERT/UPDATE) · <code>executeQuery()</code> (SELECT) · <code>rs.next()</code> moves cursor.</p>
+      </div>
+    </section>
 
+    <!-- ===== QUICK REVISION ===== -->
+    <section class="section" id="quick-revision">
+      <h2>📘 Quick Revision</h2>
+      <div class="card">
+        <table class="table-compact">
+          <tr><th>Concept</th><th>Meaning</th></tr>
+          <tr><td>WebDriver</td><td>Browser automation interface</td></tr>
+          <tr><td>ChromeDriver</td><td>Chrome-specific WebDriver</td></tr>
+          <tr><td>driver.get()</td><td>Navigate to URL</td></tr>
+          <tr><td>driver.getTitle()</td><td>Get page title</td></tr>
+          <tr><td>WebElement</td><td>Represents HTML element</td></tr>
+          <tr><td>findElement()</td><td>Locate element</td></tr>
+          <tr><td>By.name()</td><td>Locate by name attribute</td></tr>
+          <tr><td>isDisplayed()</td><td>Check visibility</td></tr>
+          <tr><td>isEnabled()</td><td>Check enabled</td></tr>
+          <tr><td>getScreenshotAs()</td><td>Take screenshot</td></tr>
+          <tr><td>BufferedImage</td><td>Image in Java</td></tr>
+          <tr><td>getRGB()</td><td>Get pixel value</td></tr>
+          <tr><td>JDBC</td><td>Java Database API</td></tr>
+          <tr><td>Connection</td><td>DB connection</td></tr>
+          <tr><td>Statement</td><td>Execute SQL</td></tr>
+          <tr><td>ResultSet</td><td>Query results</td></tr>
+          <tr><td>H2</td><td>Embedded Java DB</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== VIVA ===== -->
+    <section class="section" id="viva">
+      <h2>🎤 Viva Questions</h2>
+      <div class="card">
+        <div class="viva-q"><div class="q">What is Selenium?</div><div class="a">A framework for automating web browsers.</div></div>
+        <div class="viva-q"><div class="q">What is WebDriver?</div><div class="a">Core interface for browser automation.</div></div>
+        <div class="viva-q"><div class="q">What is ChromeDriver?</div><div class="a">WebDriver implementation for Chrome.</div></div>
+        <div class="viva-q"><div class="q">What is Selenium Manager?</div><div class="a">Auto-manages driver executables.</div></div>
+        <div class="viva-q"><div class="q">What does driver.get() do?</div><div class="a">Navigates to a URL.</div></div>
+        <div class="viva-q"><div class="q">Difference between isDisplayed() and isEnabled()?</div><div class="a">isDisplayed() checks visibility; isEnabled() checks interactability.</div></div>
+        <div class="viva-q"><div class="q">What happens if findElement() cannot find an element?</div><div class="a">Throws NoSuchElementException.</div></div>
+        <div class="viva-q"><div class="q">What is bitmap comparison?</div><div class="a">Pixel-by-pixel image comparison.</div></div>
+        <div class="viva-q"><div class="q">Why use 95% similarity in Exp4b?</div><div class="a">Tolerance for minor rendering differences.</div></div>
+        <div class="viva-q"><div class="q">What is JDBC?</div><div class="a">Java API for database connectivity.</div></div>
+        <div class="viva-q"><div class="q">Difference between execute(), executeUpdate(), executeQuery()?</div><div class="a">execute() general; executeUpdate() for DML; executeQuery() for SELECT.</div></div>
+        <div class="viva-q"><div class="q">What does rs.next() do?</div><div class="a">Moves cursor to next row, returns true if exists.</div></div>
+      </div>
+    </section>
+
+    <!-- ===== HOW TO STUDY ===== -->
+    <section class="section" style="margin-top:2rem;">
+      <div class="card soft">
+        <h3>📌 How to Study These Experiments</h3>
+        <p>1. Understand the purpose → 2. Understand each Selenium/JDBC API → 3. Run the program → 4. Change one thing → 5. Break intentionally → 6. Observe the error → 7. Rebuild without looking.</p>
+        <p style="color:#b0c8dd; margin-top:0.5rem;">Do not memorize line-by-line. Understand flow and API concepts.</p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    (function() {
+      // --- sidebar active link ---
+      const links = document.querySelectorAll('#nav-links a');
+      const sections = document.querySelectorAll('.section');
+      function setActive() {
+        let current = '';
+        sections.forEach(sec => {
+          const rect = sec.getBoundingClientRect();
+          if (rect.top <= 120) current = sec.id;
+        });
+        links.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+        });
+      }
+      window.addEventListener('scroll', setActive);
+      setActive();
+
+      // --- copy buttons ---
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const codeBlock = this.closest('.code-block');
+          const code = codeBlock.querySelector('code').innerText;
+          navigator.clipboard.writeText(code).then(() => {
+            this.textContent = 'copied!';
+            setTimeout(() => this.textContent = 'copy', 1500);
+          });
+        });
+      });
+
+      // --- viva toggle ---
+      document.querySelectorAll('.viva-q').forEach(el => {
+        el.addEventListener('click', function() {
+          this.classList.toggle('open');
+        });
+      });
+
+      // --- understood buttons (localStorage) ---
+      document.querySelectorAll('.understood-btn').forEach(btn => {
+        const exp = btn.dataset.exp;
+        if (localStorage.getItem('understood-' + exp) === 'true') {
+          btn.classList.add('done');
+          btn.textContent = '✔ Understood';
+        }
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const key = 'understood-' + this.dataset.exp;
+          if (localStorage.getItem(key) === 'true') {
+            localStorage.removeItem(key);
+            this.classList.remove('done');
+            this.textContent = '✔ Mark as understood';
+          } else {
+            localStorage.setItem(key, 'true');
+            this.classList.add('done');
+            this.textContent = '✔ Understood';
+          }
+        });
+      });
+
+      // progress badge (optional)
+      const total = 5;
+      let done = 0;
+      ['exp2','exp3','exp4a','exp4b','exp5'].forEach(id => {
+        if (localStorage.getItem('understood-'+id) === 'true') done++;
+      });
+      document.getElementById('progressBadge').textContent = `📘 ${done}/${total} experiments · Selenium + JDBC`;
+    })();
+  </script>
 </body>
 </html>
