@@ -800,6 +800,146 @@ const filterProducts = useMemo(() => {
 }, [products, search]);</code><button class="copy-btn">copy</button></div>
       </div>
     </section>
+    import React from "react";
+import ProductCard from "./ProductCard"
+const products=[{id:1,name:"sofa",price:8000,category:"furniture"},
+                {id:2,name:"washing machine",price:15000,category:"electronics"},
+                {id:3,name:"bedsheet",price:200,category:"clothes"}];
+
+
+function App()
+{
+    const handleNow=(productName)=>{
+        alert(`you clicked buy now for ${productName}`);
+    }
+
+    return(
+        <div style={{textAlign:"center"}}>
+        <h1> product</h1>
+        <div style={{justifyContent:"center", gap:"20px" , display:"flex"}}>
+        {products.map((product)=>(
+            <ProductCard
+            key={product.id},
+            name={product.name},
+            price={product.price},
+            category={product.category},
+            onBuy={()=>handleNow(product.name)}
+            />
+        ))}
+        </div>
+        </div>
+    )
+};
+export default App;
+
+
+import React from "react";
+
+function ProductCard({name,price,category,onBuy})
+{
+    return(
+        <div>
+        <h1>{name}</h1>
+        <p>price:{price}</p>
+        <p>category: {category}</p>
+        <button onClick={onBuy}>buy</button>
+        </div>
+    )
+};
+
+export default ProductCard;
+
+
+
+
+
+
+
+import React,{useState} from "react";
+
+function App()
+{
+    const[count,setCount]=useState(0);
+
+    return(
+        <div>
+        <h1> jsx</h1>
+        <p>count: {count}</p>
+        <button onClick={()=>setCount(count+1)}>INC</button>
+        </div>
+    )
+}
+
+
+
+
+
+import React,{useState, useRef, useEffect, useContext, useMemo, createContext} from "react";
+
+const ThemeContext=createContext();
+
+function App(){
+    const[products,setProducts]=useState([]);
+    const[search,setSearch]=useState("");
+    const[theme,setTheme]=useState("light");
+
+    const nameref=useRef();
+    const priceref=useRef();
+
+    const addProducts= () => {
+        const name=nameref.current.value;
+        const price=parseFloat(priceref.current.value);
+        if(name && price)
+        {
+            setProducts([...products,{name,price}]);
+            nameref.current.value="";
+            priceref.current.value="";
+        }
+    };
+
+    const filterProducts=useMemo(()=>{
+        return products.filter((p)=>(
+            p.name.toLowerCase().includes(search.toLowerCase())
+        ))
+    },[products,search])
+
+
+    const totalValue=useMemo(()=>{
+        return filterProducts.reduce((sum,p)=>sum+p.price,0)
+    },[filterProducts])
+
+    useEffect(()=>{
+        document.body.style.backgroundColor=theme==="light"?"#fff":"#333";
+        document.body.style.color=theme==="light"?"#000":"#fff";
+
+    },[theme])
+
+    return(
+        <ThemeContext.Provider value={{theme,setTheme}}>
+            <div style={{textAlign:"center"}}>
+            <h1> Inventory management </h1>
+            <br/><br/>
+            <input placeholder="search products....." value={search} onChange={(e)=>setSearch(e.target.value)}/>
+            <input ref={nameref} placeholder="product name"/>
+            <input ref={priceref} placeholder="product price" type="number"/>
+            <button onClick={addProducts}>add </button>
+            <br/><br/>
+            <button onClick={()=>setTheme(theme==="light" ? "dark" :"light")}>Toggle{theme==="light" ? "Dark" :"light"} Theme</button>
+            <br/>
+            <h4> total value: {totalValue}</h4>
+
+            <ul>
+            {filterProducts.map((p,i)=>(
+                <li key={i}>{p.name} - {p.price} </li>
+            ))}
+            </ul>
+            </div>
+        
+        </ThemeContext.Provider>
+    )
+}
+
+export default App;
 
     <!-- ===== HOW TO STUDY ===== -->
     <section class="section" style="margin-top:2rem;">
