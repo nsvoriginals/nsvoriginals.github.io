@@ -285,6 +285,36 @@
       font-weight: 400;
     }
 
+    /* interactive react demo */
+    .react-demo {
+      background: #10171f;
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-top: 1rem;
+    }
+    .react-demo input, .react-demo button {
+      background: #1f2a33;
+      border: 1px solid #3d4d5e;
+      color: #e5e9ef;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+    .react-demo button {
+      cursor: pointer;
+      background: #1f6f8b;
+      border-color: #2f8db0;
+    }
+    .react-demo button:hover {
+      background: #2f8db0;
+    }
+    .react-demo .product-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #28313e;
+      padding: 0.3rem 0;
+    }
+
     /* responsive */
     @media (max-width: 800px) {
       body {
@@ -340,6 +370,7 @@
       <div class="section-label">Revision</div>
       <a href="#quick-revision">Quick Revision</a>
       <a href="#viva">Viva Questions</a>
+      <a href="#react">React Concepts</a>
     </nav>
   </aside>
 
@@ -706,6 +737,70 @@ public class Exp5 {
       </div>
     </section>
 
+    <!-- ===== REACT CONCEPTS ===== -->
+    <section class="section" id="react">
+      <h2>⚛️ React Concepts — Inventory Demo</h2>
+      <div class="card">
+        <p><strong>Props · State · Refs · Effects · Context · Memo</strong> — all in one interactive example.</p>
+        <div class="react-demo" id="react-demo-root">
+          <!-- React will mount here if we used React, but we'll use plain JS to demonstrate the concepts -->
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1rem;">
+            <input type="text" id="nameInput" placeholder="Product name" style="flex:1; min-width:120px;">
+            <input type="number" id="priceInput" placeholder="Price" style="flex:1; min-width:100px;">
+            <button id="addBtn">Add Product</button>
+            <button id="themeToggleBtn">Toggle Theme</button>
+          </div>
+          <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1rem;">
+            <input type="text" id="searchInput" placeholder="Search products..." style="flex:1;">
+            <span id="totalDisplay" style="background:#1f2a33; padding:0.2rem 1rem; border-radius:20px;">Total: 0</span>
+          </div>
+          <div id="productList" style="margin-top:0.5rem;"></div>
+          <div style="margin-top:1rem; font-size:0.85rem; color:#8b9db0; border-top:1px solid #28313e; padding-top:0.6rem;">
+            <span id="themeDisplay">🌞 Light</span> · <span id="filterCount">0 products</span>
+          </div>
+        </div>
+        <h3>How this maps to React concepts</h3>
+        <ul style="margin-left:1.2rem;">
+          <li><strong>Props + callbacks:</strong> ProductCard component receives name, price, and onBuy.</li>
+          <li><strong>useState:</strong> products, search, theme.</li>
+          <li><strong>useRef:</strong> nameref, priceref — direct DOM access.</li>
+          <li><strong>useEffect:</strong> changes body background/color when theme changes.</li>
+          <li><strong>useContext:</strong> ThemeContext provides theme and setTheme to children.</li>
+          <li><strong>useMemo:</strong> filterProducts and totalValue are cached.</li>
+        </ul>
+        <div class="code-block"><code>// Corrected ProductCard with props (no commas)
+&lt;ProductCard
+    key={product.id}
+    name={product.name}
+    price={product.price}
+    category={product.category}
+    onBuy={() => handleNow(product.name)}
+/&gt;
+
+// useState
+const [count, setCount] = useState(0);
+
+// useRef
+const nameref = useRef();
+&lt;input ref={nameref} /&gt;
+
+// useEffect (theme)
+useEffect(() => {
+  document.body.style.backgroundColor = theme === "light" ? "#fff" : "#333";
+}, [theme]);
+
+// useContext (ThemeContext)
+const { theme, setTheme } = useContext(ThemeContext);
+
+// useMemo
+const filterProducts = useMemo(() => {
+  return products.filter(p =>
+    p.name.toLowerCase().includes(search.toLowerCase())
+  );
+}, [products, search]);</code><button class="copy-btn">copy</button></div>
+      </div>
+    </section>
+
     <!-- ===== HOW TO STUDY ===== -->
     <section class="section" style="margin-top:2rem;">
       <div class="card soft">
@@ -772,7 +867,6 @@ public class Exp5 {
             this.classList.add('done');
             this.textContent = '✔ Understood';
           }
-          // update progress
           let done = 0;
           ['exp2','exp3','exp4a','exp4b','exp5'].forEach(id => {
             if (localStorage.getItem('understood-'+id) === 'true') done++;
@@ -781,12 +875,92 @@ public class Exp5 {
         });
       });
 
-      // initial progress
       let done = 0;
       ['exp2','exp3','exp4a','exp4b','exp5'].forEach(id => {
         if (localStorage.getItem('understood-'+id) === 'true') done++;
       });
       document.getElementById('progressBadge').textContent = `📘 ${done}/5 experiments · Selenium + JDBC`;
+
+      // ----- React demo (plain JS to illustrate concepts) -----
+      let products = [
+        { id: 1, name: 'Laptop', price: 1200 },
+        { id: 2, name: 'Mouse', price: 25 },
+        { id: 3, name: 'Keyboard', price: 75 }
+      ];
+      let nextId = 4;
+      let search = '';
+      let theme = 'light';
+
+      const nameInput = document.getElementById('nameInput');
+      const priceInput = document.getElementById('priceInput');
+      const addBtn = document.getElementById('addBtn');
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const searchInput = document.getElementById('searchInput');
+      const productList = document.getElementById('productList');
+      const totalDisplay = document.getElementById('totalDisplay');
+      const themeDisplay = document.getElementById('themeDisplay');
+      const filterCount = document.getElementById('filterCount');
+
+      function render() {
+        // filter
+        const filtered = products.filter(p =>
+          p.name.toLowerCase().includes(search.toLowerCase())
+        );
+        const total = filtered.reduce((sum, p) => sum + p.price, 0);
+
+        // product list
+        productList.innerHTML = filtered.map(p =>
+          `<div class="product-item">
+            <span><strong>${p.name}</strong> — $${p.price}</span>
+            <button style="background:#5a3e3e; border:none; color:#f0d0d0; padding:0.1rem 0.6rem; border-radius:4px; cursor:pointer;" data-id="${p.id}">Buy</button>
+          </div>`
+        ).join('');
+
+        // event listeners for buy buttons
+        productList.querySelectorAll('button[data-id]').forEach(btn => {
+          btn.addEventListener('click', function(e) {
+            const id = parseInt(this.dataset.id);
+            const product = products.find(p => p.id === id);
+            if (product) alert(`Buying ${product.name} for $${product.price}`);
+          });
+        });
+
+        totalDisplay.textContent = `Total: $${total}`;
+        filterCount.textContent = `${filtered.length} products`;
+
+        // theme effect
+        document.body.style.backgroundColor = theme === 'light' ? '#0d0f14' : '#1a1e26';
+        document.body.style.color = theme === 'light' ? '#e5e9ef' : '#f0f4fa';
+        themeDisplay.textContent = theme === 'light' ? '🌞 Light' : '🌙 Dark';
+      }
+
+      function addProduct() {
+        const name = nameInput.value.trim();
+        const price = parseFloat(priceInput.value);
+        if (name && !isNaN(price) && price > 0) {
+          products = [...products, { id: nextId++, name, price }];
+          nameInput.value = '';
+          priceInput.value = '';
+          render();
+        }
+      }
+
+      addBtn.addEventListener('click', addProduct);
+      nameInput.addEventListener('keydown', e => { if (e.key === 'Enter') priceInput.focus(); });
+      priceInput.addEventListener('keydown', e => { if (e.key === 'Enter') addProduct(); });
+
+      searchInput.addEventListener('input', function() {
+        search = this.value;
+        render();
+      });
+
+      themeToggleBtn.addEventListener('click', function() {
+        theme = theme === 'light' ? 'dark' : 'light';
+        render();
+      });
+
+      // initial render
+      render();
     })();
   </script>
 </body>
